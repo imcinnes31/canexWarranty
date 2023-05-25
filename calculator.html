@@ -2,8 +2,242 @@
 <html lang="en">
     <head>
         <title>Comerco Calculator</title>
+        <style>
+            @media screen and (max-width: 1000px) {
+                h1 {
+                    font-size: 72px;
+                }
+                label {
+                    font-size: 48px;
+                    font-weight: bold;
+                }
+                select {
+                    width: 90%;
+                    font-size: 48px;
+                    text-align: center;
+                }
+                #yearsLength {
+                    width: 10%;
+                }
+                input {
+                    width: 90%;
+                    font-size: 48px;
+                    text-align: center;
+                }
+                button {
+                    width: 50%;
+                    font-size: 48px;
+                }
+                p {
+                    font-size: 48px;
+                }
+                td {
+                    font-size: 48px;
+                }
+                table {
+                    width: 90%;
+                }
+            }
+
+            body {
+                text-align: center;
+            }
+            td {
+                width: 75px;
+            }
+        </style>
+        <script src="warrantyCodes.js"></script>
+        <script>
+            const adminFees = [0,3,5];
+
+            function makeWarrantyTable(type,code,length,price) {
+                var warrantyDisplay = '';
+                var program = 'SPP';
+                if (type == "replacement") {
+                    program = 'Replacement Plan';
+                } else if (type == "apple") {
+                    program = 'AppleCare';
+                }
+                warrantyDisplay += '<p>' + program + ' Code: <b>' + code + '</b></p>';
+                if (type == 'apple' || type == 'replacement') {
+                    warrantyDisplay += '<p>' + program + ' Length: <b>' + length + ' years</b></p>';
+                } else {
+                    warrantyDisplay += '<p>' + program + ' Length: <b>+' + length + ' years</b></p>';
+                }
+                warrantyDisplay += '<p>' + program + ' Price: <b>$' + price + '</b></p>';
+                warrantyDisplay += '<p><b>Price by Credit Plan</b></p>'
+                warrantyDisplay += '<table style="margin-left:auto;margin-right:auto;">';
+                for (let i = 1; i <= 3; i++) {
+                    warrantyDisplay += '<tr>';
+                    warrantyDisplay += '<td style="width:20%;font-weight:bold;">' + i + ' yr:</td>';
+                    const priceCal = ((price + (price * (adminFees[i - 1] / 100)))/(i * 12)).toFixed(2);
+                    warrantyDisplay += '<td style="width:40%;">$' + priceCal + '/mth</td>';
+                    warrantyDisplay += '<td style="width:40%;">($' + (priceCal/2).toFixed(2) + ' x2)</td>';
+                    warrantyDisplay += '</tr>'; 
+                }   
+                warrantyDisplay += '</table>';
+                document.getElementById('warrantyListDiv').innerHTML = warrantyDisplay;
+                document.getElementById('warrantyListDiv').style.display = 'block';
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var appleProducts = '<option value="none" disabled selected>--Select Apple Device</option>';
+                for (const x in comercoDict['apple']) {
+                    appleProducts += '<option value="' + x + '">' + x + '</option>';
+                }
+                document.getElementById('appleItem').innerHTML = appleProducts;
+
+                document.getElementById("priceInput").addEventListener("keydown", (event) => {
+                    if (!isFinite(event.key) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46 && !(document.getElementById('product').value == 'appliances' && event.key == '+')) {
+                        event.preventDefault();
+                    }
+                });
+
+                document.getElementById("priceInput").addEventListener("keyup", (event) => {
+                    const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split('+').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                    if (pricesEntered < 300) {
+                        document.getElementById('lengthDiv').style.display = 'none';
+                    } else {
+                        document.getElementById('lengthDiv').style.display = 'block';
+                    }
+                    if (document.getElementById('priceInput').value.length == 0) {
+                        document.getElementById('buttonDiv').style.display = 'none';
+                    } else {
+                        document.getElementById('buttonDiv').style.display = 'block';
+                    }
+                    document.getElementById('warrantyListDiv').style.display = 'none';
+                });
+
+                document.getElementById("getPrice").addEventListener("click", (event) => {
+                    const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split('+').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                    var productType = document.getElementById('product').value;
+                    var warrantyYears = document.getElementById('yearsLength').value;
+                    var numAppliances = 0;
+                    var warrantyInfo = null;
+                    if (pricesEntered < 300) {
+                        productType = 'replacement';
+                        warrantyYears = 2;
+                    }
+                    if (productType == 'appliances') {
+                        appliancePrices = document.getElementById('priceInput').value.replace(' ','').split('+');
+                        for (const x in appliancePrices) {
+                            if (!isNaN(parseFloat(appliancePrices[x])) && parseFloat(appliancePrices[x]) > 0) {
+                                numAppliances += 1;
+                            }
+                        }
+                        if (numAppliances > 0 && numAppliances < 4) {
+                            for (const x in comercoDict[productType][warrantyYears][numAppliances]) {
+                                if (pricesEntered < comercoDict[productType][warrantyYears][numAppliances][x]['maxPrice']) {
+                                    const currentCode = x;
+                                    const currentLength = warrantyYears;
+                                    const currentPrice = comercoDict[productType][warrantyYears][numAppliances][x]['warrantyPrice'];
+                                    makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        for (const x in comercoDict[productType][warrantyYears]) {
+                            if (pricesEntered < comercoDict[productType][warrantyYears][x]['maxPrice']) {
+                                const currentCode = x;
+                                const currentLength = warrantyYears;
+                                const currentPrice = comercoDict[productType][warrantyYears][x]['warrantyPrice'];
+                                makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
+                                break;
+                            }
+                        }
+                    }
+
+                });
+
+                document.getElementById("product").addEventListener("change", (event) => {
+                    if (event.target.value == "apple") {
+                        document.getElementById('appleDiv').style.display = 'block';
+                        document.getElementById('priceInput').value = '';
+                        document.getElementById('priceDiv').style.display = 'none';
+                        document.getElementById('lengthDiv').style.display = 'none';
+                        document.getElementById('buttonDiv').style.display = 'none';
+                        document.getElementById('appleItem').value = 'none';
+                        document.getElementById('warrantyListDiv').style.display = 'none';
+                    } else {
+                        document.getElementById('appleDiv').style.display = 'none';
+                        document.getElementById('priceDiv').style.display = 'block';
+                        document.getElementById("priceLabel").innerHTML = event.target.value == 'appliances' ? 'Prices (separate by +):' : 'Price:';
+                        const yearsNumbers = Object.keys(comercoDict[event.target.value]).map(Number).sort(function(a, b) {return b - a;});
+                        let yearsOptions = '';
+                        for (const x in yearsNumbers) {
+                            yearsOptions += '<option value="' + yearsNumbers[x] + '">' + yearsNumbers[x] + '</option>';
+                        }
+                        document.getElementById('yearsLength').innerHTML = yearsOptions;
+                        document.getElementById('priceInput').value = event.target.value == 'appliances' ? document.getElementById('priceInput').value : document.getElementById('priceInput').value.split('+')[0];
+                        const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split('+').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                        if (pricesEntered < 300) {
+                            document.getElementById('lengthDiv').style.display = 'none';
+                        }
+                        if (document.getElementById('priceInput').value.length == 0) {
+                            document.getElementById('buttonDiv').style.display = 'none';
+                        } else {
+                            document.getElementById('buttonDiv').style.display = 'block';
+                        }
+                        document.getElementById('warrantyListDiv').style.display = 'none';
+                    }
+                });
+
+                document.getElementById("appleItem").addEventListener("change", (event) => {
+                    const currentProduct = comercoDict['apple'][document.getElementById('appleItem').value];
+                    const currentCode = currentProduct['code'];
+                    const currentLength = currentProduct['totalYears'];
+                    const currentPrice = currentProduct['price'];
+                    makeWarrantyTable('apple',currentCode,currentLength,currentPrice);
+                });
+
+            });
+        </script>
     </head>
     <body>
-        <h1>This is supposed to be the Comerco Calculator</h1>
+        <h1>Comerco Calculator</h1>
+
+        <div>
+            <label for="product">Product Type:</label>
+            <select id="product">
+                <option disabled selected>--Select product type</option>
+                <option value="appliances">Appliances</option>
+                <option value="computers">Computers & Laptops</option>
+                <option value="televisions / monitors">Televisions & Monitors</option>
+                <option value="other electronics">Other Electronics</option>
+                <option value="apple">Apple Products</option>
+            </select>    
+        </div>
+
+        <div id="appleDiv" style="display:none;">
+            <br>
+            <label for="appleItem">Apple Product:</label>
+            <select id="appleItem">
+
+            </select>    
+        </div>
+
+        <div id="priceDiv" style="display:none;">
+            <br>
+            <label id="priceLabel">Price:</label>
+            <input id="priceInput" type="text"></input>         
+        </div>
+
+        <div id="lengthDiv" style="display:none;">
+            <br>
+            <label for="yearsLength">Plan Length (years):</label>
+            <select id="yearsLength">
+
+            </select> 
+        </div>
+
+        <div id="buttonDiv" style="display:none;">
+            <br>
+            <button id="getPrice">Get Plan Price</button>
+        </div>
+
+        <div id="warrantyListDiv" style="display:none;">
+
+        </div>
     </body>
 </html>
