@@ -65,7 +65,7 @@
                     warrantyDisplay += '<p>' + program + ' Length: <b>+' + length + ' years</b></p>';
                 }
                 warrantyDisplay += '<p>' + program + ' Price: <b>$' + price + '</b></p>';
-                warrantyDisplay += '<p><b>Price by Credit Plan</b></p>'
+                warrantyDisplay += '<p><b>Price by Credit Plan</b></p>';
                 warrantyDisplay += '<table style="margin-left:auto;margin-right:auto;">';
                 for (let i = 1; i <= 3; i++) {
                     warrantyDisplay += '<tr>';
@@ -76,6 +76,9 @@
                     warrantyDisplay += '</tr>'; 
                 }   
                 warrantyDisplay += '</table>';
+                if (type == 'replacement') {
+                    warrantyDisplay += '<p><b>Note: Replacement plan does not include power tools, cell phones, and tablets.</b></p>';
+                }
                 document.getElementById('warrantyListDiv').innerHTML = warrantyDisplay;
                 document.getElementById('warrantyListDiv').style.display = 'block';
             }
