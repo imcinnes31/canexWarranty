@@ -88,13 +88,13 @@
                 document.getElementById('appleItem').innerHTML = appleProducts;
 
                 document.getElementById("priceInput").addEventListener("keydown", (event) => {
-                    if (!isFinite(event.key) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46 && !(document.getElementById('product').value == 'appliances' && event.key == '+')) {
+                    if (!isFinite(event.key) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46 && !(document.getElementById('product').value == 'appliances' && event.key == ',')) {
                         event.preventDefault();
                     }
                 });
 
                 document.getElementById("priceInput").addEventListener("keyup", (event) => {
-                    const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split('+').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                    const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                     if (pricesEntered < 300) {
                         document.getElementById('lengthDiv').style.display = 'none';
                     } else {
@@ -109,7 +109,7 @@
                 });
 
                 document.getElementById("getPrice").addEventListener("click", (event) => {
-                    const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split('+').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                    const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                     var productType = document.getElementById('product').value;
                     var warrantyYears = document.getElementById('yearsLength').value;
                     var numAppliances = 0;
@@ -119,7 +119,7 @@
                         warrantyYears = 2;
                     }
                     if (productType == 'appliances') {
-                        appliancePrices = document.getElementById('priceInput').value.replace(' ','').split('+');
+                        appliancePrices = document.getElementById('priceInput').value.replace(' ','').split(',');
                         for (const x in appliancePrices) {
                             if (!isNaN(parseFloat(appliancePrices[x])) && parseFloat(appliancePrices[x]) > 0) {
                                 numAppliances += 1;
@@ -162,15 +162,15 @@
                     } else {
                         document.getElementById('appleDiv').style.display = 'none';
                         document.getElementById('priceDiv').style.display = 'block';
-                        document.getElementById("priceLabel").innerHTML = event.target.value == 'appliances' ? 'Prices (separate by +):' : 'Price:';
+                        document.getElementById("priceLabel").innerHTML = event.target.value == 'appliances' ? 'Prices (separate by commas):' : 'Price:';
                         const yearsNumbers = Object.keys(comercoDict[event.target.value]).map(Number).sort(function(a, b) {return b - a;});
                         let yearsOptions = '';
                         for (const x in yearsNumbers) {
                             yearsOptions += '<option value="' + yearsNumbers[x] + '">' + yearsNumbers[x] + '</option>';
                         }
                         document.getElementById('yearsLength').innerHTML = yearsOptions;
-                        document.getElementById('priceInput').value = event.target.value == 'appliances' ? document.getElementById('priceInput').value : document.getElementById('priceInput').value.split('+')[0];
-                        const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split('+').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                        document.getElementById('priceInput').value = event.target.value == 'appliances' ? document.getElementById('priceInput').value : document.getElementById('priceInput').value.split(',')[0];
+                        const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                         if (pricesEntered < 300) {
                             document.getElementById('lengthDiv').style.display = 'none';
                         }
