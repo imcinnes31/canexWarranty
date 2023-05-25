@@ -165,7 +165,7 @@
                     } else {
                         document.getElementById('appleDiv').style.display = 'none';
                         document.getElementById('priceDiv').style.display = 'block';
-                        document.getElementById("priceLabel").innerHTML = event.target.value == 'appliances' ? 'Prices (separate by commas):' : 'Price:';
+                        document.getElementById("priceLabel").innerHTML = event.target.value == 'appliances' ? 'Prices (max 3, separate by commas):' : 'Price:';
                         const yearsNumbers = Object.keys(comercoDict[event.target.value]).map(Number).sort(function(a, b) {return b - a;});
                         let yearsOptions = '';
                         for (const x in yearsNumbers) {
