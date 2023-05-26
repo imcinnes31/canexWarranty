@@ -118,6 +118,10 @@
                     var warrantyYears = document.getElementById('yearsLength').value;
                     var numAppliances = 0;
                     var warrantyInfo = null;
+                    if (pricesEntered < 300) {
+                        productType = 'replacement';
+                        warrantyYears = 2;
+                    }
                     if (productType == 'appliances') {
                         appliancePrices = document.getElementById('priceInput').value.replace(' ','').split(',');
                         for (const x in appliancePrices) {
@@ -126,41 +130,17 @@
                             }
                         }
                         if (numAppliances > 0 && numAppliances < 4) {
-                            if (numAppliances == 1 && pricesEntered < 300) {
-                                productType = 'replacement';
-                                warrantyYears = 2;
-                                for (const x in comercoDict[productType][warrantyYears]) {
-                                    if (pricesEntered < comercoDict[productType][warrantyYears][x]['maxPrice']) {
-                                        const currentCode = x;
-                                        const currentLength = warrantyYears;
-                                        const currentPrice = comercoDict[productType][warrantyYears][x]['warrantyPrice'];
-                                        makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
-                                        break;
-                                    }
-                                }
-                            } else if (pricesEntered < minAppliancePrice[numAppliances - 1]) {
-                                document.getElementById('warrantyListDiv').innerHTML = '<p style=color:red;>Appliance coverage is not available for this combination of prices. Get individual replacement plans instead.</p>';
-                                document.getElementById('warrantyListDiv').style.display = "block";
-                            } else {
-                                for (const x in comercoDict[productType][warrantyYears][numAppliances]) {
-                                    if (pricesEntered < comercoDict[productType][warrantyYears][numAppliances][x]['maxPrice']) {
-                                        const currentCode = x;
-                                        const currentLength = warrantyYears;
-                                        const currentPrice = comercoDict[productType][warrantyYears][numAppliances][x]['warrantyPrice'];
-                                        makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
-                                        break;
-                                    }
+                            for (const x in comercoDict[productType][warrantyYears][numAppliances]) {
+                                if (pricesEntered < comercoDict[productType][warrantyYears][numAppliances][x]['maxPrice']) {
+                                    const currentCode = x;
+                                    const currentLength = warrantyYears;
+                                    const currentPrice = comercoDict[productType][warrantyYears][numAppliances][x]['warrantyPrice'];
+                                    makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
+                                    break;
                                 }
                             }
-                        } else {
-                            document.getElementById('warrantyListDiv').innerHTML = '<p style=color:red;>Invalid list of appliance prices. Enter a maximum of 3, separated by commas.</p>';
-                            document.getElementById('warrantyListDiv').style.display = "block";
-                        }
+                        } 
                     } else {
-                        if (pricesEntered < 300) {
-                            productType = 'replacement';
-                            warrantyYears = 2;
-                        }
                         for (const x in comercoDict[productType][warrantyYears]) {
                             if (pricesEntered < comercoDict[productType][warrantyYears][x]['maxPrice']) {
                                 const currentCode = x;
