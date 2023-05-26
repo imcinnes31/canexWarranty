@@ -99,15 +99,20 @@
                 //     }
                 // });
 
-                document.getElementById("priceInput").addEventListener("keypress", (event) => {
+                // document.getElementById("priceInput").addEventListener("keypress", (event) => {
+                //     if (!isFinite(event.key) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46 && !(document.getElementById('product').value == 'appliances' && event.key == ',')) {
+                //         event.preventDefault();
+                //     } else if (document.getElementById('product').value == 'appliances' && event.key == ',' && (document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
+                //         event.preventDefault();
+                //     }
+                // });
+
+                document.getElementById("priceInput").addEventListener("keyup", (event) => {
                     if (!isFinite(event.key) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46 && !(document.getElementById('product').value == 'appliances' && event.key == ',')) {
                         event.preventDefault();
                     } else if (document.getElementById('product').value == 'appliances' && event.key == ',' && (document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
                         event.preventDefault();
                     }
-                });
-
-                document.getElementById("priceInput").addEventListener("keyup", (event) => {
                     const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                     if (pricesEntered < 300) {
                         document.getElementById('lengthDiv').style.display = 'none';
