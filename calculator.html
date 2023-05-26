@@ -153,17 +153,19 @@
                                 }
                             }
                         }
-                    } else if (pricesEntered < 300) {
-                        productType = 'replacement';
-                        warrantyYears = 2;
                     } else {
-                        for (const x in comercoDict[productType][warrantyYears]) {
-                            if (pricesEntered < comercoDict[productType][warrantyYears][x]['maxPrice']) {
-                                const currentCode = x;
-                                const currentLength = warrantyYears;
-                                const currentPrice = comercoDict[productType][warrantyYears][x]['warrantyPrice'];
-                                makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
-                                break;
+                        if (pricesEntered < 300) {
+                            productType = 'replacement';
+                            warrantyYears = 2;
+                        } else {
+                            for (const x in comercoDict[productType][warrantyYears]) {
+                                if (pricesEntered < comercoDict[productType][warrantyYears][x]['maxPrice']) {
+                                    const currentCode = x;
+                                    const currentLength = warrantyYears;
+                                    const currentPrice = comercoDict[productType][warrantyYears][x]['warrantyPrice'];
+                                    makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
+                                    break;
+                                }
                             }
                         }
                     }
