@@ -152,20 +152,22 @@
                                     }
                                 }
                             }
+                        } else {
+                            document.getElementById('warrantyListDiv').innerHTML = '<p style=color:red;>Invalid list of appliance prices. Enter a maximum of 3, separated by commas.</p>';
+                            document.getElementById('warrantyListDiv').style.display = "block";
                         }
                     } else {
                         if (pricesEntered < 300) {
                             productType = 'replacement';
                             warrantyYears = 2;
-                        } else {
-                            for (const x in comercoDict[productType][warrantyYears]) {
-                                if (pricesEntered < comercoDict[productType][warrantyYears][x]['maxPrice']) {
-                                    const currentCode = x;
-                                    const currentLength = warrantyYears;
-                                    const currentPrice = comercoDict[productType][warrantyYears][x]['warrantyPrice'];
-                                    makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
-                                    break;
-                                }
+                        }
+                        for (const x in comercoDict[productType][warrantyYears]) {
+                            if (pricesEntered < comercoDict[productType][warrantyYears][x]['maxPrice']) {
+                                const currentCode = x;
+                                const currentLength = warrantyYears;
+                                const currentPrice = comercoDict[productType][warrantyYears][x]['warrantyPrice'];
+                                makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
+                                break;
                             }
                         }
                     }
