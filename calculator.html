@@ -94,6 +94,8 @@
                 document.getElementById("priceInput").addEventListener("keydown", (event) => {
                     if (!isFinite(event.key) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46 && !(document.getElementById('product').value == 'appliances' && event.key == ',')) {
                         event.preventDefault();
+                    } else if (document.getElementById('product').value == 'appliances' && event.key == ',' && (document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
+                        event.preventDefault();
                     }
                 });
 
