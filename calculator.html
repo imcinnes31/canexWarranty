@@ -197,11 +197,21 @@
                     makeWarrantyTable('apple',currentCode,currentLength,currentPrice);
                 });
 
+                document.getElementById("typeMobile").addEventListener("keypress", (event) => {
+                    document.getElementById("typeResult").innerHTML = event.keyCode;
+                });
+
             });
         </script>
     </head>
     <body>
         <h1>Warranty Calculator</h1>
+
+        <h3>1</h3>
+        <div>
+            <input id="typeMobile" type="text"></input>
+            <p id="typeResult"></p>
+        </div>
 
         <div>
             <label for="product">Product Type:</label>
