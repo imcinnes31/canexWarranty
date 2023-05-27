@@ -198,11 +198,11 @@
                 });
 
                 var charTyped;
-                document.getElementById("typeMobile").addEventListener("keydown", (event) => {
-                    document.getElementById("typeResult").innerHTML = "hello keydown";
-                });
                 document.getElementById("typeMobile").addEventListener("input", (event) => {
                     charTyped = event.data[event.data.length - 1];
+                });
+                document.getElementById("typeMobile").addEventListener("keydown", (event) => {
+                    document.getElementById("typeResult").innerHTML = charTyped;
                 });
                 document.getElementById("typeMobile").addEventListener("keyup", (event) => {
                     if (charTyped != "A" && charTyped != "a") {
@@ -216,7 +216,7 @@
     <body>
         <h1>Warranty Calculator</h1>
 
-        <h3>8</h3>
+        <h3>9</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
