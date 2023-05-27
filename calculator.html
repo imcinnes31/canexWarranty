@@ -211,6 +211,16 @@
                             event.target.value = str;
                         }
                     }
+                    // Duplicate in keydown method
+                });
+                document.getElementById("typeMobile").addEventListener('keydown', e => {
+                    var keyCode = e.keyCode || e.which;
+                    // document.getElementById("typeResult").innerHTML = keyCode;
+                    if (keyCode != 0 && keyCode != 229) { 
+                        if (!(isFinite(event.key)) && event.key != ',' && event.key != '.' && event.keyCode != 46 && event.keyCode != 8) {
+                            event.preventDefault();
+                        }
+                    }
                     const pricesEntered = parseFloat(document.getElementById('typeMobile').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                     if (pricesEntered < 300) {
                         document.getElementById('lengthDiv').style.display = 'none';
@@ -224,22 +234,13 @@
                     }
                     document.getElementById('warrantyListDiv').style.display = 'none';
                 });
-                document.getElementById("typeMobile").addEventListener('keydown', e => {
-                    var keyCode = e.keyCode || e.which;
-                    // document.getElementById("typeResult").innerHTML = keyCode;
-                    if (keyCode != 0 && keyCode != 229) { 
-                        if (!(isFinite(event.key)) && event.key != ',' && event.key != '.' && event.keyCode != 46 && event.keyCode != 8) {
-                            event.preventDefault();
-                        }
-                    }
-                });
 
             });
         </script>
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3>2</h3>
+        <h3>3</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
