@@ -204,7 +204,7 @@
                         key = e.target.value.charAt(e.target.selectionStart - 1);
                         keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
                         // document.getElementById("typeResult2").innerHTML = keyCode;
-                        if (!(isFinite(key)) && key != ',' && key != '.' && keyCode != 46 && keyCode != 8) {
+                        if (!(isFinite(key)) && !(document.getElementById('product').value == 'appliances' && event.key == ',') && key != '.' && keyCode != 46 && keyCode != 8) {
                             let str = event.target.value.split('')
                             str.splice(e.target.selectionStart - 1, 1)
                             str = str.join('')
@@ -240,7 +240,7 @@
                     var keyCode = e.keyCode || e.which;
                     // document.getElementById("typeResult").innerHTML = keyCode;
                     if (keyCode != 0 && keyCode != 229) { 
-                        if (!(isFinite(event.key)) && event.key != ',' && event.key != '.' && event.keyCode != 46 && event.keyCode != 8) {
+                        if (!(isFinite(event.key)) && !(document.getElementById('product').value == 'appliances' && event.key == ',') && event.key != '.' && event.keyCode != 46 && event.keyCode != 8) {
                             event.preventDefault();
                         }
                     }
@@ -251,7 +251,7 @@
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3>5</h3>
+        <h3>6</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
