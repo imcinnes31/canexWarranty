@@ -204,7 +204,9 @@
                     document.getElementById("typeResult").innerHTML = event.data;
                     if (event.data != ',' && event.data != '.') {
                         event.preventDefault();
+                        return false;
                     }
+                    return true;
                 });
 
             });
@@ -213,7 +215,7 @@
     <body>
         <h1>Warranty Calculator</h1>
 
-        <h3>0</h3>
+        <h3>1</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
