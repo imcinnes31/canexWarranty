@@ -197,7 +197,7 @@
                     makeWarrantyTable('apple',currentCode,currentLength,currentPrice);
                 });
 
-                document.getElementById("typeMobile").addEventListener('keyup', e => {
+                document.getElementById("typeMobile").addEventListener('keydown', e => {
                     var keyCode = e.keyCode || e.which;
                     if (keyCode == 0 || keyCode == 229) { 
                         keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
@@ -211,7 +211,7 @@
     <body>
         <h1>Warranty Calculator</h1>
 
-        <h3>0</h3>
+        <h3>1</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
