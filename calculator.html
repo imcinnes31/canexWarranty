@@ -91,28 +91,28 @@
                 }
                 document.getElementById('appleItem').innerHTML = appleProducts;
 
-                document.getElementById("priceInput").addEventListener("keydown", (event) => {
-                    if (!isFinite(event.key) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46 && !(document.getElementById('product').value == 'appliances' && event.key == ',')) {
-                        event.preventDefault();
-                    } else if (document.getElementById('product').value == 'appliances' && event.key == ',' && (document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
-                        event.preventDefault();
-                    }
-                });
+                // document.getElementById("priceInput").addEventListener("keydown", (event) => {
+                //     if (!isFinite(event.key) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46 && !(document.getElementById('product').value == 'appliances' && event.key == ',')) {
+                //         event.preventDefault();
+                //     } else if (document.getElementById('product').value == 'appliances' && event.key == ',' && (document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
+                //         event.preventDefault();
+                //     }
+                // });
 
-                document.getElementById("priceInput").addEventListener("keyup", (event) => {
-                    const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
-                    if (pricesEntered < 300) {
-                        document.getElementById('lengthDiv').style.display = 'none';
-                    } else {
-                        document.getElementById('lengthDiv').style.display = 'block';
-                    }
-                    if (pricesEntered == 0) {
-                        document.getElementById('buttonDiv').style.display = 'none';
-                    } else {
-                        document.getElementById('buttonDiv').style.display = 'block';
-                    }
-                    document.getElementById('warrantyListDiv').style.display = 'none';
-                });
+                // document.getElementById("priceInput").addEventListener("keyup", (event) => {
+                //     const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                //     if (pricesEntered < 300) {
+                //         document.getElementById('lengthDiv').style.display = 'none';
+                //     } else {
+                //         document.getElementById('lengthDiv').style.display = 'block';
+                //     }
+                //     if (pricesEntered == 0) {
+                //         document.getElementById('buttonDiv').style.display = 'none';
+                //     } else {
+                //         document.getElementById('buttonDiv').style.display = 'block';
+                //     }
+                //     document.getElementById('warrantyListDiv').style.display = 'none';
+                // });
 
                 document.getElementById("getPrice").addEventListener("click", (event) => {
                     const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
@@ -197,13 +197,67 @@
                     makeWarrantyTable('apple',currentCode,currentLength,currentPrice);
                 });
 
-                document.getElementById("typeMobile").addEventListener('keyup', e => {
+                document.getElementById("priceInput").addEventListener('keyup', e => {
                     var keyCode = e.keyCode || e.which;
-                    // document.getElementById("typeResult").innerHTML = keyCode;
                     if (keyCode == 0 || keyCode == 229) { 
                         key = e.target.value.charAt(e.target.selectionStart - 1);
                         keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
-                        // document.getElementById("typeResult2").innerHTML = keyCode;
+                        if (!(isFinite(key)) && key != '.' && key != ',' && keyCode != 46 && keyCode != 8) {
+                            let str = event.target.value.split('')
+                            str.splice(e.target.selectionStart - 1, 1)
+                            str = str.join('')
+                            event.target.value = str;
+                        } else if (key == ',') {
+                            if (document.getElementById('product').value != 'appliances') {
+                                let str = event.target.value.split('')
+                                str.splice(e.target.selectionStart - 1, 1)
+                                str = str.join('')
+                                event.target.value = str;
+                            }
+                        }
+                        const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                        if (pricesEntered < 300) {
+                            document.getElementById('lengthDiv').style.display = 'none';
+                        } else {
+                            document.getElementById('lengthDiv').style.display = 'block';
+                        }
+                        if (pricesEntered == 0) {
+                            document.getElementById('buttonDiv').style.display = 'none';
+                        } else {
+                            document.getElementById('buttonDiv').style.display = 'block';
+                        }
+                        document.getElementById('warrantyListDiv').style.display = 'none';
+                    }
+                    const pricesEntered2 = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                    if (pricesEntered2 < 300) {
+                        document.getElementById('lengthDiv').style.display = 'none';
+                    } else {
+                        document.getElementById('lengthDiv').style.display = 'block';
+                    }
+                    if (pricesEntered2 == 0) {
+                        document.getElementById('buttonDiv').style.display = 'none';
+                    } else {
+                        document.getElementById('buttonDiv').style.display = 'block';
+                    }
+                    document.getElementById('warrantyListDiv').style.display = 'none';                   
+                });
+                document.getElementById("priceInput").addEventListener('keydown', e => {
+                    var keyCode = e.keyCode || e.which;
+                    if (keyCode != 0 && keyCode != 229) { 
+                        if (!(isFinite(event.key)) && !(document.getElementById('product').value == 'appliances' && event.key == ',') && event.key != '.' && event.keyCode != 46 && event.keyCode != 8) {
+                            event.preventDefault();
+                        }
+                    }
+                });
+
+                /*
+                document.getElementById("typeMobile").addEventListener('keyup', e => {
+                    var keyCode = e.keyCode || e.which;
+                    document.getElementById("typeResult").innerHTML = keyCode;
+                    if (keyCode == 0 || keyCode == 229) { 
+                        key = e.target.value.charAt(e.target.selectionStart - 1);
+                        keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
+                        document.getElementById("typeResult2").innerHTML = keyCode;
                         if (!(isFinite(key)) && key != '.' && key != ',' && keyCode != 46 && keyCode != 8) {
                             let str = event.target.value.split('')
                             str.splice(e.target.selectionStart - 1, 1)
@@ -245,24 +299,23 @@
                 });
                 document.getElementById("typeMobile").addEventListener('keydown', e => {
                     var keyCode = e.keyCode || e.which;
-                    // document.getElementById("typeResult").innerHTML = keyCode;
+                    document.getElementById("typeResult").innerHTML = keyCode;
                     if (keyCode != 0 && keyCode != 229) { 
                         if (!(isFinite(event.key)) && !(document.getElementById('product').value == 'appliances' && event.key == ',') && event.key != '.' && event.keyCode != 46 && event.keyCode != 8) {
                             event.preventDefault();
                         }
                     }
                 });
+                */
 
             });
         </script>
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3>8</h3>
-        <div>
-            <input id="typeMobile" type="text"></input>
-            <p id="typeResult"></p>
-        </div>
+        <h3>9</h3>
+        <!-- <div><input id="typeMobile" type="text"></input><p id="typeResult"></p><p id="typeResult2"></p></div> -->
+
 
         <div>
             <label for="product">Product Type:</label>
