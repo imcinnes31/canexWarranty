@@ -210,7 +210,7 @@
                             event.target.value = str;
                         }
                     } else {
-                        if (!(isFinite(String.fromCharCode(keyCode))) && String.fromCharCode(key) != ',' && String.fromCharCode(key) != '.' && keyCode != 46 && keyCode != 8) {
+                        if (!(isFinite(event.key)) && event.key != ',' && event.key != '.' && event.keyCode != 46 && event.keyCode != 8) {
                             event.preventDefault();
                         }                    
                     }
@@ -221,7 +221,7 @@
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3>2</h3>
+        <h3>3</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
