@@ -201,7 +201,7 @@
                     document.getElementById("typeResult").innerHTML = "hello keydown";
                 });
                 document.getElementById("typeMobile").addEventListener("input", (event) => {
-                    document.getElementById("typeResult").innerHTML = event;
+                    document.getElementById("typeResult").innerHTML = event.data;
                 });
 
             });
@@ -210,7 +210,7 @@
     <body>
         <h1>Warranty Calculator</h1>
 
-        <h3>8</h3>
+        <h3>9</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
