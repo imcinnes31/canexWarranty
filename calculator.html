@@ -204,7 +204,7 @@
                         key = e.target.value.charAt(e.target.selectionStart - 1);
                         keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
                         // document.getElementById("typeResult2").innerHTML = keyCode;
-                        if (!(isFinite(key)) && key != '.' && keyCode != 46 && keyCode != 8) {
+                        if (!(isFinite(key)) && key != '.' && key != ',' && keyCode != 46 && keyCode != 8) {
                             let str = event.target.value.split('')
                             str.splice(e.target.selectionStart - 1, 1)
                             str = str.join('')
@@ -258,7 +258,7 @@
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3>7</h3>
+        <h3>8</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
