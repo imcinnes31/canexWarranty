@@ -211,7 +211,7 @@
                             event.target.value = str;
                         }
                     }
-                    const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                    const pricesEntered = parseFloat(document.getElementById('typeMobile').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                     if (pricesEntered < 300) {
                         document.getElementById('lengthDiv').style.display = 'none';
                     } else {
@@ -239,7 +239,7 @@
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3>1</h3>
+        <h3>2</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
