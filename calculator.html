@@ -205,7 +205,9 @@
                     charTyped = event.data[event.data.length - 1];
                 });
                 document.getElementById("typeMobile").addEventListener("keyup", (event) => {
-                    document.getElementById("typeResult").innerHTML = charTyped;
+                    if (charTyped != "A" && charTyped != "a") {
+                        event.preventDefault();
+                    }
                 });
 
             });
@@ -214,7 +216,7 @@
     <body>
         <h1>Warranty Calculator</h1>
 
-        <h3>7</h3>
+        <h3>8</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
