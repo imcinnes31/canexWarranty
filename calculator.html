@@ -204,11 +204,18 @@
                         key = e.target.value.charAt(e.target.selectionStart - 1);
                         keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
                         // document.getElementById("typeResult2").innerHTML = keyCode;
-                        if (!(isFinite(key)) && !(document.getElementById('product').value == 'appliances' && event.key == ',') && key != '.' && keyCode != 46 && keyCode != 8) {
+                        if (!(isFinite(key)) && key != '.' && keyCode != 46 && keyCode != 8) {
                             let str = event.target.value.split('')
                             str.splice(e.target.selectionStart - 1, 1)
                             str = str.join('')
                             event.target.value = str;
+                        } else if (key == ',') {
+                            if (document.getElementById('product').value != 'appliances') {
+                                let str = event.target.value.split('')
+                                str.splice(e.target.selectionStart - 1, 1)
+                                str = str.join('')
+                                event.target.value = str;
+                            }
                         }
                         const pricesEntered = parseFloat(document.getElementById('typeMobile').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                         if (pricesEntered < 300) {
@@ -251,7 +258,7 @@
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3>6</h3>
+        <h3>7</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
