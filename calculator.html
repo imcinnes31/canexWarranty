@@ -197,7 +197,7 @@
                     makeWarrantyTable('apple',currentCode,currentLength,currentPrice);
                 });
 
-                document.getElementById("typeMobile").addEventListener("inputText", (event) => {
+                document.getElementById("typeMobile").addEventListener("keyUp", (event) => {
                     document.getElementById("typeResult").innerHTML = event;
                 });
 
@@ -207,7 +207,7 @@
     <body>
         <h1>Warranty Calculator</h1>
 
-        <h3>3</h3>
+        <h3>4</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
