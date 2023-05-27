@@ -203,7 +203,7 @@
                         keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
                     }
                     document.getElementById('typeResult').innerHTML = keyCode;
-                    if (!(keyCode >=49 && keyCode <=58)) {
+                    if (!(keyCode >=49 && keyCode <=58) && keyCode != 44 && keyCode != 46 && keyCode != 8) {
                         let str = event.target.value.split('')
                         str.splice(e.target.selectionStart - 1, 1)
                         str = str.join('')
@@ -217,7 +217,7 @@
     <body>
         <h1>Warranty Calculator</h1>
 
-        <h3>4</h3>
+        <h3>5</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
