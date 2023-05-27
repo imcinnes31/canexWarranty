@@ -197,13 +197,9 @@
                     makeWarrantyTable('apple',currentCode,currentLength,currentPrice);
                 });
 
-                document.getElementById("typeMobile").addEventListener("keydown", (event) => {
-                    document.getElementById("typeResult").innerHTML = event.keyCode;
-                });
-                document.getElementById("typeMobile").addEventListener("keyup", (event) => {
-                    // if (charTyped != "A" && charTyped != "a") {
-                    //     event.preventDefault();
-                    // }
+                document.getElementById("typeMobile").addEventListener("textInput", (event) => {
+                    event.preventDefault();
+                    document.getElementById("typeResult").innerHTML = event.originalEvent.data.charCodeAt(0);
                 });
 
             });
@@ -212,7 +208,7 @@
     <body>
         <h1>Warranty Calculator</h1>
 
-        <h3>0</h3>
+        <h3>1</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
