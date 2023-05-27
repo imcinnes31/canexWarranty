@@ -213,7 +213,7 @@
                                 str.splice(e.target.selectionStart - 1, 1)
                                 str = str.join('')
                                 event.target.value = str;
-                            } else if ((document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
+                            } else if ((document.getElementById("priceInput").value.match(/,/g) || []).length == 3) {
                                 let str = event.target.value.split('')
                                 str.splice(e.target.selectionStart - 1, 1)
                                 str = str.join('')
@@ -320,7 +320,7 @@
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3></h3>
+        <h3>0</h3>
         <!-- <div><input id="typeMobile" type="text"></input><p id="typeResult"></p><p id="typeResult2"></p></div> -->
 
 
