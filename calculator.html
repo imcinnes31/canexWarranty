@@ -200,15 +200,19 @@
                 document.getElementById("typeMobile").addEventListener('keyup', e => {
                     var keyCode = e.keyCode || e.which;
                     if (keyCode == 0 || keyCode == 229) { 
+                        key = e.target.value.charAt(e.target.selectionStart - 1);
                         keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
-                        if (!(keyCode >=49 && keyCode <=58) && keyCode != 44 && keyCode != 16 && keyCode != 46 && keyCode != 8) {
+                        // if (!(keyCode >=49 && keyCode <=58) && keyCode != 44 && keyCode != 16 && keyCode != 46 && keyCode != 8) {
+                        if (!(isFinite(key)) && key != ',' && key != '.' && keyCode != 46 && keyCode != 8) {
                             let str = event.target.value.split('')
                             str.splice(e.target.selectionStart - 1, 1)
                             str = str.join('')
                             event.target.value = str;
                         }
                     } else {
-                        document.getElementById('typeResult').innerHTML = keyCode;
+                        if (!(isFinite(key)) && key != ',' && key != '.' && keyCode != 46 && keyCode != 8) {
+                            event.preventDefault();
+                        }                    
                     }
                 });
 
@@ -217,7 +221,7 @@
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3>0</h3>
+        <h3>1</h3>
         <div>
             <input id="typeMobile" type="text"></input>
             <p id="typeResult"></p>
