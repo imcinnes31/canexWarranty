@@ -213,6 +213,11 @@
                                 str.splice(e.target.selectionStart - 1, 1)
                                 str = str.join('')
                                 event.target.value = str;
+                            } else if ((document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
+                                let str = event.target.value.split('')
+                                str.splice(e.target.selectionStart - 1, 1)
+                                str = str.join('')
+                                event.target.value = str;
                             }
                         }
                         const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
@@ -245,6 +250,8 @@
                     var keyCode = e.keyCode || e.which;
                     if (keyCode != 0 && keyCode != 229) { 
                         if (!(isFinite(event.key)) && !(document.getElementById('product').value == 'appliances' && event.key == ',') && event.key != '.' && event.keyCode != 46 && event.keyCode != 8) {
+                            event.preventDefault();
+                        } else if (event.key == ',' && (document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
                             event.preventDefault();
                         }
                     }
@@ -313,7 +320,7 @@
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3>9</h3>
+        <h3></h3>
         <!-- <div><input id="typeMobile" type="text"></input><p id="typeResult"></p><p id="typeResult2"></p></div> -->
 
 
