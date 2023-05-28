@@ -203,18 +203,41 @@
                         key = e.target.value.charAt(e.target.selectionStart - 1);
                         keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
                         if (!(isFinite(key)) && key != '.' && key != ',' && keyCode != 46 && keyCode != 8) {
-                            let str = event.target.value.split('')
-                            str.splice(e.target.selectionStart - 1, 1)
-                            str = str.join('')
+                            let str = event.target.value.split('');
+                            str.splice(e.target.selectionStart - 1, 1);
+                            str = str.join('');
                             event.target.value = str;
                         } else if (key == ',') {
                             if (document.getElementById('product').value != 'appliances') {
-                                let str = event.target.value.split('')
-                                str.splice(e.target.selectionStart - 1, 1)
-                                str = str.join('')
+                                let str = event.target.value.split('');
+                                str.splice(e.target.selectionStart - 1, 1);
+                                str = str.join('');
                                 event.target.value = str;
                             } else if ((document.getElementById("priceInput").value.match(/,/g) || []).length == 3) {
-                                let str = event.target.value.split('')
+                                let str = event.target.value.split('');
+                                str.splice(e.target.selectionStart - 1, 1);
+                                str = str.join('');
+                                event.target.value = str;
+                            }
+                        } else if (key == '.') {
+                            const priceString = document.getElementById("priceInput").value;
+                            let minCursor = 0;
+                            let maxCursor = priceString.length - 1;
+
+                            for (let i = e.target.selectionStart - 1; i >= 0; i--) {
+                                if (priceString[i] == ',') {
+                                    minCursor = i;
+                                    break;
+                                }
+                            }
+                            for (let j = e.target.selectionStart + 1; i < priceString.length; i++) {
+                                if (priceString[i] == ',') {
+                                    maxCursor = i;
+                                    break;
+                                }
+                            }
+                            if ((priceString.substring(minCursor + 1, maxCursor).match(/./g) || []).length == 2) {
+                                let str = event.target.value.split('');
                                 str.splice(e.target.selectionStart - 1, 1)
                                 str = str.join('')
                                 event.target.value = str;
@@ -253,6 +276,26 @@
                             event.preventDefault();
                         } else if (event.key == ',' && (document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
                             event.preventDefault();
+                        } else if (event.key == '.') {
+                            const priceString = document.getElementById("priceInput").value;
+                            let minCursor = 0;
+                            let maxCursor = priceString.length - 1;
+
+                            for (let i = e.target.selectionStart - 1; i >= 0; i--) {
+                                if (priceString[i] == ',') {
+                                    minCursor = i;
+                                    break;
+                                }
+                            }
+                            for (let j = e.target.selectionStart; i < priceString.length; i++) {
+                                if (priceString[i] == ',') {
+                                    maxCursor = i;
+                                    break;
+                                }
+                            }
+                            if ((priceString.substring(minCursor + 1, maxCursor).match(/./g) || []).length == 1) {
+                                event.preventDefault();
+                            }
                         }
                     }
                 });
@@ -320,8 +363,8 @@
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3></h3>
-        <!-- <div><input id="typeMobile" type="text"></input><p id="typeResult"></p><p id="typeResult2"></p></div> -->
+        <h3>Decimal Point Check 0</h3>
+        <!-- <div><input id="typeMobile" type="text" style="background-color: chartreuse;"></input><p id="typeResult"></p><p id="typeResult2"></p></div> -->
 
 
         <div>
