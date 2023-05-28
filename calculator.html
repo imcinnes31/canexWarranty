@@ -91,29 +91,6 @@
                 }
                 document.getElementById('appleItem').innerHTML = appleProducts;
 
-                // document.getElementById("priceInput").addEventListener("keydown", (event) => {
-                //     if (!isFinite(event.key) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46 && !(document.getElementById('product').value == 'appliances' && event.key == ',')) {
-                //         event.preventDefault();
-                //     } else if (document.getElementById('product').value == 'appliances' && event.key == ',' && (document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
-                //         event.preventDefault();
-                //     }
-                // });
-
-                // document.getElementById("priceInput").addEventListener("keyup", (event) => {
-                //     const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
-                //     if (pricesEntered < 300) {
-                //         document.getElementById('lengthDiv').style.display = 'none';
-                //     } else {
-                //         document.getElementById('lengthDiv').style.display = 'block';
-                //     }
-                //     if (pricesEntered == 0) {
-                //         document.getElementById('buttonDiv').style.display = 'none';
-                //     } else {
-                //         document.getElementById('buttonDiv').style.display = 'block';
-                //     }
-                //     document.getElementById('warrantyListDiv').style.display = 'none';
-                // });
-
                 document.getElementById("getPrice").addEventListener("click", (event) => {
                     const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                     var productType = document.getElementById('product').value;
@@ -219,29 +196,6 @@
                                 str = str.join('');
                                 event.target.value = str;
                             }
-                        } else if (key == '.') {
-                            const priceString = document.getElementById("priceInput").value;
-                            let minCursor = 0;
-                            let maxCursor = priceString.length - 1;
-
-                            for (let i = e.target.selectionStart - 1; i >= 0; i--) {
-                                if (priceString[i] == ',') {
-                                    minCursor = i;
-                                    break;
-                                }
-                            }
-                            for (let j = e.target.selectionStart + 1; i < priceString.length; i++) {
-                                if (priceString[i] == ',') {
-                                    maxCursor = i;
-                                    break;
-                                }
-                            }
-                            if ((priceString.substring(minCursor + 1, maxCursor).match(/./g) || []).length == 2) {
-                                let str = event.target.value.split('');
-                                str.splice(e.target.selectionStart - 1, 1)
-                                str = str.join('')
-                                event.target.value = str;
-                            }
                         }
                         const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                         if (pricesEntered < 300) {
@@ -276,26 +230,6 @@
                             event.preventDefault();
                         } else if (event.key == ',' && (document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
                             event.preventDefault();
-                        } else if (event.key == '.') {
-                            const priceString = document.getElementById("priceInput").value;
-                            let minCursor = 0;
-                            let maxCursor = priceString.length - 1;
-
-                            for (let i = e.target.selectionStart - 1; i >= 0; i--) {
-                                if (priceString[i] == ',') {
-                                    minCursor = i;
-                                    break;
-                                }
-                            }
-                            for (let j = e.target.selectionStart; i < priceString.length; i++) {
-                                if (priceString[i] == ',') {
-                                    maxCursor = i;
-                                    break;
-                                }
-                            }
-                            if ((priceString.substring(minCursor + 1, maxCursor).match(/./g) || []).length == 1) {
-                                event.preventDefault();
-                            }
                         }
                     }
                 });
@@ -363,9 +297,8 @@
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3>Decimal Point Check 0</h3>
+        <h3></h3>
         <!-- <div><input id="typeMobile" type="text" style="background-color: chartreuse;"></input><p id="typeResult"></p><p id="typeResult2"></p></div> -->
-
 
         <div>
             <label for="product">Product Type:</label>
