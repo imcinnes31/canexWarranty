@@ -92,30 +92,57 @@
                 document.getElementById('appleItem').innerHTML = appleProducts;
 
                 document.getElementById("getPrice").addEventListener("click", (event) => {
-                    const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                    const priceString = document.getElementById('priceInput').value.replace(' ','').split(',');
+                    var fixedPrices = [];
+                    var pricesEntered = 0.00;
+                    var numAppliances = 0;
+                    for (const x in priceString) {
+                        if (isNaN(Number(parseFloat(priceString[x]).toFixed(2)))) {
+                            fixedPrices[x] = '0.00';
+                        } else {
+                            fixedPrices[x] = String(Number(parseFloat(priceString[x]).toFixed(2)));
+                            let zeroesNeeded;
+                            if (fixedPrices[x].split('.').length == 1) {
+                                fixedPrices[x] += '.';
+                                zeroesNeeded = 2;
+                            } else {
+                                zeroesNeeded = (2 - fixedPrices[x].split('.')[1].length);
+                            }
+                            if (zeroesNeeded > 0) {
+                                for (let i = 0; i < zeroesNeeded; i++) {
+                                    fixedPrices[x] += '0';
+                                }
+                            }
+                            pricesEntered += Number(parseFloat(priceString[x]).toFixed(2));
+                            if (Number(parseFloat(priceString[x]).toFixed(2)) > 0) {
+                                numAppliances += 1;
+                            }
+                        }
+                    }
+                    document.getElementById('priceInput').value = fixedPrices.join(',');
+                    // const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                     var productType = document.getElementById('product').value;
                     var warrantyYears = document.getElementById('yearsLength').value;
-                    var numAppliances = 0;
                     var warrantyInfo = null;
-                    if (pricesEntered < 300) {
+                    if (pricesEntered < 300 && numAppliances == 1) {
                         productType = 'replacement';
                         warrantyYears = 2;
                     }
                     if (productType == 'appliances') {
-                        appliancePrices = document.getElementById('priceInput').value.replace(' ','').split(',');
-                        for (const x in appliancePrices) {
-                            if (!isNaN(parseFloat(appliancePrices[x])) && parseFloat(appliancePrices[x]) > 0) {
-                                numAppliances += 1;
-                            }
-                        }
                         if (numAppliances > 0 && numAppliances < 4) {
-                            for (const x in comercoDict[productType][warrantyYears][numAppliances]) {
-                                if (pricesEntered < comercoDict[productType][warrantyYears][numAppliances][x]['maxPrice']) {
-                                    const currentCode = x;
-                                    const currentLength = warrantyYears;
-                                    const currentPrice = comercoDict[productType][warrantyYears][numAppliances][x]['warrantyPrice'];
-                                    makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
-                                    break;
+                            if (pricesEntered < minAppliancePrice[numAppliances - 1]) {
+                                document.getElementById('warrantyListDiv').innerHTML = 
+                                    '<p style="color:red;">The ' + numAppliances + ' appliance warranty combo is not available for total prices under $' + minAppliancePrice[numAppliances - 1] + '. Try individual warranties for each instead.</p>';
+                                document.getElementById('warrantyListDiv').style.display = 'block';
+                            } else {
+                                for (const x in comercoDict[productType][warrantyYears][numAppliances]) {
+                                    if (pricesEntered < comercoDict[productType][warrantyYears][numAppliances][x]['maxPrice']) {
+                                        const currentCode = x;
+                                        const currentLength = warrantyYears;
+                                        const currentPrice = comercoDict[productType][warrantyYears][numAppliances][x]['warrantyPrice'];
+                                        makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
+                                        break;
+                                    }
                                 }
                             }
                         } 
