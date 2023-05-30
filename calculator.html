@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Warranty Calculator</title>
+        <title>Comerco Calculator</title>
         <style>
             @media screen and (max-width: 1000px) {
                 h1 {
@@ -86,8 +86,10 @@
 
             document.addEventListener('DOMContentLoaded', function () {
                 var appleProducts = '<option value="none" disabled selected>--Select Apple Device</option>';
-                for (const x in comercoDict['apple']) {
-                    appleProducts += '<option value="' + x + '">' + x + '</option>';
+                for (const x in warrantyDict['apple']) {
+                    for (const y in warrantyDict['apple'][x]) {
+                        appleProducts += '<option value="' + x + '">' + y + '</option>';
+                    }
                 }
                 document.getElementById('appleItem').innerHTML = appleProducts;
 
@@ -135,11 +137,11 @@
                                     '<p style="color:red;">The ' + numAppliances + ' appliance warranty combo is not available for total prices under $' + minAppliancePrice[numAppliances - 1] + '. Try individual warranties for each instead.</p>';
                                 document.getElementById('warrantyListDiv').style.display = 'block';
                             } else {
-                                for (const x in comercoDict[productType][warrantyYears][numAppliances]) {
-                                    if (pricesEntered < comercoDict[productType][warrantyYears][numAppliances][x]['maxPrice']) {
+                                for (const x in warrantyDict[productType][warrantyYears][numAppliances]) {
+                                    if (pricesEntered < warrantyDict[productType][warrantyYears][numAppliances][x]['maxPrice']) {
                                         const currentCode = x;
                                         const currentLength = warrantyYears;
-                                        const currentPrice = comercoDict[productType][warrantyYears][numAppliances][x]['warrantyPrice'];
+                                        const currentPrice = warrantyDict[productType][warrantyYears][numAppliances][x]['warrantyPrice'];
                                         makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
                                         break;
                                     }
@@ -147,17 +149,21 @@
                             }
                         } 
                     } else {
-                        for (const x in comercoDict[productType][warrantyYears]) {
-                            if (pricesEntered < comercoDict[productType][warrantyYears][x]['maxPrice']) {
+                        for (const x in warrantyDict[productType][warrantyYears]) {
+                            if (pricesEntered < warrantyDict[productType][warrantyYears][x]['maxPrice']) {
                                 const currentCode = x;
                                 const currentLength = warrantyYears;
-                                const currentPrice = comercoDict[productType][warrantyYears][x]['warrantyPrice'];
+                                const currentPrice = warrantyDict[productType][warrantyYears][x]['warrantyPrice'];
                                 makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
                                 break;
                             }
                         }
                     }
 
+                });
+
+                document.getElementById("yearsLength").addEventListener("change", (event) => {
+                    document.getElementById('warrantyListDiv').style.display = 'none';
                 });
 
                 document.getElementById("product").addEventListener("change", (event) => {
@@ -173,7 +179,7 @@
                         document.getElementById('appleDiv').style.display = 'none';
                         document.getElementById('priceDiv').style.display = 'block';
                         document.getElementById("priceLabel").innerHTML = event.target.value == 'appliances' ? 'Prices (max 3, separate by commas):' : 'Price:';
-                        const yearsNumbers = Object.keys(comercoDict[event.target.value]).map(Number).sort(function(a, b) {return b - a;});
+                        const yearsNumbers = Object.keys(warrantyDict[event.target.value]).map(Number).sort(function(a, b) {return b - a;});
                         let yearsOptions = '';
                         for (const x in yearsNumbers) {
                             yearsOptions += '<option value="' + yearsNumbers[x] + '">' + yearsNumbers[x] + '</option>';
@@ -194,7 +200,7 @@
                 });
 
                 document.getElementById("appleItem").addEventListener("change", (event) => {
-                    const currentProduct = comercoDict['apple'][document.getElementById('appleItem').value];
+                    const currentProduct = warrantyDict['apple'][event.target.options[event.target.selectedIndex].value][event.target.options[event.target.selectedIndex].innerHTML];
                     const currentCode = currentProduct['code'];
                     const currentLength = currentProduct['totalYears'];
                     const currentPrice = currentProduct['price'];
