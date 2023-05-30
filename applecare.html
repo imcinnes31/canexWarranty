@@ -165,10 +165,10 @@
                             const description = event.target.options[event.target.selectedIndex].innerHTML;
                             document.getElementById(targetDescName).value = description;
                             document.getElementById(targetCodeName).value = warrantyDict['apple'][category][description.replace("AppleCare+ ", "")]['code'];
-                            if (document.getElementById(targetModelName).value == '') {
+                            if (document.getElementById(targetModelName).value.length == 0) {
                                 document.getElementById(targetModelName).style.backgroundColor = 'pink';
                             }
-                            if (document.getElementById(targetSerialName).value == '') {
+                            if (document.getElementById(targetSerialName).value.length == 0) {
                                 document.getElementById(targetSerialName).style.backgroundColor = 'pink';
                             }
                         }
@@ -321,15 +321,53 @@
                             document.getElementById(currentSerial).value = "***SPECIAL ORDER***";
                             document.getElementById(currentSerial).disabled = true;
                             document.getElementById(currentSerial).style.backgroundColor = "white";
+                            if (document.getElementById("specPONumber").value.length == 0) {
+                                document.getElementById("specPONumber").style.backgroundColor = "pink";
+                            } else {
+                                document.getElementById("specPONumber").style.backgroundColor = "white";
+                            }
                         } else {
+                            let specOrderChecked = false;
                             document.getElementById(currentSerial).value = "";
                             document.getElementById(currentSerial).disabled = false;
                             if (document.getElementById("applecareDescMenu" + event.currentTarget.id.replace("soCheck","")).value != "None") {
                                 document.getElementById(currentSerial).style.backgroundColor = "pink";
                             }
+                            for (let i = 1; i <= 3; i++) {
+                                if (document.getElementById("soCheck" + i).checked == true) {
+                                    specOrderChecked = true;
+                                    break;
+                                }
+                            }
+                            if (specOrderChecked == false) {
+                                document.getElementById("specPONumber").style.backgroundColor = "white";
+                                document.getElementById("specPONumber").value = "";
+                            } else if (document.getElementById("specPONumber").value.length == 0) {
+                                document.getElementById("specPONumber").style.backgroundColor = "pink";
+                            }
                         }
                     });
                 });
+
+                document.getElementById("specPONumber").addEventListener("keyup", (event) => {
+                    if (event.target.value.length == 0) {
+                        let specOrderChecked = false;
+                        for (let i = 1; i <= 3; i++) {
+                            if (document.getElementById("soCheck" + i).checked == true) {
+                                specOrderChecked = true;
+                                break;
+                            }
+                        }
+                        if (specOrderChecked == false) {
+                            document.getElementById("specPONumber").style.backgroundColor = "white";
+                        } else {
+                            document.getElementById("specPONumber").style.backgroundColor = "pink";
+                        }
+                    } else {
+                        event.target.style.backgroundColor = "white";
+                    }
+                });
+
 
             });
         </script>
@@ -442,7 +480,7 @@
             </tr>
             <tr class="inputRow">
                 <td class="col1">Special Order PO Number</td>
-                <td class="col2" colspan="3"><input type="text"></td>
+                <td class="col2" colspan="3"><input id="specPONumber" type="text"></td>
                 <td class="col5" colspan="2">Item Received On Date</td>
                 <td class="col7"><input id="receivedDate" type="text" value = " /  / " style="caret-color: transparent"></td>             
             </tr>
