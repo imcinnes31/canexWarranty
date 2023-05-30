@@ -28,7 +28,7 @@ const warrantyDict = {
             "2C107": {"maxPrice": 6000, "warrantyPrice": 599.99},
         },
     },
-    "televisions / monitors": {
+    "televisions": {
         3: {
             "3TV102": {"maxPrice": 400, "warrantyPrice": 89.99},
             "3TV103": {"maxPrice": 500, "warrantyPrice": 99.99},
