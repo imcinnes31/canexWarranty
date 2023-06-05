@@ -246,7 +246,7 @@
                         } else {
                             document.getElementById("appleCareDate").style.backgroundColor = "pink";
                         }
-                    } else if (isFinite(event.key) && currentDate.length < 14) {
+                    } else if ((isFinite(event.key) && event.key != " ") && currentDate.length < 14) {
                         currentDate = currentDate.slice(0, dateCursorPos) + event.key + currentDate.slice(dateCursorPos);
                         document.getElementById("appleCareDate").value = currentDate;
                         dateCursorPos += 1;
@@ -274,7 +274,7 @@
                         recCursorPos -= 1;
                         recDate = recDate.slice(0, recCursorPos) + recDate.slice(recCursorPos + 1);
                         document.getElementById("receivedDate").value = recDate;
-                    } else if (isFinite(event.key) && recDate.length < 14) {
+                    } else if ((isFinite(event.key) && event.key != " ") && recDate.length < 14) {
                         recDate = recDate.slice(0, recCursorPos) + event.key + recDate.slice(recCursorPos);
                         document.getElementById("receivedDate").value = recDate;
                         recCursorPos += 1;
@@ -301,7 +301,7 @@
                         if (currentPhone.length < 19) {
                             document.getElementById("customerPhone").style.backgroundColor = "pink";
                         }
-                    } else if (isFinite(event.key) && currentPhone.length < 19) {
+                    } else if ((isFinite(event.key) && event.key != " ") && currentPhone.length < 19) {
                         currentPhone = currentPhone.slice(0, phoneCursorPos) + event.key + currentPhone.slice(phoneCursorPos);
                         document.getElementById("customerPhone").value = currentPhone;
                         phoneCursorPos += 1;

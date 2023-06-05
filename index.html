@@ -3,6 +3,18 @@
     <head>
         <title>Comerco Form</title>
         <style>
+            @media print
+            {    
+                .no-print, .no-print *
+                {
+                    display: none !important;
+                }
+            }
+
+            input:disabled {
+                color: black;
+            }
+
             body {
                 font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
                 margin-left: 50px;
@@ -56,7 +68,170 @@
                 text-align: center;
                 font-weight: bold;
             }
+
+            #customerPhone, #province, #postalCode {
+                background-color: pink;
+            }
         </style>
+        <script>
+            const provinces = {
+                'Ontario': 'ON',
+                'Saskatchewan': 'SK',
+                'British Columbia': 'BC',
+                'Alberta': 'AB',
+                'Northwest Territories': 'NT',
+                'Manitoba': 'MB',
+                'Newfoundland': 'NL',
+                'Nova Scotia': 'NS',
+                'New Brunswick': 'NB',
+                'Prince Edward Island': 'PE',
+                'Nunavut': 'NU',
+                'Yukon': 'YT',
+                'Quebec': 'QC',
+            };
+
+            var phoneCursorPos = 2;
+            var postalCursorPos = 0;
+
+            var dateCursorPos = 14;
+
+            document.addEventListener('DOMContentLoaded', function () {
+
+                today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //As January is 0.
+                var yy = today.getFullYear();
+
+                if(dd<10) dd='0'+dd;
+                if(mm<10) mm='0'+mm;
+                const todaysDate = mm + ' / ' + dd + ' / ' + yy;
+                document.getElementById('warrantyDate').value = todaysDate;
+
+                var provMenuOptions = '<option disabled selected>--Select Province--</option>';
+                for (const x in provinces) {
+                    provMenuOptions += "<option value=" + provinces[x] + ">" + x + "</option>";
+                }
+                document.getElementById('provinceMenu').innerHTML = provMenuOptions;
+                document.getElementById('provinceMenu').addEventListener("change", (change) => {
+                    // console.log(event.target.options[event.target.selectedIndex].value);
+                    document.getElementById('province').value = event.target.options[event.target.selectedIndex].value;
+                    document.getElementById('province').style.backgroundColor = 'white';
+                });
+
+                document.querySelectorAll('.reqField').forEach(field => { 
+                    if (field.value.length == 0) {
+                        field.style.backgroundColor = "pink";
+                    } else {
+                        field.style.backgroundColor = "white";
+                    }
+                    field.addEventListener("keyup", (event) => {
+                        if (event.target.value.length == 0) {
+                            event.target.style.backgroundColor = "pink";
+                        } else {
+                            event.target.style.backgroundColor = "white";
+                        }
+                    });
+                });
+
+                document.getElementById("warrantyDate").addEventListener("keydown", (event) => {
+                    event.preventDefault();
+                    var currentDate = document.getElementById("warrantyDate").value;
+                    if (event.keyCode == 46) {
+                        document.getElementById("warrantyDate").value = " /  / ";
+                        dateCursorPos = 0;
+                        document.getElementById("warrantyDate").style.backgroundColor = "pink";
+                    } else if (event.keyCode == 8 && currentDate.length > 6) {
+                        if (dateCursorPos == 5 || dateCursorPos == 10) {
+                            dateCursorPos -= 3;
+                        }
+                        dateCursorPos -= 1;
+                        currentDate = currentDate.slice(0, dateCursorPos) + currentDate.slice(dateCursorPos + 1);
+                        document.getElementById("warrantyDate").value = currentDate;
+                        if (currentDate.length == 12 || currentDate.length == 14) {
+                            document.getElementById("warrantyDate").style.backgroundColor = "white";
+                        } else {
+                            document.getElementById("warrantyDate").style.backgroundColor = "pink";
+                        }
+                    } else if ((isFinite(event.key) && event.key != " ") && currentDate.length < 14) {
+                        currentDate = currentDate.slice(0, dateCursorPos) + event.key + currentDate.slice(dateCursorPos);
+                        document.getElementById("warrantyDate").value = currentDate;
+                        dateCursorPos += 1;
+                        if (dateCursorPos == 2 || dateCursorPos == 7) {
+                            dateCursorPos += 3;
+                        }
+                        if (currentDate.length == 12 || currentDate.length == 14) {
+                            document.getElementById("warrantyDate").style.backgroundColor = "white";
+                        } else {
+                            document.getElementById("warrantyDate").style.backgroundColor = "pink";
+                        }
+                    }
+                });
+
+                document.getElementById("customerPhone").addEventListener("keydown", (event) => {
+                    event.preventDefault();
+                    var currentPhone = document.getElementById("customerPhone").value;
+                    if (event.keyCode == 46) {
+                        document.getElementById("customerPhone").value = "(  )  -  ";
+                        phoneCursorPos = 2;
+                        document.getElementById("customerPhone").style.backgroundColor = "pink";
+                    } else if (event.keyCode == 8 && currentPhone.length > 9) {
+                        if (phoneCursorPos == 8 || phoneCursorPos == 14) {
+                            phoneCursorPos -= 3;
+                        }
+                        phoneCursorPos -= 1;
+                        currentPhone = currentPhone.slice(0, phoneCursorPos) + currentPhone.slice(phoneCursorPos + 1);
+                        document.getElementById("customerPhone").value = currentPhone;
+                        if (currentPhone.length < 19) {
+                            document.getElementById("customerPhone").style.backgroundColor = "pink";
+                        }
+                    } else if ((isFinite(event.key) && event.key != " ") && currentPhone.length < 19) {
+                        currentPhone = currentPhone.slice(0, phoneCursorPos) + event.key + currentPhone.slice(phoneCursorPos);
+                        document.getElementById("customerPhone").value = currentPhone;
+                        phoneCursorPos += 1;
+                        if (phoneCursorPos == 5 || phoneCursorPos == 11) {
+                            phoneCursorPos += 3;
+                        }
+                        if (currentPhone.length == 19) {
+                            document.getElementById("customerPhone").style.backgroundColor = "white";
+                        }
+                    }
+                });
+
+                document.getElementById("postalCode").addEventListener("keydown", (event) => {
+                    event.preventDefault();
+                    var currentPostal = document.getElementById("postalCode").value;
+                    if (event.keyCode == 46) {
+                        document.getElementById("postalCode").value = " ";
+                        postalCursorPos = 0;
+                        document.getElementById("postalCode").style.backgroundColor = "pink";
+                    } else if (event.keyCode == 8 && currentPostal.length > 1) {
+                        if (postalCursorPos == 4) {
+                            postalCursorPos -= 1;
+                        }
+                        postalCursorPos -= 1;
+                        currentPostal = currentPostal.slice(0, postalCursorPos) + currentPostal.slice(postalCursorPos + 1);
+                        document.getElementById("postalCode").value = currentPostal;
+                        if (currentPostal.length < 7) {
+                            document.getElementById("postalCode").style.backgroundColor = "pink";
+                        }
+                    } else if (currentPostal.length < 7) {
+                        if (((postalCursorPos == 1 || postalCursorPos == 4 || postalCursorPos == 6) && (isFinite(event.key) && event.key != " ")) || ((postalCursorPos == 0 || postalCursorPos == 2 || postalCursorPos == 5) && /[a-zA-Z]/.test(String.fromCharCode(event.keyCode)))) {
+                            currentPostal = currentPostal.slice(0, postalCursorPos) + event.key.toUpperCase() + currentPostal.slice(postalCursorPos);
+                            document.getElementById("postalCode").value = currentPostal;
+                            postalCursorPos += 1;
+                            if (postalCursorPos == 3) {
+                                postalCursorPos += 1;
+                            }
+                            if (currentPostal.length == 7) {
+                                document.getElementById("postalCode").style.backgroundColor = "white";
+                            }  
+                        }                      
+                    }
+                });
+
+            });
+
+        </script>
     </head>
     <body>
         <div style="width:100%;text-align: center;">
@@ -67,20 +242,20 @@
         <div style="display:inline-block">
             <div class="form1">
                 <label>Date</label>
-                <input type="text">
+                <input id="warrantyDate" style="caret-color: transparent;" type="text">
             </div>
             <br>
             <div class="form2">
                 <label>Customer name:</label>
-                <input type="text">
+                <input type="text" class="reqField">
             </div>
             <div class="form2">
                 <label>Phone#:</label>
-                <input type="text">
+                <input id="customerPhone" type="text" value="(  )  -  " style="caret-color: transparent">
             </div>
             <div class="form2">
                 <label>Email:</label>
-                <input type="text">
+                <input type="text" class="reqField">
             </div>
             <br>
             <div class="form3">
@@ -88,19 +263,22 @@
             </div>
             <div class="form3">
                 <label>Street</label>
-                <input type="text">
+                <input type="text" class="reqField">
             </div>
             <div class="form3">
                 <label>City</label>
-                <input type="text">
+                <input type="text" class="reqField">
             </div>
             <div class="form3">
                 <label>Province</label>
-                <input type="text">
+                <input type="text" id="province" disabled="true">
+                <select id="provinceMenu" class="no-print">
+
+                </select>
             </div>
             <div class="form3">
                 <label>Postal Code</label>
-                <input type="text">
+                <input type="text" id="postalCode" value=" " style="caret-color: transparent">
             </div>
         </div>
         <br>
