@@ -216,6 +216,7 @@
                         }
                     } else if (currentPostal.length < 7) {
                         console.log(String.fromCharCode(event.keyCode));
+                        console.log(event.keyCode);
                         if (((postalCursorPos == 1 || postalCursorPos == 4 || postalCursorPos == 6) && (isFinite(event.key) && event.key != " ")) || ((postalCursorPos == 0 || postalCursorPos == 2 || postalCursorPos == 5) && /[a-zA-Z]/.test(String.fromCharCode(event.keyCode)))) {
                             currentPostal = currentPostal.slice(0, postalCursorPos) + event.key.toUpperCase() + currentPostal.slice(postalCursorPos);
                             document.getElementById("postalCode").value = currentPostal;
