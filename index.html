@@ -220,7 +220,7 @@
                         
                         
                         
-                        if (((postalCursorPos == 1 || postalCursorPos == 4 || postalCursorPos == 6) && (isFinite(event.key) && event.key != " ")) || ((postalCursorPos == 0 || postalCursorPos == 2 || postalCursorPos == 5) && /[a-zA-Z]/.test(event.key))) {
+                        if (((postalCursorPos == 1 || postalCursorPos == 4 || postalCursorPos == 6) && (isFinite(event.key) && event.key != " ")) || ((postalCursorPos == 0 || postalCursorPos == 2 || postalCursorPos == 5) && /[a-zA-Z]/.test(event.key) && event.key.length == 1)) {
                             currentPostal = currentPostal.slice(0, postalCursorPos) + event.key.toUpperCase() + currentPostal.slice(postalCursorPos);
                             document.getElementById("postalCode").value = currentPostal;
                             postalCursorPos += 1;
