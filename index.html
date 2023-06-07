@@ -215,10 +215,10 @@
                             document.getElementById("postalCode").style.backgroundColor = "pink";
                         }
                     } else if (currentPostal.length < 7) {
-                        console.log(String.fromCharCode(event.keyCode));
-                        console.log(event.keyCode);
-                        console.log(event.key);
-                        if (((postalCursorPos == 1 || postalCursorPos == 4 || postalCursorPos == 6) && (isFinite(event.key) && event.key != " ")) || ((postalCursorPos == 0 || postalCursorPos == 2 || postalCursorPos == 5) && /[a-zA-Z]/.test(String.fromCharCode(event.keyCode)))) {
+                        
+                        
+                        
+                        if (((postalCursorPos == 1 || postalCursorPos == 4 || postalCursorPos == 6) && (isFinite(event.key) && event.key != " ")) || ((postalCursorPos == 0 || postalCursorPos == 2 || postalCursorPos == 5) && /[a-zA-Z]/.test(event.key))) {
                             currentPostal = currentPostal.slice(0, postalCursorPos) + event.key.toUpperCase() + currentPostal.slice(postalCursorPos);
                             document.getElementById("postalCode").value = currentPostal;
                             postalCursorPos += 1;
@@ -282,7 +282,7 @@
                 </div>
                 <div class="form3">
                     <label>Postal Code</label>
-                    <input type="text" id="postalCode" value=" " style="caret-color: transparent">
+                    <input type="text" id="postalCode" value=" " style="caret-color: transparent;background-color: green;">
                 </div>
             </div>
             <br>
