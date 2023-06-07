@@ -204,7 +204,8 @@
                         document.getElementById("postalCode").value = " ";
                         postalCursorPos = 0;
                         document.getElementById("postalCode").style.backgroundColor = "pink";
-                    } else if (event.keyCode == 8 && postalCursorPos > 0) {
+                    } else if (event.keyCode == 8) {
+                        if (postalCursorPos > 0) {
                         if (postalCursorPos == 4) {
                             postalCursorPos -= 1;
                         }
@@ -213,6 +214,7 @@
                         document.getElementById("postalCode").value = currentPostal;
                         if (currentPostal.length < 7) {
                             document.getElementById("postalCode").style.backgroundColor = "pink";
+                        }
                         }
                     } else if (currentPostal.length < 7) {
                         
