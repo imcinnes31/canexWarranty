@@ -11,6 +11,11 @@
                 }
             }
 
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
             input:disabled {
                 color: black;
             }
@@ -28,10 +33,12 @@
             .form2 {
                 display: flex;
                 width: 325px;
+                margin-bottom: 1px;
             }
             .form3 {
                 display: flex;
                 width: 350px;
+                margin-bottom: 1px;
             }
             div input {
                 display: flex;
@@ -45,7 +52,8 @@
             label {
                 display: flex;
                 white-space: nowrap;
-                font-size: 14px;
+                font-size: 16px;
+                padding-right: 5px;
             }
             table {
                 width: 100%;
@@ -59,7 +67,6 @@
                 font-size: 12px;
             }
             th {
-                color: white;
                 width: 34%;
             }
             td input {
@@ -73,7 +80,125 @@
                 background-color: pink;
             }
         </style>
+        <script src="warrantyCodes.js"></script>
         <script>
+            const warrantyYears = {};
+            const applianceMinPrices = [300,400,900];
+
+            function getWarrantyPrice(selection, numYears, price, idNumber) {
+                var warrantyPrice;
+                var warrantyCode;
+                for (const x in warrantyDict[selection][numYears]) {
+                    if (price < warrantyDict[selection][numYears][x]['maxPrice']) {
+                        warrantyPrice = warrantyDict[selection][numYears][x]['warrantyPrice'];
+                        warrantyCode = x;
+                        break;
+                    }
+                }
+
+                const priceName = 'warrantyPrice' + idNumber;
+                const codeName = 'warrantyCode' + idNumber;
+                const lengthName = 'warrantyLength' + idNumber;
+
+                document.getElementById(priceName).value = warrantyPrice;
+                document.getElementById(codeName).value = warrantyCode;
+                document.getElementById(lengthName).value = (selection == 'replacement' ? '' : '+') + numYears;
+
+            }
+
+            function calculatePrices() {
+                const applianceWarrantyGroups = {};
+                for (let i = 1; i <= 3; i++) {
+                    const selection = document.getElementById("productMenu" + i).options[document.getElementById("productMenu" + i).selectedIndex].value;
+                    const priceFieldName = "price" + i;
+                    const yearDivName = "lengthDiv" + i;
+                    const yearMenuName = "lengthMenu" + i;
+                    const currentPrice = document.getElementById(priceFieldName).value ? Number(parseFloat(document.getElementById(priceFieldName).value.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]).toFixed(2)) : 0;
+                    if (selection != 'noProduct' && selection != 'appliances') {
+                        if (currentPrice == "") {
+                            const old_element = document.getElementById(yearDivName);
+                            const new_element = old_element.cloneNode(true);
+                            old_element.parentNode.replaceChild(new_element, old_element);
+                            document.getElementById(yearDivName).style.display = "none";
+                            // erase warranty price, erase years, erase warranty code
+                        } else if (currentPrice < 300) {
+                            const old_element = document.getElementById(yearMenuName);
+                            const new_element = old_element.cloneNode(true);
+                            old_element.parentNode.replaceChild(new_element, old_element);
+                            document.getElementById(yearDivName).style.display = "none";
+                            if (selection != "appliances") {
+                                getWarrantyPrice("replacement",'2',currentPrice,i);
+                            }
+                        } else {
+                            if (document.getElementById(yearDivName).style.display == "none") {
+                                var yearOptions = "";
+                                for (const year in warrantyYears[selection]) {
+                                    yearOptions += "<option value='" + warrantyYears[selection][year] + (year == 0 ? "' selected>" : "'>") + warrantyYears[selection][year] + "</option>";
+                                }
+                                document.getElementById(yearMenuName).innerHTML = yearOptions;
+                                document.getElementById(yearDivName).style.display = "inline-flex";
+                                document.getElementById(yearMenuName).addEventListener('change', (event) => {
+                                    calculatePrices();
+                                });
+                            }
+                            const numYears = document.getElementById(yearMenuName).value;
+                            if (selection != "appliances") {
+                                getWarrantyPrice(selection,numYears,currentPrice,i);
+                            }
+                        }
+                    }
+                    if (selection == 'appliances') {
+                        if (document.getElementById(yearDivName).style.display != "none") {
+                            if (!(applianceWarrantyGroups[document.getElementById(yearMenuName).value])) {
+                                applianceWarrantyGroups[document.getElementById(yearMenuName).value] = {};
+                            }
+                            applianceWarrantyGroups[document.getElementById(yearMenuName).value][i] = currentPrice;
+                        } else {
+                            if (!(applianceWarrantyGroups['UNKNOWN'])) {
+                                applianceWarrantyGroups['UNKNOWN'] = {};
+                            }
+                            applianceWarrantyGroups['UNKNOWN'][i] = currentPrice;
+                        }
+                    }
+                }
+                // console.log(applianceWarrantyGroups);
+                for (const yearCat in applianceWarrantyGroups) {
+                    const currentYearLength = yearCat;
+                    var totalPrice = 0;
+                    for (const x in applianceWarrantyGroups[yearCat]) {
+                        totalPrice += applianceWarrantyGroups[yearCat][x];
+                    }
+                    // console.log(totalPrice);
+                    // console.log(Object.keys(applianceWarrantyGroups[yearCat]).length);
+                    if (Object.keys(applianceWarrantyGroups[yearCat]).length == 3) {
+                        if (totalPrice >= applianceMinPrices[2]) {
+                            // console.log('Give warranty prices for all objects');
+                        } else {
+                            var highestPrice = 0;
+                            for (let i = 1; i <= 3; i++) {
+                                for (let j = 2; j <= 3; j++) {
+                                    if (i < j) {
+                                        if (applianceWarrantyGroups[yearCat][i] && applianceWarrantyGroups[yearCat][j]) {
+                                            highestPrice = applianceWarrantyGroups[yearCat][i] + applianceWarrantyGroups[yearCat][j];
+                                        }
+                                    }
+                                }
+                            }
+                            if (highestPrice >= applianceMinPrices[1]) {
+                                // console.log("give warranty prices for items " + i + " and " + j);
+                            } else {
+                                for (let i = 1; i <= 3; i++) {
+                                    if (applianceWarrantyGroups[yearCat][i] >= applianceMinPrices[0]) {
+                                        // console.log("give warranty prices for item " + i);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
             const provinces = {
                 'Ontario': 'ON',
                 'Saskatchewan': 'SK',
@@ -97,6 +222,112 @@
 
             document.addEventListener('DOMContentLoaded', function () {
 
+                for (const category in warrantyDict) {
+                    if (category != 'apple' && category != 'replacement') {
+                        warrantyYears[category] = [];
+                        for (const yearNum in warrantyDict[category]) {
+                            warrantyYears[category].push(yearNum);
+                        }
+                        warrantyYears[category].sort((a, b) => {return parseInt(b) - parseInt(a)});
+                    }
+                }
+
+                typeMenuOptions = '<option value="noProduct">NONE</option>'
+                + '<option value="appliances">Appliances</option>'
+                + '<option value="computers">Computers & Accessories</option>'
+                + '<option value="televisions">Televisions</option>'
+                + '<option value="other electronics">Other Electronics</option>';
+
+                document.getElementsByName("productMenu").forEach(menu => {
+                    menu.innerHTML = typeMenuOptions;
+                    menu.addEventListener('change', (event) => {
+                        const idNumber = event.target.id.replace("productMenu","");
+                        const yearDivName = "lengthDiv" + idNumber;
+                        const yearMenuName = "lengthMenu" + idNumber;
+                        const reqFieldName = "reqFieldIfSelected" + idNumber;
+                        const reqFields = document.getElementsByClassName(reqFieldName);
+                        if (event.target.options[event.target.selectedIndex].value == 'noProduct') {
+                            for (let i = 0; i < reqFields.length; i++) {
+                                reqFields[i].style.backgroundColor = "white";
+                                reqFields[i].value = "";
+                                reqFields[i].disabled = true;
+                            }
+                            const priceName = 'warrantyPrice' + idNumber;
+                            const codeName = 'warrantyCode' + idNumber;
+                            const lengthName = 'warrantyLength' + idNumber;
+                            document.getElementById(priceName).value = "";
+                            document.getElementById(codeName).value = "";
+                            document.getElementById(lengthName).value = "";
+                            // TEMPORARY UNTIL APPLIANCE CODE WORKS
+                            document.getElementById(priceName).disabled = true;
+                            document.getElementById(codeName).disabled = true;
+                            document.getElementById(lengthName).disabled = true;
+                        } else if (event.target.options[event.target.selectedIndex].value == 'appliances') {
+                            for (let i = 0; i < reqFields.length; i++) {
+                                if (reqFields[i].value.length > 0) {
+                                    reqFields[i].style.backgroundColor = "white";
+                                } else {
+                                    reqFields[i].style.backgroundColor = "pink";
+                                }
+                                reqFields[i].disabled = false;
+                            }
+                            // TEMPORARY UNTIL APPLIANCE CODE WORKS
+                            const priceName = 'warrantyPrice' + idNumber;
+                            const codeName = 'warrantyCode' + idNumber;
+                            const lengthName = 'warrantyLength' + idNumber;
+                            document.getElementById(priceName).value = "";
+                            document.getElementById(codeName).value = "";
+                            document.getElementById(lengthName).value = "";
+                            document.getElementById(priceName).disabled = false;
+                            document.getElementById(codeName).disabled = false;
+                            document.getElementById(lengthName).disabled = false;
+                        } else {
+                            for (let i = 0; i < reqFields.length; i++) {
+                                if (reqFields[i].value.length > 0) {
+                                    reqFields[i].style.backgroundColor = "white";
+                                } else {
+                                    reqFields[i].style.backgroundColor = "pink";
+                                }
+                                reqFields[i].disabled = false;
+                            }
+                            // TEMPORARY UNTIL APPLIANCE CODE WORKS
+                            const priceName = 'warrantyPrice' + idNumber;
+                            const codeName = 'warrantyCode' + idNumber;
+                            const lengthName = 'warrantyLength' + idNumber;
+                            document.getElementById(priceName).value = "";
+                            document.getElementById(codeName).value = "";
+                            document.getElementById(lengthName).value = "";
+                            document.getElementById(priceName).disabled = true;
+                            document.getElementById(codeName).disabled = true;
+                            document.getElementById(lengthName).disabled = true;
+                        }
+                        const old_element = document.getElementById(yearMenuName);
+                        const new_element = old_element.cloneNode(true);
+                        old_element.parentNode.replaceChild(new_element, old_element);
+                        document.getElementById(yearDivName).style.display = "none";
+                        calculatePrices();
+                    });
+                });
+
+                for (let i = 1; i <= 3; i++) {
+                    const reqFieldName = "reqFieldIfSelected" + i;
+                    const reqFields = document.getElementsByClassName(reqFieldName);
+                    const typeMenuName = "productMenu" + i;
+                    const typeMenu = document.getElementById(typeMenuName);
+                    for (let j = 0; j < reqFields.length; j++) {
+                        reqFields[j].disabled = true;
+                        reqFields[j].addEventListener('keyup', (event) => {
+                            if (typeMenu.options[typeMenu.selectedIndex].value != 'noProduct') {
+                                if (reqFields[j].value.length > 0) {
+                                    reqFields[j].style.backgroundColor = "white";
+                                } else {
+                                    reqFields[j].style.backgroundColor = "pink";
+                                }
+                            }
+                        });
+                    }
+                }
+
                 today = new Date();
                 var dd = today.getDate();
                 var mm = today.getMonth()+1; //As January is 0.
@@ -112,8 +343,7 @@
                     provMenuOptions += "<option value=" + provinces[x] + ">" + x + "</option>";
                 }
                 document.getElementById('provinceMenu').innerHTML = provMenuOptions;
-                document.getElementById('provinceMenu').addEventListener("change", (change) => {
-                    // console.log(event.target.options[event.target.selectedIndex].value);
+                document.getElementById('provinceMenu').addEventListener("change", (event) => {
                     document.getElementById('province').value = event.target.options[event.target.selectedIndex].value;
                     document.getElementById('province').style.backgroundColor = 'white';
                 });
@@ -129,6 +359,27 @@
                             event.target.style.backgroundColor = "pink";
                         } else {
                             event.target.style.backgroundColor = "white";
+                        }
+                    });
+                });
+
+                document.getElementsByName('priceField').forEach(field => {
+                    field.addEventListener("keydown", (event) => {
+                        if ((event.key == ' ' || !(isFinite(event.key))) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46) {
+                            event.preventDefault();
+                        }
+                    });
+                    field.addEventListener("input", (event) => {
+                        if (field.value.length > 0) {
+                            calculatePrices();
+                        } else {
+                            const idNumber = field.id.replace("price","");
+                            const priceName = 'warrantyPrice' + idNumber;
+                            const codeName = 'warrantyCode' + idNumber;
+                            const lengthName = 'warrantyLength' + idNumber;
+                            document.getElementById(priceName).value = "";
+                            document.getElementById(codeName).value = "";
+                            document.getElementById(lengthName).value = "";
                         }
                     });
                 });
@@ -218,8 +469,6 @@
                         }
                     } else if (currentPostal.length < 7) {
                         
-                        
-                        
                         if (((postalCursorPos == 1 || postalCursorPos == 4 || postalCursorPos == 6) && (isFinite(event.key) && event.key != " ")) || ((postalCursorPos == 0 || postalCursorPos == 2 || postalCursorPos == 5) && /[a-zA-Z]/.test(event.key) && event.key.length == 1)) {
                             currentPostal = currentPostal.slice(0, postalCursorPos) + event.key.toUpperCase() + currentPostal.slice(postalCursorPos);
                             document.getElementById("postalCode").value = currentPostal;
@@ -280,7 +529,7 @@
                     <input type="text" id="province" disabled="true">
                     <select id="provinceMenu" class="no-print">
     
-                    </select>
+                    </select>    
                 </div>
                 <div class="form3">
                     <label>Postal Code</label>
@@ -293,33 +542,33 @@
             <table>
                 <tr style="border:1px solid white">
                     <th></th>
-                    <th></th>
+                    <th><div class="no-print" style="display:inline-flex;"><label for="productMenu1">Choose Product Type:</label><select class="no-print" name="productMenu" id="productMenu1" style="font-size:18px;"></select></div></th>
                     <th></th>
                 </tr>
                 <tr>
                     <td>Product Type #1</td>
-                    <td colspan="2"><input type="text"></td>
+                    <td colspan="2"><input class='reqFieldIfSelected1' id="prodType1" type="text"></td>
                 </tr>
                 <tr>
                     <td>Model#</td>
-                    <td colspan="2"><input type="text"></td>
+                    <td colspan="2"><input class='reqFieldIfSelected1' id="modelNo1" type="text"></td>
                 </tr>
                 <tr>
                     <td>Serial#</td>
-                    <td colspan="2"><input type="text"></td>
+                    <td colspan="2"><input class='reqFieldIfSelected1' id="serialNo1" type="text"></td>
                 </tr>
                 <tr>
                     <td>Product purchase price</td>
-                    <td colspan="2"><div style="display:flex;width:100%"><label>$</label><input type="text" style="text-align:left"></div></td>
+                    <td colspan="2"><div style="display:flex;width:100%"><label>$</label><input class='reqFieldIfSelected1' name="priceField" id="price1"  type="number" min="0" step="0.01" style="text-align:left"></div></td>
                 </tr>
                 <tr>
                     <td>Purchase price of warranty / years</td>
-                    <td style="border-right:none"><div style="display:flex;width:100%"><label>$</label><input type="text" style="text-align:left"></div></td>
-                    <td style="border-left:none"><div style="display:flex;width:100%"><input type="text" style="text-align:right;width: 50px"><label>/ yrs</label></div></td>
+                    <td style="border-right:none"><div style="display:flex;width:100%"><label>$</label><input disabled type="text" id="warrantyPrice1" style="text-align:left"></div></td>
+                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength1" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv1" style="display:none;"><label for="lengthMenu1" style="font-size:14px;padding-left:20px;">Additional years:</label><select name="lengthMenu" id="lengthMenu1"></select></div></div></td>
                 </tr>
                 <tr>
                     <td>Comerco warranty code</td>
-                    <td colspan="2"><input type="text"></td>
+                    <td colspan="2"><input disabled id="warrantyCode1" type="text"></td>
                 </tr>
             </table>
             <br>
@@ -327,33 +576,33 @@
             <table>
                 <tr style="border:1px solid white">
                     <th></th>
-                    <th></th>
+                    <th><div class="no-print" style="display:inline-flex;"><label for="productMenu2">Choose Product Type:</label><select class="no-print" name="productMenu" id="productMenu2" style="font-size:18px;"></select></div></th>
                     <th></th>
                 </tr>
                 <tr>
                     <td>Product Type #2</td>
-                    <td colspan="2"><input type="text"></td>
+                    <td colspan="2"><input class='reqFieldIfSelected2' id="prodType2" type="text"></select></td>
                 </tr>
                 <tr>
                     <td>Model#</td>
-                    <td colspan="2"><input type="text"></td>
+                    <td colspan="2"><input class='reqFieldIfSelected2' id="modelNo2" type="text"></td>
                 </tr>
                 <tr>
                     <td>Serial#</td>
-                    <td colspan="2"><input type="text"></td>
+                    <td colspan="2"><input class='reqFieldIfSelected2' id="serialNo2" type="text"></td>
                 </tr>
                 <tr>
                     <td>Product purchase price</td>
-                    <td colspan="2"><div style="display:flex;width:100%"><label>$</label><input type="text" style="text-align:left"></div></td>
+                    <td colspan="2"><div style="display:flex;width:100%"><label>$</label><input class='reqFieldIfSelected2' name="priceField" id="price2" type="text" style="text-align:left"></div></td>
                 </tr>
                 <tr>
                     <td>Purchase price of warranty / years</td>
-                    <td style="border-right:none"><div style="display:flex;width:100%"><label>$</label><input type="text" style="text-align:left"></div></td>
-                    <td style="border-left:none"><div style="display:flex;width:100%"><input type="text" style="text-align:right;width: 50px"><label>/ yrs</label></div></td>
+                    <td style="border-right:none"><div style="display:flex;width:100%"><label>$</label><input disabled type="text" id="warrantyPrice2" style="text-align:left"></div></td>
+                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength2" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv2" style="display:none;"><label for="lengthMenu2" style="font-size:14px;padding-left:20px;">Additional years:</label><select name="lengthMenu" id="lengthMenu2"></select></div></div></td>
                 </tr>
                 <tr>
                     <td>Comerco warranty code</td>
-                    <td colspan="2"><input type="text"></td>
+                    <td colspan="2"><input disabled id="warrantyCode2" type="text"></td>
                 </tr>
             </table>        
             <br>
@@ -361,33 +610,33 @@
             <table>
                 <tr style="border:1px solid white">
                     <th></th>
-                    <th></th>
+                    <th><div class="no-print" style="display:inline-flex;"><label for="productMenu3">Choose Product Type:</label><select class="no-print" name="productMenu" id="productMenu3" style="font-size:18px;"></select></div></th>
                     <th></th>
                 </tr>
                 <tr>
                     <td>Product Type #3</td>
-                    <td colspan="2"><input type="text"></td>
+                    <td colspan="2"><input class='reqFieldIfSelected3' id="prodType3" type="text"></td>
                 </tr>
                 <tr>
                     <td>Model#</td>
-                    <td colspan="2"><input type="text"></td>
+                    <td colspan="2"><input class='reqFieldIfSelected3' id="modelNo3" type="text"></td>
                 </tr>
                 <tr>
                     <td>Serial#</td>
-                    <td colspan="2"><input type="text"></td>
+                    <td colspan="2"><input class='reqFieldIfSelected3' id="serialNo3" type="text"></td>
                 </tr>
                 <tr>
                     <td>Product purchase price</td>
-                    <td colspan="2"><div style="display:flex;width:100%"><label>$</label><input type="text" style="text-align:left"></div></td>
+                    <td colspan="2"><div style="display:flex;width:100%"><label>$</label><input class='reqFieldIfSelected3' name="priceField" id="price3" type="text" style="text-align:left"></div></td>
                 </tr>
                 <tr>
                     <td>Purchase price of warranty / years</td>
-                    <td style="border-right:none"><div style="display:flex;width:100%"><label>$</label><input type="text" style="text-align:left"></div></td>
-                    <td style="border-left:none"><div style="display:flex;width:100%"><input type="text" style="text-align:right;width: 50px"><label>/ yrs</label></div></td>
+                    <td style="border-right:none"><div style="display:flex;width:100%"><label>$</label><input disabled type="text" id="warrantyPrice3" style="text-align:left"></div></td>
+                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength3" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv3" style="display:none;"><label for="lengthMenu3" style="font-size:14px;padding-left:20px;">Additional years:</label><select name="lengthMenu" id="lengthMenu3"></select></div></div></td>
                 </tr>
                 <tr>
                     <td>Comerco warranty code</td>
-                    <td colspan="2"><input type="text"></td>
+                    <td colspan="2"><input disabled id="warrantyCode3" type="text"></td>
                 </tr>
             </table>            
         </form>
