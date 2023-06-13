@@ -79,6 +79,9 @@
                 text-align: center;
                 font-weight: bold;
             }
+            .priceField {
+                width: 15%;
+            }
 
             #customerPhone, #province, #postalCode {
                 background-color: pink;
@@ -89,14 +92,24 @@
             const warrantyYears = {};
             const applianceMinPrices = [300,400,900];
 
-            function getWarrantyPrice(selection, numYears, price, idNumber) {
+            function getWarrantyPrice(selection, numCombo, numYears, price, idNumber) {
                 var warrantyPrice;
                 var warrantyCode;
-                for (const x in warrantyDict[selection][numYears]) {
-                    if (price < warrantyDict[selection][numYears][x]['maxPrice']) {
-                        warrantyPrice = warrantyDict[selection][numYears][x]['warrantyPrice'];
-                        warrantyCode = x;
-                        break;
+                if (selection == 'appliances') {
+                    for (const x in warrantyDict[selection][numYears][numCombo]) {
+                        if (price < warrantyDict[selection][numYears][numCombo][x]['maxPrice']) {
+                            warrantyPrice = warrantyDict[selection][numYears][numCombo][x]['warrantyPrice'];
+                            warrantyCode = x;
+                            break;
+                        }
+                    }
+                } else {
+                    for (const x in warrantyDict[selection][numYears]) {
+                        if (price < warrantyDict[selection][numYears][x]['maxPrice']) {
+                            warrantyPrice = warrantyDict[selection][numYears][x]['warrantyPrice'];
+                            warrantyCode = x;
+                            break;
+                        }
                     }
                 }
 
@@ -107,7 +120,6 @@
                 document.getElementById(priceName).value = warrantyPrice;
                 document.getElementById(codeName).value = warrantyCode;
                 document.getElementById(lengthName).value = (selection == 'replacement' ? '' : '+') + numYears;
-
             }
 
             function calculatePrices() {
@@ -118,21 +130,18 @@
                     const yearDivName = "lengthDiv" + i;
                     const yearMenuName = "lengthMenu" + i;
                     const currentPrice = document.getElementById(priceFieldName).value ? Number(parseFloat(document.getElementById(priceFieldName).value.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]).toFixed(2)) : 0;
-                    if (selection != 'noProduct' && selection != 'appliances') {
+                    if (selection != 'noProduct') {
                         if (currentPrice == "") {
                             const old_element = document.getElementById(yearDivName);
                             const new_element = old_element.cloneNode(true);
                             old_element.parentNode.replaceChild(new_element, old_element);
                             document.getElementById(yearDivName).style.display = "none";
-                            // erase warranty price, erase years, erase warranty code
                         } else if (currentPrice < 300) {
                             const old_element = document.getElementById(yearMenuName);
                             const new_element = old_element.cloneNode(true);
                             old_element.parentNode.replaceChild(new_element, old_element);
                             document.getElementById(yearDivName).style.display = "none";
-                            if (selection != "appliances") {
-                                getWarrantyPrice("replacement",'2',currentPrice,i);
-                            }
+                            getWarrantyPrice("replacement",null,'2',currentPrice,i);
                         } else {
                             if (document.getElementById(yearDivName).style.display == "none") {
                                 var yearOptions = "";
@@ -147,59 +156,34 @@
                             }
                             const numYears = document.getElementById(yearMenuName).value;
                             if (selection != "appliances") {
-                                getWarrantyPrice(selection,numYears,currentPrice,i);
+                                getWarrantyPrice(selection,null,numYears,currentPrice,i);
                             }
                         }
                     }
                     if (selection == 'appliances') {
-                        if (document.getElementById(yearDivName).style.display != "none") {
+                        if (document.getElementById(yearMenuName).value) {
                             if (!(applianceWarrantyGroups[document.getElementById(yearMenuName).value])) {
                                 applianceWarrantyGroups[document.getElementById(yearMenuName).value] = {};
                             }
-                            applianceWarrantyGroups[document.getElementById(yearMenuName).value][i] = currentPrice;
-                        } else {
-                            if (!(applianceWarrantyGroups['UNKNOWN'])) {
-                                applianceWarrantyGroups['UNKNOWN'] = {};
+                            if (currentPrice >= 300) {
+                                applianceWarrantyGroups[document.getElementById(yearMenuName).value][i] = currentPrice;
+                            } else {
+                                delete applianceWarrantyGroups[document.getElementById(yearMenuName).value][i];
+                                if (Object.keys(applianceWarrantyGroups[document.getElementById(yearMenuName).value]).length == 0) {
+                                    delete applianceWarrantyGroups[document.getElementById(yearMenuName).value];
+                                }
                             }
-                            applianceWarrantyGroups['UNKNOWN'][i] = currentPrice;
                         }
                     }
                 }
-                // console.log(applianceWarrantyGroups);
                 for (const yearCat in applianceWarrantyGroups) {
-                    const currentYearLength = yearCat;
-                    var totalPrice = 0;
-                    for (const x in applianceWarrantyGroups[yearCat]) {
-                        totalPrice += applianceWarrantyGroups[yearCat][x];
+                    let yearCatPrice = 0;
+                    for (const idNumber in applianceWarrantyGroups[yearCat]) {
+                        yearCatPrice += applianceWarrantyGroups[yearCat][idNumber];
                     }
-                    // console.log(totalPrice);
-                    // console.log(Object.keys(applianceWarrantyGroups[yearCat]).length);
-                    if (Object.keys(applianceWarrantyGroups[yearCat]).length == 3) {
-                        if (totalPrice >= applianceMinPrices[2]) {
-                            // console.log('Give warranty prices for all objects');
-                        } else {
-                            var highestPrice = 0;
-                            for (let i = 1; i <= 3; i++) {
-                                for (let j = 2; j <= 3; j++) {
-                                    if (i < j) {
-                                        if (applianceWarrantyGroups[yearCat][i] && applianceWarrantyGroups[yearCat][j]) {
-                                            highestPrice = applianceWarrantyGroups[yearCat][i] + applianceWarrantyGroups[yearCat][j];
-                                        }
-                                    }
-                                }
-                            }
-                            if (highestPrice >= applianceMinPrices[1]) {
-                                // console.log("give warranty prices for items " + i + " and " + j);
-                            } else {
-                                for (let i = 1; i <= 3; i++) {
-                                    if (applianceWarrantyGroups[yearCat][i] >= applianceMinPrices[0]) {
-                                        // console.log("give warranty prices for item " + i);
-                                    }
-                                }
-                            }
-                        }
+                    for (const idNumber in applianceWarrantyGroups[yearCat]) {
+                        getWarrantyPrice('appliances',Object.keys(applianceWarrantyGroups[yearCat]).length,yearCat,yearCatPrice,idNumber);
                     }
-
                 }
             }
 
@@ -262,29 +246,6 @@
                             document.getElementById(priceName).value = "";
                             document.getElementById(codeName).value = "";
                             document.getElementById(lengthName).value = "";
-                            // TEMPORARY UNTIL APPLIANCE CODE WORKS
-                            document.getElementById(priceName).disabled = true;
-                            document.getElementById(codeName).disabled = true;
-                            document.getElementById(lengthName).disabled = true;
-                        } else if (event.target.options[event.target.selectedIndex].value == 'appliances') {
-                            for (let i = 0; i < reqFields.length; i++) {
-                                if (reqFields[i].value.length > 0) {
-                                    reqFields[i].style.backgroundColor = "white";
-                                } else {
-                                    reqFields[i].style.backgroundColor = "pink";
-                                }
-                                reqFields[i].disabled = false;
-                            }
-                            // TEMPORARY UNTIL APPLIANCE CODE WORKS
-                            const priceName = 'warrantyPrice' + idNumber;
-                            const codeName = 'warrantyCode' + idNumber;
-                            const lengthName = 'warrantyLength' + idNumber;
-                            document.getElementById(priceName).value = "";
-                            document.getElementById(codeName).value = "";
-                            document.getElementById(lengthName).value = "";
-                            document.getElementById(priceName).disabled = false;
-                            document.getElementById(codeName).disabled = false;
-                            document.getElementById(lengthName).disabled = false;
                         } else {
                             for (let i = 0; i < reqFields.length; i++) {
                                 if (reqFields[i].value.length > 0) {
@@ -294,21 +255,11 @@
                                 }
                                 reqFields[i].disabled = false;
                             }
-                            // TEMPORARY UNTIL APPLIANCE CODE WORKS
-                            const priceName = 'warrantyPrice' + idNumber;
-                            const codeName = 'warrantyCode' + idNumber;
-                            const lengthName = 'warrantyLength' + idNumber;
-                            document.getElementById(priceName).value = "";
-                            document.getElementById(codeName).value = "";
-                            document.getElementById(lengthName).value = "";
-                            document.getElementById(priceName).disabled = true;
-                            document.getElementById(codeName).disabled = true;
-                            document.getElementById(lengthName).disabled = true;
+                            const old_element = document.getElementById(yearMenuName);
+                            const new_element = old_element.cloneNode(true);
+                            old_element.parentNode.replaceChild(new_element, old_element);
+                            document.getElementById(yearDivName).style.display = "none";
                         }
-                        const old_element = document.getElementById(yearMenuName);
-                        const new_element = old_element.cloneNode(true);
-                        old_element.parentNode.replaceChild(new_element, old_element);
-                        document.getElementById(yearDivName).style.display = "none";
                         calculatePrices();
                     });
                 });
@@ -563,7 +514,7 @@
                 </tr>
                 <tr>
                     <td>Product purchase price</td>
-                    <td colspan="2"><div style="display:flex;width:100%"><label>$</label><input class='reqFieldIfSelected1' name="priceField" id="price1"  type="number" min="0" step="0.01" style="text-align:left"></div></td>
+                    <td colspan="2"><div style="display:flex;width:100%"><label>$</label><input class='reqFieldIfSelected1 priceField' name="priceField" id="price1"  type="number" min="0" step="0.01" style="text-align:left"></div></td>
                 </tr>
                 <tr>
                     <td>Purchase price of warranty / years</td>
@@ -597,7 +548,7 @@
                 </tr>
                 <tr>
                     <td>Product purchase price</td>
-                    <td colspan="2"><div style="display:flex;width:100%"><label>$</label><input class='reqFieldIfSelected2' name="priceField" id="price2" type="text" style="text-align:left"></div></td>
+                    <td colspan="2"><div style="display:flex;width:100%"><label>$</label><input class='reqFieldIfSelected2 priceField' name="priceField" id="price2" type="text" style="text-align:left"></div></td>
                 </tr>
                 <tr>
                     <td>Purchase price of warranty / years</td>
@@ -631,7 +582,7 @@
                 </tr>
                 <tr>
                     <td>Product purchase price</td>
-                    <td colspan="2"><div style="display:flex;width:100%"><label>$</label><input class='reqFieldIfSelected3' name="priceField" id="price3" type="text" style="text-align:left"></div></td>
+                    <td colspan="2"><div style="display:flex;width:100%"><label>$</label><input class='reqFieldIfSelected3 priceField' name="priceField" id="price3" type="text" style="text-align:left"></div></td>
                 </tr>
                 <tr>
                     <td>Purchase price of warranty / years</td>
