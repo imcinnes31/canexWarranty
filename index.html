@@ -132,14 +132,8 @@
                     const currentPrice = document.getElementById(priceFieldName).value ? Number(parseFloat(document.getElementById(priceFieldName).value.toString().match(/^-?\d+(?:\.\d{0,2})?/)[0]).toFixed(2)) : 0;
                     if (selection != 'noProduct') {
                         if (currentPrice == "") {
-                            const old_element = document.getElementById(yearDivName);
-                            const new_element = old_element.cloneNode(true);
-                            old_element.parentNode.replaceChild(new_element, old_element);
                             document.getElementById(yearDivName).style.display = "none";
                         } else if (currentPrice < 300) {
-                            const old_element = document.getElementById(yearMenuName);
-                            const new_element = old_element.cloneNode(true);
-                            old_element.parentNode.replaceChild(new_element, old_element);
                             document.getElementById(yearDivName).style.display = "none";
                             getWarrantyPrice("replacement",null,'2',currentPrice,i);
                         } else {
@@ -150,9 +144,6 @@
                                 }
                                 document.getElementById(yearMenuName).innerHTML = yearOptions;
                                 document.getElementById(yearDivName).style.display = "inline-flex";
-                                document.getElementById(yearMenuName).addEventListener('change', (event) => {
-                                    calculatePrices();
-                                });
                             }
                             const numYears = document.getElementById(yearMenuName).value;
                             if (selection != "appliances") {
@@ -255,9 +246,6 @@
                                 }
                                 reqFields[i].disabled = false;
                             }
-                            const old_element = document.getElementById(yearMenuName);
-                            const new_element = old_element.cloneNode(true);
-                            old_element.parentNode.replaceChild(new_element, old_element);
                             document.getElementById(yearDivName).style.display = "none";
                         }
                         calculatePrices();
@@ -519,7 +507,7 @@
                 <tr>
                     <td>Purchase price of warranty / years</td>
                     <td style="border-right:none"><div style="display:flex;width:100%"><label>$</label><input disabled type="text" id="warrantyPrice1" style="text-align:left"></div></td>
-                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength1" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv1" style="display:none;"><label for="lengthMenu1" style="font-size:14px;padding-left:20px;">Additional years:</label><select name="lengthMenu" id="lengthMenu1"></select></div></div></td>
+                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength1" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv1" style="display:none;"><label for="lengthMenu1" style="font-size:14px;padding-left:20px;">Additional years:</label><select onchange="calculatePrices()" name="lengthMenu" id="lengthMenu1"></select></div></div></td>
                 </tr>
                 <tr>
                     <td>Comerco warranty code</td>
@@ -553,7 +541,7 @@
                 <tr>
                     <td>Purchase price of warranty / years</td>
                     <td style="border-right:none"><div style="display:flex;width:100%"><label>$</label><input disabled type="text" id="warrantyPrice2" style="text-align:left"></div></td>
-                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength2" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv2" style="display:none;"><label for="lengthMenu2" style="font-size:14px;padding-left:20px;">Additional years:</label><select name="lengthMenu" id="lengthMenu2"></select></div></div></td>
+                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength2" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv2" style="display:none;"><label for="lengthMenu2" style="font-size:14px;padding-left:20px;">Additional years:</label><select onchange="calculatePrices()" name="lengthMenu" id="lengthMenu2"></select></div></div></td>
                 </tr>
                 <tr>
                     <td>Comerco warranty code</td>
@@ -587,7 +575,7 @@
                 <tr>
                     <td>Purchase price of warranty / years</td>
                     <td style="border-right:none"><div style="display:flex;width:100%"><label>$</label><input disabled type="text" id="warrantyPrice3" style="text-align:left"></div></td>
-                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength3" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv3" style="display:none;"><label for="lengthMenu3" style="font-size:14px;padding-left:20px;">Additional years:</label><select name="lengthMenu" id="lengthMenu3"></select></div></div></td>
+                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength3" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv3" style="display:none;"><label for="lengthMenu3" style="font-size:14px;padding-left:20px;">Additional years:</label><select onchange="calculatePrices()" name="lengthMenu" id="lengthMenu3"></select></div></div></td>
                 </tr>
                 <tr>
                     <td>Comerco warranty code</td>
