@@ -35,14 +35,17 @@
             .form1 {
                 display: flex;
                 width: 150px;
+                margin-bottom: 1px;
             }
             .form2 {
                 display: flex;
                 width: 325px;
+                margin-bottom: 1px;
             }
             .form3 {
                 display: flex;
                 width: 350px;
+                margin-bottom: 1px;
             }
             div input {
                 display: flex;
@@ -86,6 +89,26 @@
             #customerPhone, #province, #postalCode {
                 background-color: pink;
             }
+
+            .serialDiv {
+                width: 100%;
+                display: inline-flex;
+            }
+
+            .specOrderDiv {
+                display: none;
+                width: 20%;
+                border: 1px solid black;
+            }
+
+            .specOrderDiv input {
+                width: 20%;
+            }
+
+            .specOrderDiv label {
+                width: 80%;
+            }
+
         </style>
         <script src="warrantyCodes.js"></script>
         <script>
@@ -224,6 +247,8 @@
                         const yearDivName = "lengthDiv" + idNumber;
                         const yearMenuName = "lengthMenu" + idNumber;
                         const reqFieldName = "reqFieldIfSelected" + idNumber;
+                        const specOrderName = "specOrderDiv" + idNumber;
+                        const specOrderCheckName = "specOrderCheck" + idNumber;
                         const reqFields = document.getElementsByClassName(reqFieldName);
                         if (event.target.options[event.target.selectedIndex].value == 'noProduct') {
                             for (let i = 0; i < reqFields.length; i++) {
@@ -237,6 +262,7 @@
                             document.getElementById(priceName).value = "";
                             document.getElementById(codeName).value = "";
                             document.getElementById(lengthName).value = "";
+                            document.getElementById(specOrderName).style.display = "none";
                         } else {
                             for (let i = 0; i < reqFields.length; i++) {
                                 if (reqFields[i].value.length > 0) {
@@ -247,6 +273,8 @@
                                 reqFields[i].disabled = false;
                             }
                             document.getElementById(yearDivName).style.display = "none";
+                            document.getElementById(specOrderName).style.display = "inline-flex";
+                            document.getElementById(specOrderCheckName).checked = false;
                         }
                         calculatePrices();
                     });
@@ -498,7 +526,27 @@
                 </tr>
                 <tr>
                     <td>Serial#</td>
-                    <td colspan="2"><input class='reqFieldIfSelected1' id="serialNo1" type="text"></td>
+                    <td colspan="2">
+                        <div class="serialDiv">
+                            <input class='reqFieldIfSelected1' id="serialNo1" type="text">
+                            <div class='specOrderDiv no-print' id='specOrderDiv1' style="border:1px solid black;">
+                                <input type="checkbox" id="specOrderCheck1" onclick="
+                                    currentSerial = 'serialNo' + this.id.replace('specOrderCheck','');
+                                    if (this.checked) {
+                                        document.getElementById(currentSerial).value = '***SPECIAL ORDER***';
+                                        document.getElementById(currentSerial).disabled = true;
+                                        document.getElementById(currentSerial).style.backgroundColor = 'white';
+
+                                    } else {
+                                        document.getElementById(currentSerial).value = '';
+                                        document.getElementById(currentSerial).disabled = false;
+                                        document.getElementById(currentSerial).style.backgroundColor = 'pink';
+                                    }
+                                ">
+                                <label for="specOrderCheck1">Special Order</label>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td>Product purchase price</td>
@@ -532,7 +580,27 @@
                 </tr>
                 <tr>
                     <td>Serial#</td>
-                    <td colspan="2"><input class='reqFieldIfSelected2' id="serialNo2" type="text"></td>
+                    <td colspan="2">
+                        <div class="serialDiv">
+                            <input class='reqFieldIfSelected2' id="serialNo2" type="text">
+                            <div class='specOrderDiv no-print' id='specOrderDiv2' style="border:1px solid black;">
+                                <input type="checkbox" id="specOrderCheck2" onclick="
+                                    currentSerial = 'serialNo' + this.id.replace('specOrderCheck','');
+                                    if (this.checked) {
+                                        document.getElementById(currentSerial).value = '***SPECIAL ORDER***';
+                                        document.getElementById(currentSerial).disabled = true;
+                                        document.getElementById(currentSerial).style.backgroundColor = 'white';
+
+                                    } else {
+                                        document.getElementById(currentSerial).value = '';
+                                        document.getElementById(currentSerial).disabled = false;
+                                        document.getElementById(currentSerial).style.backgroundColor = 'pink';
+                                    }
+                                ">
+                                <label for="specOrderCheck2">Special Order</label>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td>Product purchase price</td>
@@ -566,7 +634,27 @@
                 </tr>
                 <tr>
                     <td>Serial#</td>
-                    <td colspan="2"><input class='reqFieldIfSelected3' id="serialNo3" type="text"></td>
+                    <td colspan="2">
+                        <div class="serialDiv">
+                            <input class='reqFieldIfSelected3' id="serialNo3" type="text">
+                            <div class='specOrderDiv no-print' id='specOrderDiv3' style="border:1px solid black;">
+                                <input type="checkbox" id="specOrderCheck3" onclick="
+                                    currentSerial = 'serialNo' + this.id.replace('specOrderCheck','');
+                                    if (this.checked) {
+                                        document.getElementById(currentSerial).value = '***SPECIAL ORDER***';
+                                        document.getElementById(currentSerial).disabled = true;
+                                        document.getElementById(currentSerial).style.backgroundColor = 'white';
+
+                                    } else {
+                                        document.getElementById(currentSerial).value = '';
+                                        document.getElementById(currentSerial).disabled = false;
+                                        document.getElementById(currentSerial).style.backgroundColor = 'pink';
+                                    }
+                                ">
+                                <label for="specOrderCheck3">Special Order</label>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td>Product purchase price</td>

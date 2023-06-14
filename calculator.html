@@ -131,7 +131,18 @@
                         warrantyYears = 2;
                     }
                     if (productType == 'appliances') {
-                        if (numAppliances > 0 && numAppliances < 4) {
+                        var appliancePriceTooLow = false;
+                        for (const x in fixedPrices) {
+                            if (fixedPrices[x] < 300) {
+                                appliancePriceTooLow = true;
+                                break;
+                            }
+                        }
+                        if (appliancePriceTooLow) {
+                            document.getElementById('warrantyListDiv').innerHTML = 
+                            '<p style="color:red;">The appliance combo cannot include items that are under $300. Get replacement plans on those instead.</p>';
+                            document.getElementById('warrantyListDiv').style.display = 'block';
+                        } else if (numAppliances > 0 && numAppliances < 4) {
                             if (pricesEntered < minAppliancePrice[numAppliances - 1]) {
                                 document.getElementById('warrantyListDiv').innerHTML = 
                                     '<p style="color:red;">The ' + numAppliances + ' appliance warranty combo is not available for total prices under $' + minAppliancePrice[numAppliances - 1] + '. Try individual warranties for each instead.</p>';
