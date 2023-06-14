@@ -263,6 +263,8 @@
                             document.getElementById(codeName).value = "";
                             document.getElementById(lengthName).value = "";
                             document.getElementById(specOrderName).style.display = "none";
+                            document.getElementById(yearDivName).style.display = "none";
+                            document.getElementById(specOrderCheckName).checked = false;
                         } else {
                             for (let i = 0; i < reqFields.length; i++) {
                                 if (reqFields[i].value.length > 0) {
@@ -274,7 +276,6 @@
                             }
                             document.getElementById(yearDivName).style.display = "none";
                             document.getElementById(specOrderName).style.display = "inline-flex";
-                            document.getElementById(specOrderCheckName).checked = false;
                         }
                         calculatePrices();
                     });
