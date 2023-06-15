@@ -147,7 +147,7 @@
                 }
 
                 document.querySelectorAll('.reqField').forEach(field => { 
-                    if (field.value.length == 0) {
+                    if (field.value.trim().length == 0) {
                         field.style.backgroundColor = "pink";
                     } else {
                         field.style.backgroundColor = "white";
@@ -175,10 +175,10 @@
                             const description = event.target.options[event.target.selectedIndex].innerHTML;
                             document.getElementById(targetDescName).value = description;
                             document.getElementById(targetCodeName).value = warrantyDict['apple'][category][description.replace("AppleCare+ ", "")]['code'];
-                            if (document.getElementById(targetModelName).value.length == 0) {
+                            if (document.getElementById(targetModelName).value.trim().length == 0) {
                                 document.getElementById(targetModelName).style.backgroundColor = 'pink';
                             }
-                            if (document.getElementById(targetSerialName).value.length == 0) {
+                            if (document.getElementById(targetSerialName).value.trim().length == 0) {
                                 document.getElementById(targetSerialName).style.backgroundColor = 'pink';
                             }
                         }
@@ -198,7 +198,7 @@
                     field.addEventListener("keyup", (event) => {
                         targetNumber = event.target.id.replace('applecareModel','');
                         targetMenuName = 'applecareDescMenu' + targetNumber;
-                        if (event.target.value.length == 0 && document.getElementById(targetMenuName).value != "None") {
+                        if (event.target.value.trim().length == 0 && document.getElementById(targetMenuName).value != "None") {
                             event.target.style.backgroundColor = 'pink';
                         } else {
                             event.target.style.backgroundColor = 'white';
@@ -208,7 +208,7 @@
 
                 document.querySelectorAll('.reqField').forEach(field => { 
                     field.addEventListener("keyup", (event) => {
-                        if (event.target.value.length == 0) {
+                        if (event.target.value.trim().length == 0) {
                             event.target.style.backgroundColor = "pink";
                         } else {
                             event.target.style.backgroundColor = "white";
@@ -229,7 +229,7 @@
                     field.addEventListener("keyup", (event) => {
                         targetNumber = event.target.id.replace('applecareSerial','');
                         targetMenuName = 'applecareDescMenu' + targetNumber;
-                        if (event.target.value.length == 0 && document.getElementById(targetMenuName).value != "None") {
+                        if (event.target.value.trim().length == 0 && document.getElementById(targetMenuName).value != "None") {
                             event.target.style.backgroundColor = 'pink';
                         } else {
                             event.target.style.backgroundColor = 'white';
@@ -337,7 +337,7 @@
                             document.getElementById(currentSerial).value = "***SPECIAL ORDER***";
                             document.getElementById(currentSerial).disabled = true;
                             document.getElementById(currentSerial).style.backgroundColor = "white";
-                            if (document.getElementById("specPONumber").value.length == 0) {
+                            if (document.getElementById("specPONumber").value.trim().length == 0) {
                                 document.getElementById("specPONumber").style.backgroundColor = "pink";
                             } else {
                                 document.getElementById("specPONumber").style.backgroundColor = "white";
@@ -358,7 +358,7 @@
                             if (specOrderChecked == false) {
                                 document.getElementById("specPONumber").style.backgroundColor = "white";
                                 document.getElementById("specPONumber").value = "";
-                            } else if (document.getElementById("specPONumber").value.length == 0) {
+                            } else if (document.getElementById("specPONumber").value.trim().length == 0) {
                                 document.getElementById("specPONumber").style.backgroundColor = "pink";
                             }
                         }
@@ -366,7 +366,7 @@
                 });
 
                 document.getElementById("specPONumber").addEventListener("keyup", (event) => {
-                    if (event.target.value.length == 0) {
+                    if (event.target.value.trim().length == 0) {
                         let specOrderChecked = false;
                         for (let i = 1; i <= 3; i++) {
                             if (document.getElementById("soCheck" + i).checked == true) {

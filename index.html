@@ -267,7 +267,7 @@
                             document.getElementById(specOrderCheckName).checked = false;
                         } else {
                             for (let i = 0; i < reqFields.length; i++) {
-                                if (reqFields[i].value.length > 0) {
+                                if (reqFields[i].value.trim().length > 0) {
                                     reqFields[i].style.backgroundColor = "white";
                                 } else {
                                     reqFields[i].style.backgroundColor = "pink";
@@ -290,7 +290,7 @@
                         reqFields[j].disabled = true;
                         reqFields[j].addEventListener('keyup', (event) => {
                             if (typeMenu.options[typeMenu.selectedIndex].value != 'noProduct') {
-                                if (reqFields[j].value.length > 0) {
+                                if (reqFields[j].value.trim().length > 0) {
                                     reqFields[j].style.backgroundColor = "white";
                                 } else {
                                     reqFields[j].style.backgroundColor = "pink";
@@ -321,13 +321,13 @@
                 });
 
                 document.querySelectorAll('.reqField').forEach(field => { 
-                    if (field.value.length == 0) {
+                    if (field.value.trim().length == 0) {
                         field.style.backgroundColor = "pink";
                     } else {
                         field.style.backgroundColor = "white";
                     }
                     field.addEventListener("keyup", (event) => {
-                        if (event.target.value.length == 0) {
+                        if (event.target.value.trim().length == 0) {
                             event.target.style.backgroundColor = "pink";
                         } else {
                             event.target.style.backgroundColor = "white";
@@ -342,7 +342,7 @@
                         }
                     });
                     field.addEventListener("input", (event) => {
-                        if (field.value.length > 0) {
+                        if (field.value.trim().length > 0) {
                             calculatePrices();
                         } else {
                             const idNumber = field.id.replace("price","");
