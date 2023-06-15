@@ -109,6 +109,10 @@
                 border: 1px solid black;
             }
 
+            .alwaysUpperCase {
+                text-transform: uppercase;
+            }
+
         </style>
         <script src="warrantyCodes.js"></script>
         <script>
@@ -422,9 +426,9 @@
             </tr>
             <tr class="inputRow">
                 <td class="col1">Apple Device Model Number</td>
-                <td class="col2"><input id="applecareModel1" name="applecareModel" type="text"></td>
+                <td class="col2"><input class="alwaysUpperCase" id="applecareModel1" name="applecareModel" type="text"></td>
                 <td class="col3">Apple Device Serial Number</td>
-                <td class="col4" colspan="4"><input id="applecareSerial1" name="applecareSerial" type="text"><div class="soCheckDiv no-print"><label for="soCheck1">Special Order</label><input type="checkbox" name="soCheckbox" id="soCheck1"></div></td>             
+                <td class="col4" colspan="4"><input class="alwaysUpperCase" id="applecareSerial1" name="applecareSerial" type="text"><div class="soCheckDiv no-print"><label for="soCheck1">Special Order</label><input type="checkbox" name="soCheckbox" id="soCheck1"></div></td>             
             </tr>
             <tr class="inputRow">
                 <td class="col1">Apple Care Model Number</td>
@@ -433,6 +437,7 @@
                 <td class="col4" colspan="4">
                     <div style="display:inline;">
                         <input id="applecareDesc1" type="text" disabled="true">
+                        <label class="no-print" for="applecareDescMenu1">Select device:</label>
                         <select class="no-print" name="applecareDescMenu" id="applecareDescMenu1" style="width:20px;"></select>
                     </div>
                 </td>             
@@ -442,9 +447,9 @@
             </tr>
             <tr class="inputRow">
                 <td class="col1">Apple Device Model Number</td>
-                <td class="col2"><input id="applecareModel2" name="applecareModel" type="text"></td>
+                <td class="col2"><input class="alwaysUpperCase" id="applecareModel2" name="applecareModel" type="text"></td>
                 <td class="col3">Apple Device Serial Number</td>
-                <td class="col4" colspan="4"><input id="applecareSerial2" name="applecareSerial" type="text"><div class="soCheckDiv no-print"><label for="soCheck2">Special Order</label><input type="checkbox" name="soCheckbox" id="soCheck2"></div></td>             
+                <td class="col4" colspan="4"><input class="alwaysUpperCase" id="applecareSerial2" name="applecareSerial" type="text"><div class="soCheckDiv no-print"><label for="soCheck2">Special Order</label><input type="checkbox" name="soCheckbox" id="soCheck2"></div></td>             
             </tr>
             <tr class="inputRow">
                 <td class="col1">Apple Care Model Number</td>
@@ -453,6 +458,7 @@
                 <td class="col4" colspan="4">
                     <div style="display:inline;">
                         <input id="applecareDesc2" type="text" disabled="true">
+                        <label class="no-print" for="applecareDescMenu2">Select device:</label>
                         <select class="no-print" name="applecareDescMenu" id="applecareDescMenu2" style="width:20px;"></select>
                     </div>
                 </td>             
@@ -462,9 +468,9 @@
             </tr>
             <tr class="inputRow">
                 <td class="col1">Apple Device Model Number</td>
-                <td class="col2"><input id="applecareModel3" name="applecareModel" type="text"></td>
+                <td class="col2"><input class="alwaysUpperCase" id="applecareModel3" name="applecareModel" type="text"></td>
                 <td class="col3">Apple Device Serial Number</td>
-                <td class="col4" colspan="4"><input id="applecareSerial3" name="applecareSerial" type="text"><div class="soCheckDiv no-print"><label for="soCheck3">Special Order</label><input type="checkbox" name="soCheckbox" id="soCheck3"></div></td>             
+                <td class="col4" colspan="4"><input class="alwaysUpperCase" id="applecareSerial3" name="applecareSerial" type="text"><div class="soCheckDiv no-print"><label for="soCheck3">Special Order</label><input type="checkbox" name="soCheckbox" id="soCheck3"></div></td>             
             </tr>
             <tr class="inputRow">
                 <td class="col1">Apple Care Model Number</td>
@@ -473,6 +479,7 @@
                 <td class="col4" colspan="4">
                     <div style="display:inline;">
                         <input id="applecareDesc3" type="text" disabled="true">
+                        <label class="no-print" for="applecareDescMenu3">Select device:</label>
                         <select class="no-print" name="applecareDescMenu" id="applecareDescMenu3" style="width:20px;"></select>
                     </div>
                 </td>             
