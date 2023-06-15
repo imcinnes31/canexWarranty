@@ -337,7 +337,7 @@
 
                 document.getElementsByName('priceField').forEach(field => {
                     field.addEventListener("keydown", (event) => {
-                        if ((event.key == ' ' || !(isFinite(event.key))) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46) {
+                        if ((event.key == ' ' || !(isFinite(event.key))) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 9) {
                             event.preventDefault();
                         }
                     });
@@ -357,7 +357,9 @@
                 });
 
                 document.getElementById("warrantyDate").addEventListener("keydown", (event) => {
-                    event.preventDefault();
+                    if (event.keyCode != 9) {
+                        event.preventDefault();
+                    }
                     var currentDate = document.getElementById("warrantyDate").value;
                     if (event.keyCode == 46) {
                         document.getElementById("warrantyDate").value = " /  / ";
@@ -391,7 +393,9 @@
                 });
 
                 document.getElementById("customerPhone").addEventListener("keydown", (event) => {
-                    event.preventDefault();
+                    if (event.keyCode != 9) {
+                        event.preventDefault();
+                    }
                     var currentPhone = document.getElementById("customerPhone").value;
                     if (event.keyCode == 46) {
                         document.getElementById("customerPhone").value = "(  )  -  ";
@@ -421,7 +425,9 @@
                 });
 
                 document.getElementById("postalCode").addEventListener("keydown", (event) => {
-                    event.preventDefault();
+                    if (event.keyCode != 9) {
+                        event.preventDefault();
+                    }
                     var currentPostal = document.getElementById("postalCode").value;
                     if (event.keyCode == 46) {
                         document.getElementById("postalCode").value = " ";
@@ -499,7 +505,7 @@
                 <div class="form3">
                     <label>Province</label>
                     <input type="text" id="province" disabled="true">
-                    <select id="provinceMenu" class="no-print">
+                    <select id="provinceMenu" class="no-print" tabindex="-1">
     
                     </select>    
                 </div>
@@ -514,7 +520,7 @@
             <table>
                 <tr class="no-print" style="border:1px solid white">
                     <th></th>
-                    <th><div class="no-print" style="display:inline-flex;"><label for="productMenu1">Choose Product Type:</label><select class="no-print" name="productMenu" id="productMenu1" style="font-size:18px;"></select></div></th>
+                    <th><div class="no-print" style="display:inline-flex;"><label for="productMenu1">Choose Product Type:</label><select class="no-print" name="productMenu" id="productMenu1" style="font-size:18px;" tabindex="-1"></select></div></th>
                     <th></th>
                 </tr>
                 <tr>
@@ -556,7 +562,7 @@
                 <tr>
                     <td>Purchase price of warranty / years</td>
                     <td style="border-right:none"><div style="display:flex;width:100%"><label>$</label><input disabled type="text" id="warrantyPrice1" style="text-align:left"></div></td>
-                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength1" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv1" style="display:none;"><label for="lengthMenu1" style="font-size:14px;padding-left:20px;">Additional years:</label><select onchange="calculatePrices()" name="lengthMenu" id="lengthMenu1"></select></div></div></td>
+                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength1" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv1" style="display:none;"><label for="lengthMenu1" style="font-size:14px;padding-left:20px;">Additional years:</label><select onchange="calculatePrices()" name="lengthMenu" id="lengthMenu1" tabindex="-1"></select></div></div></td>
                 </tr>
                 <tr>
                     <td>Comerco warranty code</td>
@@ -568,7 +574,7 @@
             <table>
                 <tr class="no-print" style="border:1px solid white">
                     <th></th>
-                    <th><div class="no-print" style="display:inline-flex;"><label for="productMenu2">Choose Product Type:</label><select class="no-print" name="productMenu" id="productMenu2" style="font-size:18px;"></select></div></th>
+                    <th><div class="no-print" style="display:inline-flex;"><label for="productMenu2">Choose Product Type:</label><select class="no-print" name="productMenu" id="productMenu2" tabindex="-1" style="font-size:18px;"></select></div></th>
                     <th></th>
                 </tr>
                 <tr>
@@ -610,7 +616,7 @@
                 <tr>
                     <td>Purchase price of warranty / years</td>
                     <td style="border-right:none"><div style="display:flex;width:100%"><label>$</label><input disabled type="text" id="warrantyPrice2" style="text-align:left"></div></td>
-                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength2" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv2" style="display:none;"><label for="lengthMenu2" style="font-size:14px;padding-left:20px;">Additional years:</label><select onchange="calculatePrices()" name="lengthMenu" id="lengthMenu2"></select></div></div></td>
+                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength2" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv2" style="display:none;"><label for="lengthMenu2" style="font-size:14px;padding-left:20px;">Additional years:</label><select onchange="calculatePrices()" name="lengthMenu" id="lengthMenu2" tabindex="-1"></select></div></div></td>
                 </tr>
                 <tr>
                     <td>Comerco warranty code</td>
@@ -622,7 +628,7 @@
             <table>
                 <tr class="no-print" style="border:1px solid white">
                     <th></th>
-                    <th><div class="no-print" style="display:inline-flex;"><label for="productMenu3">Choose Product Type:</label><select class="no-print" name="productMenu" id="productMenu3" style="font-size:18px;"></select></div></th>
+                    <th><div class="no-print" style="display:inline-flex;"><label for="productMenu3">Choose Product Type:</label><select class="no-print" name="productMenu" id="productMenu3" tabindex="-1" style="font-size:18px;"></select></div></th>
                     <th></th>
                 </tr>
                 <tr>
@@ -664,7 +670,7 @@
                 <tr>
                     <td>Purchase price of warranty / years</td>
                     <td style="border-right:none"><div style="display:flex;width:100%"><label>$</label><input disabled type="text" id="warrantyPrice3" style="text-align:left"></div></td>
-                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength3" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv3" style="display:none;"><label for="lengthMenu3" style="font-size:14px;padding-left:20px;">Additional years:</label><select onchange="calculatePrices()" name="lengthMenu" id="lengthMenu3"></select></div></div></td>
+                    <td style="border-left:none"><div style="display:flex;width:100%"><input disabled id="warrantyLength3" type="text" style="text-align:right;width: 50px"><label>/ yrs</label><div class="no-print" id="lengthDiv3" style="display:none;"><label for="lengthMenu3" style="font-size:14px;padding-left:20px;">Additional years:</label><select onchange="calculatePrices()" name="lengthMenu" id="lengthMenu3" tabindex="-1"></select></div></div></td>
                 </tr>
                 <tr>
                     <td>Comerco warranty code</td>

@@ -238,7 +238,9 @@
                 });
 
                 document.getElementById("appleCareDate").addEventListener("keydown", (event) => {
-                    event.preventDefault();
+                    if (event.keyCode != 9) {
+                        event.preventDefault();
+                    }
                     var currentDate = document.getElementById("appleCareDate").value;
                     if (event.keyCode == 46) {
                         document.getElementById("appleCareDate").value = " /  / ";
@@ -272,7 +274,9 @@
                 });
 
                 document.getElementById("receivedDate").addEventListener("keydown", (event) => {
-                    event.preventDefault();
+                    if (event.keyCode != 9) {
+                        event.preventDefault();
+                    }
                     var recDate = document.getElementById("receivedDate").value;
                     if (event.keyCode == 46) {
                         document.getElementById("receivedDate").value = " /  / ";
@@ -295,7 +299,9 @@
                 });
 
                 document.getElementById("customerPhone").addEventListener("keydown", (event) => {
-                    event.preventDefault();
+                    if (event.keyCode != 9) {
+                        event.preventDefault();
+                    }
                     var currentPhone = document.getElementById("customerPhone").value;
                     if (event.keyCode == 46) {
                         document.getElementById("customerPhone").value = "(  )  -  ";
@@ -438,7 +444,7 @@
                     <div style="display:inline;">
                         <input id="applecareDesc1" type="text" disabled="true">
                         <label class="no-print" for="applecareDescMenu1">Select Device:</label>
-                        <select class="no-print" name="applecareDescMenu" id="applecareDescMenu1" style="width:20px;"></select>
+                        <select class="no-print" name="applecareDescMenu" id="applecareDescMenu1" tabindex="-1" style="width:20px;"></select>
                     </div>
                 </td>             
             </tr>
@@ -459,7 +465,7 @@
                     <div style="display:inline;">
                         <input id="applecareDesc2" type="text" disabled="true">
                         <label class="no-print" for="applecareDescMenu2">Select Device:</label>
-                        <select class="no-print" name="applecareDescMenu" id="applecareDescMenu2" style="width:20px;"></select>
+                        <select class="no-print" name="applecareDescMenu" id="applecareDescMenu2" tabindex="-1" style="width:20px;"></select>
                     </div>
                 </td>             
             </tr>
@@ -480,7 +486,7 @@
                     <div style="display:inline;">
                         <input id="applecareDesc3" type="text" disabled="true">
                         <label class="no-print" for="applecareDescMenu3">Select Device:</label>
-                        <select class="no-print" name="applecareDescMenu" id="applecareDescMenu3" style="width:20px;"></select>
+                        <select class="no-print" name="applecareDescMenu" id="applecareDescMenu3" tabindex="-1" style="width:20px;"></select>
                     </div>
                 </td>             
             </tr>
