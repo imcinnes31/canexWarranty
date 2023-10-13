@@ -234,12 +234,15 @@
                                 str.splice(e.target.selectionStart - 1, 1);
                                 str = str.join('');
                                 event.target.value = str;
-                            } else if ((document.getElementById("priceInput").value.match(/,/g) || []).length == 3) {
+                            } 
+                            /*
+                            else if ((document.getElementById("priceInput").value.match(/,/g) || []).length == 3) {
                                 let str = event.target.value.split('');
                                 str.splice(e.target.selectionStart - 1, 1);
                                 str = str.join('');
                                 event.target.value = str;
                             }
+                            */
                         }
                         const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                         if (pricesEntered < 300) {
