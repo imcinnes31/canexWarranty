@@ -143,6 +143,9 @@
                             '<p style="color:red;">The appliance combo cannot include items that are under $300. Get replacement plans on those instead.</p>';
                             document.getElementById('warrantyListDiv').style.display = 'block';
                         } else if (numAppliances > 0) {
+                            if (numAppliances > 3) {
+                                numAppliances = 3;
+                            }
                             if (pricesEntered < minAppliancePrice[numAppliances - 1]) {
                                 document.getElementById('warrantyListDiv').innerHTML = 
                                     '<p style="color:red;">The ' + numAppliances + ' appliance warranty combo is not available for total prices under $' + minAppliancePrice[numAppliances - 1] + '. Try individual warranties for each instead.</p>';
@@ -345,7 +348,7 @@
     </head>
     <body>
         <h1>Warranty Calculator</h1>
-        <h3></h3>
+        <h3>1</h3>
         <!-- <div><input id="typeMobile" type="text" style="background-color: chartreuse;"></input><p id="typeResult"></p><p id="typeResult2"></p></div> -->
 
         <div>
