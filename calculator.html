@@ -275,9 +275,10 @@
                     if (keyCode != 0 && keyCode != 229) { 
                         if (!(isFinite(event.key)) && !(document.getElementById('product').value == 'appliances' && event.key == ',') && event.key != '.' && event.keyCode != 46 && event.keyCode != 8) {
                             event.preventDefault();
-                        } else if (event.key == ',' && (document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
-                            event.preventDefault();
-                        }
+                        } 
+                        // else if (event.key == ',' && (document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
+                        //     event.preventDefault();
+                        // }
                     }
                 });
 
