@@ -263,12 +263,15 @@ const warrantyDict = {
 			"14in MacBook M2" : {code: "SGAQ2Z/A", price: 299.99, totalYears: 3},
 			"16in MacBook Pro M2" : {code: "SGCT2Z/A", price: 419.99, totalYears: 3},
 			"Mac Mini M2" : {code: "SGQQ2Z/A", price: 119.99, totalYears: 3},
+			"14in MacBook Pro M3" : {code: "SL9K2Z/A", price: 379.99, totalYears: 3},
+			"14in MacBook Pro M3 Pro/Max" : {code: "SL9L2Z/A", price: 379.99, totalYears: 3},
+			"16in MacBook Pro M3" : {code: "SL9M2Z/A", price: 529.99, totalYears: 3},
+			"iMac M3" : {code: "SLA62Z/A", price: 229.99, totalYears: 3},
 		},
 		"IPad": {
 			"iPad 9th gen" : {code: "SCM32Z/A", price: 79.99, totalYears: 2},
 			"iPad mini 6th gen" : {code: "SCLH2Z/A", price: 79.99, totalYears: 2},
 			"iPad Air 10.9in 4th gen" : {code: "S8622Z/A", price: 79.99, totalYears: 2},
-			"10.2in ipad Pro 9th gen" : {code: "SCM32Z/A", price: 79.99, totalYears: 2},
 			"10.5in ipad Pro" : {code: "S8402Z/A", price: 139.99, totalYears: 2},
 			"11in ipad Pro" : {code: "S8403Z/A", price: 149.99, totalYears: 2},
 			"12.9in ipad Pro 4th gen" : {code: "S8404Z/A", price: 139.99, totalYears: 2},
@@ -289,7 +292,11 @@ const warrantyDict = {
 			"Apple Watch Series 8 Aluminum" : {code: "SG1L2Z/A", price: 99.99, totalYears: 2},
 			"Apple Watch SE 2nd gen" : {code: "SG282Z/A", price: 65.99, totalYears: 2},
 			"Apple Watch Series 8 Stainless" : {code: "SG2L2Z/A", price: 99.99, totalYears: 2},
-			"Apple Watch Ultra Titanium" : {code: "SG2U2Z/A", price: 129.99, totalYears: 2},    
+			"Apple Watch Ultra Titanium" : {code: "SG2U2Z/A", price: 129.99, totalYears: 2}, 
+			"Apple Watch Series 9 Aluminum" : {code: "SJXC2Z/A", price: 99.99, totalYears: 2},
+			"Apple Watch Ultra 2" : {code: "SJXD2Z/A", price: 129.99, totalYears: 2},
+			"Apple Watch HERMES Series 9" : {code: "SJXE2Z/A", price: 129.99, totalYears: 2},
+			"Apple Watch Series 9 Stainless" : {code: "SJY32Z/A", price: 99.99, totalYears: 2},
 		}
 	}
 }
