@@ -47,11 +47,12 @@
             }
         </style>
         <script src="warrantyCodes.js"></script>
+        <script src="http://cdn.jsdelivr.net/npm/jsbarcode@3.8.0/dist/JsBarcode.all.min.js"></script>
         <script>
             const adminFees = [0,3,5];
             const minAppliancePrice = [300,400,900];
 
-            function makeWarrantyTable(type,code,length,price) {
+            function makeWarrantyTable(type,code,length,price,barcodeNum) {
                 var warrantyDisplay = '';
                 var program = 'SPP';
                 if (type == "replacement") {
@@ -82,6 +83,8 @@
                 }
                 document.getElementById('warrantyListDiv').innerHTML = warrantyDisplay;
                 document.getElementById('warrantyListDiv').style.display = 'block';
+                document.getElementById('barcode').style.display = 'block';
+                JsBarcode('#barcode', 1234567);
             }
 
             document.addEventListener('DOMContentLoaded', function () {
@@ -156,7 +159,8 @@
                                         const currentCode = x;
                                         const currentLength = warrantyYears;
                                         const currentPrice = warrantyDict[productType][warrantyYears][numAppliances][x]['warrantyPrice'];
-                                        makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
+                                        const currentBarcode = warrantyDict[productType][warrantyYears][numAppliances][x]['barcodeNum'];
+                                        makeWarrantyTable(productType,currentCode,currentLength,currentPrice,currentBarcode);
                                         break;
                                     }
                                 }
@@ -168,6 +172,7 @@
                                 const currentCode = x;
                                 const currentLength = warrantyYears;
                                 const currentPrice = warrantyDict[productType][warrantyYears][x]['warrantyPrice'];
+                                const currentBarcode = warrantyDict[productType][warrantyYears][x]['barcodeNum'];
                                 makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
                                 break;
                             }
@@ -178,6 +183,7 @@
 
                 document.getElementById("yearsLength").addEventListener("change", (event) => {
                     document.getElementById('warrantyListDiv').style.display = 'none';
+                    document.getElementById('barcode').style.display = 'none';
                 });
 
                 document.getElementById("product").addEventListener("change", (event) => {
@@ -189,6 +195,7 @@
                         document.getElementById('buttonDiv').style.display = 'none';
                         document.getElementById('appleItem').value = 'none';
                         document.getElementById('warrantyListDiv').style.display = 'none';
+                        document.getElementById('barcode').style.display = 'none';
                     } else {
                         document.getElementById('appleDiv').style.display = 'none';
                         document.getElementById('priceDiv').style.display = 'block';
@@ -210,6 +217,7 @@
                             document.getElementById('buttonDiv').style.display = 'block';
                         }
                         document.getElementById('warrantyListDiv').style.display = 'none';
+                        document.getElementById('barcode').style.display = 'none';
                     }
                 });
 
@@ -218,7 +226,8 @@
                     const currentCode = currentProduct['code'];
                     const currentLength = currentProduct['totalYears'];
                     const currentPrice = currentProduct['price'];
-                    makeWarrantyTable('apple',currentCode,currentLength,currentPrice);
+                    const currentBarcode = currentProduct['barcodeNum'];
+                    makeWarrantyTable('apple',currentCode,currentLength,currentPrice,currentBarcode);
                 });
 
                 document.getElementById("priceInput").addEventListener('keyup', e => {
@@ -259,6 +268,7 @@
                             document.getElementById('buttonDiv').style.display = 'block';
                         }
                         document.getElementById('warrantyListDiv').style.display = 'none';
+                        document.getElementById('barcode').style.display = 'none';
                     }
                     const pricesEntered2 = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                     if (pricesEntered2 < 300) {
@@ -271,7 +281,8 @@
                     } else {
                         document.getElementById('buttonDiv').style.display = 'block';
                     }
-                    document.getElementById('warrantyListDiv').style.display = 'none';                   
+                    document.getElementById('warrantyListDiv').style.display = 'none'; 
+                    document.getElementById('barcode').style.display = 'none';                  
                 });
                 document.getElementById("priceInput").addEventListener('keydown', e => {
                     var keyCode = e.keyCode || e.which;
@@ -392,5 +403,9 @@
         <div id="warrantyListDiv" style="display:none;">
 
         </div>
+
+        <svg id="barcode" style="display:none;">
+
+        </svg>
     </body>
 </html>
