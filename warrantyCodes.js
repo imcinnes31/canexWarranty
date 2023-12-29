@@ -23,7 +23,7 @@ const warrantyDict = {
             "2C102": {"barcodeNum": 1234567, "maxPrice": 750, "warrantyPrice": 149.99},
             "2C103": {"barcodeNum": 1234567, "maxPrice": 1000, "warrantyPrice": 194.99},
             "2C104": {"barcodeNum": 1234567, "maxPrice": 1500, "warrantyPrice": 284.99},
-            "2C105": {"barcodeNum": 1234567, "maxPrice": 2000, "warrantyPrice": 359.99},
+            "2C105": {"barcodeNum": 817889009594, "maxPrice": 2000, "warrantyPrice": 359.99},
             "2C106": {"barcodeNum": 1234567, "maxPrice": 3000, "warrantyPrice": 529.99},
             "2C107": {"barcodeNum": 1234567, "maxPrice": 6000, "warrantyPrice": 599.99},
         },
