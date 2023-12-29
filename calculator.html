@@ -57,6 +57,7 @@
             const minAppliancePrice = [300,400,900];
 
             function makeWarrantyTable(type,code,length,price,barcodeNum) {
+                console.log(barcodeNum);
                 var warrantyDisplay = '';
                 var program = 'SPP';
                 if (type == "replacement") {
@@ -177,7 +178,7 @@
                                 const currentLength = warrantyYears;
                                 const currentPrice = warrantyDict[productType][warrantyYears][x]['warrantyPrice'];
                                 const currentBarcode = warrantyDict[productType][warrantyYears][x]['barcodeNum'];
-                                makeWarrantyTable(productType,currentCode,currentLength,currentPrice);
+                                makeWarrantyTable(productType,currentCode,currentLength,currentPrice,currentBarcode);
                                 break;
                             }
                         }
