@@ -94,6 +94,7 @@
             document.addEventListener('DOMContentLoaded', function () {
                 var appleProducts = '<option value="none" disabled selected>--Select Apple Device</option>';
                 for (const x in warrantyDict['apple']) {
+                    appleProducts += '<option value="none" disabled>Apple Products: ' + x + '</option>';
                     for (const y in warrantyDict['apple'][x]) {
                         appleProducts += '<option value="' + x + '">' + y + '</option>';
                     }
