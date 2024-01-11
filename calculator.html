@@ -95,7 +95,7 @@
                 var appleProducts = '<option value="none" disabled selected>--Select Apple Device</option>';
                 for (const x in warrantyDict['apple']) {
                     for (const y in warrantyDict['apple'][x]) {
-                        appleProducts += '<option value="' + x + '” class=”’ + x + ‘">' + y + '</option>';
+                        appleProducts += '<option value="' + x + '" class="' + x + '">' + y + '</option>';
                     }
                 }
                 document.getElementById('appleItem').innerHTML = appleProducts;
