@@ -1,3 +1,5 @@
+const warrantyDict = new Date() < new Date("2024-05-01") ? warrantyDict1 : warrantyDict2;
+
 const warrantyYears = {};
 const applianceMinPrices = [300,400,900];
 
