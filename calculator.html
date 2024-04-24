@@ -104,6 +104,7 @@
             }
 
             document.addEventListener('DOMContentLoaded', function () {
+                const warrantyDict = new Date() < new Date("2024-05-01") ? warrantyDict1 : warrantyDict2;
                 var appleProducts = '<option value="none" disabled selected>--Select Apple Device</option>';
                 for (const x in warrantyDict['apple']) {
                     for (const y in warrantyDict['apple'][x]) {
