@@ -123,7 +123,7 @@
             storeNumReq = new URL(window.location.href).searchParams.get("storeNo");
 
             document.addEventListener('DOMContentLoaded', function () {
-
+                const warrantyDict = new Date() < new Date("2024-05-01") ? warrantyDict1 : warrantyDict2;
                 if (storeNumReq != null) {
                     document.getElementById('storeNumber').value = storeNumReq;
                 }
@@ -139,9 +139,9 @@
                 document.getElementById('appleCareDate').value = todaysDate;
 
                 var optionsList = "<option selected value='None'>NONE</option>";
-                for (const x in warrantyDict1['apple']) {
+                for (const x in warrantyDict['apple']) {
                     optionsList += "<option disabled>--</option>";
-                    for (const y in warrantyDict1['apple'][x]) {
+                    for (const y in warrantyDict['apple'][x]) {
                         optionsList += "<option value=" + x + ">AppleCare+ " + y + "</option>";
                     }
                 }
@@ -174,7 +174,7 @@
                             const category = event.target.options[event.target.selectedIndex].value;
                             const description = event.target.options[event.target.selectedIndex].innerHTML;
                             document.getElementById(targetDescName).value = description;
-                            document.getElementById(targetCodeName).value = warrantyDict1['apple'][category][description.replace("AppleCare+ ", "")]['code'];
+                            document.getElementById(targetCodeName).value = warrantyDict['apple'][category][description.replace("AppleCare+ ", "")]['code'];
                             if (document.getElementById(targetModelName).value.trim().length == 0) {
                                 document.getElementById(targetModelName).style.backgroundColor = 'pink';
                             }
