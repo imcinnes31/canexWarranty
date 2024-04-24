@@ -139,9 +139,9 @@
                 document.getElementById('appleCareDate').value = todaysDate;
 
                 var optionsList = "<option selected value='None'>NONE</option>";
-                for (const x in warrantyDict['apple']) {
+                for (const x in warrantyDict1['apple']) {
                     optionsList += "<option disabled>--</option>";
-                    for (const y in warrantyDict['apple'][x]) {
+                    for (const y in warrantyDict1['apple'][x]) {
                         optionsList += "<option value=" + x + ">AppleCare+ " + y + "</option>";
                     }
                 }
@@ -174,7 +174,7 @@
                             const category = event.target.options[event.target.selectedIndex].value;
                             const description = event.target.options[event.target.selectedIndex].innerHTML;
                             document.getElementById(targetDescName).value = description;
-                            document.getElementById(targetCodeName).value = warrantyDict['apple'][category][description.replace("AppleCare+ ", "")]['code'];
+                            document.getElementById(targetCodeName).value = warrantyDict1['apple'][category][description.replace("AppleCare+ ", "")]['code'];
                             if (document.getElementById(targetModelName).value.trim().length == 0) {
                                 document.getElementById(targetModelName).style.backgroundColor = 'pink';
                             }
