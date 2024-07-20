@@ -99,7 +99,7 @@
                     }
                     const totalPriceWithTax = ((itemPrice + warrantyPrice) * (1 + taxes)).toFixed(2);
 
-                    if (nextLengthYears) {
+                    if (nextLengthYears != null) {
                         if (totalPriceWithTax >= minCreditYearsTotal[nextLengthYears]) {
                             warrantyDisplay += '<p style="color:blue"><b>The purchase of the SPP would qualify the cutomer for the ' + (nextLengthYears + 1) + ' year plan.</b></p>';
                         }
