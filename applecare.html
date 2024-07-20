@@ -123,6 +123,7 @@
             storeNumReq = new URL(window.location.href).searchParams.get("storeNo");
 
             document.addEventListener('DOMContentLoaded', function () {
+                const warrantyDict = new Date() < new Date("2024-05-01") ? warrantyDict1 : warrantyDict2;
 
                 if (storeNumReq != null) {
                     document.getElementById('storeNumber').value = storeNumReq;
