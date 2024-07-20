@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Applecare Form</title>
+        <style>
+            @media print
+            {    
+                .no-print, .no-print *
+                {
+                    display: none !important;
+                }
+                input {
+                    -webkit-print-color-adjust: exact;
+                }
+                input:disabled {
+                    background-color: white;
+                }
+            }
+
+            input:disabled {
+                color: black;
+            }
+
+            body {
+                font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                margin-left: 40px;
+                margin-right: 40px;
+                margin-top: 50px;
+            }
+            .col1 {
+                width: 14%;
+            }
+            .col2 {
+                width: 17%
+            }
+            .col3 {
+                width: 19%
+            }
+            .col4 {
+                width: 10%
+            }
+            .col5 {
+                width: 12%
+            }
+            .col6 {
+                width: 14%
+            }
+            .col7 {
+                width: 14%
+            }
+
+            .col1, .col2, .col3, .col4, .col5, .col6, .col7 {
+                font-size: 9px;
+                font-weight: bold;
+            }
+
+            table {
+                width: 100%;
+                border: 2px solid black;
+                border-collapse: collapse;
+            }
+            td {
+                text-align: center;
+                border: 1px solid black;
+            }
+            th {
+                font-style: italic;
+            }
+
+            .thickHeader {
+                border: 2px solid black;
+                font-size: 13px;
+            }
+            .midHeader {
+                border: 2px solid black;
+                font-size: 13px;
+                height: 30px;
+            }
+            .smallHeader {
+                border: 2px solid black;
+                font-size: 11px;
+                height: 13px;
+            }
+            .inputRow {
+                height: 25px;
+            }
+
+            #customerPhone {
+                background-color: pink;
+            }
+
+            td input[type=text] {
+                width: 80%;
+                border: none;
+                text-align: center;
+                font-weight: none;
+                font-size: 12px;
+            }
+
+            td label {
+                font-size: 11px;
+                padding-left: 10px;
+            }
+
+            .soCheckDiv {
+                display: inline;
+                padding-top: 5px;
+                margin-left: 5px;
+                border: 1px solid black;
+            }
+
+            .alwaysUpperCase {
+                text-transform: uppercase;
+            }
+
+        </style>
+        <script src="warrantyCodes.js"></script>
+        <script>
+            var phoneCursorPos = 2;
+            var dateCursorPos = 14;
+            var recCursorPos = 0;
+
+            storeNumReq = new URL(window.location.href).searchParams.get("storeNo");
+
+            document.addEventListener('DOMContentLoaded', function () {
+
+                if (storeNumReq != null) {
+                    document.getElementById('storeNumber').value = storeNumReq;
+                }
+
+                today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //As January is 0.
+                var yy = today.getFullYear();
+
+                if(dd<10) dd='0'+dd;
+                if(mm<10) mm='0'+mm;
+                const todaysDate = mm + ' / ' + dd + ' / ' + yy;
+                document.getElementById('appleCareDate').value = todaysDate;
+
+                var optionsList = "<option selected value='None'>NONE</option>";
+                for (const x in warrantyDict['apple']) {
+                    optionsList += "<option disabled>--</option>";
+                    for (const y in warrantyDict['apple'][x]) {
+                        optionsList += "<option value=" + x + ">AppleCare+ " + y + "</option>";
+                    }
+                }
+
+                document.querySelectorAll('.reqField').forEach(field => { 
+                    if (field.value.trim().length == 0) {
+                        field.style.backgroundColor = "pink";
+                    } else {
+                        field.style.backgroundColor = "white";
+                    }
+                });
+
+                document.getElementsByName("applecareDescMenu").forEach(menu => {
+                    menu.innerHTML = optionsList;
+                });
+
+                document.getElementsByName("applecareDescMenu").forEach(menu => { 
+                    menu.addEventListener("change", (event) => {
+                        targetNumber = event.target.id.replace('applecareDescMenu','');
+                        const targetDescName = "applecareDesc" + targetNumber;
+                        const targetCodeName = "applecareCode" + targetNumber; 
+                        const targetModelName = "applecareModel" + targetNumber;
+                        const targetSerialName = "applecareSerial" + targetNumber;
+                        if (event.target.value == "None") {
+                            document.getElementById(targetDescName).value = '';
+                            document.getElementById(targetCodeName).value = '';
+                            document.getElementById(targetModelName).style.backgroundColor = 'white';
+                            document.getElementById(targetSerialName).style.backgroundColor = 'white';
+                        } else {
+                            const category = event.target.options[event.target.selectedIndex].value;
+                            const description = event.target.options[event.target.selectedIndex].innerHTML;
+                            document.getElementById(targetDescName).value = description;
+                            document.getElementById(targetCodeName).value = warrantyDict['apple'][category][description.replace("AppleCare+ ", "")]['code'];
+                            if (document.getElementById(targetModelName).value.trim().length == 0) {
+                                document.getElementById(targetModelName).style.backgroundColor = 'pink';
+                            }
+                            if (document.getElementById(targetSerialName).value.trim().length == 0) {
+                                document.getElementById(targetSerialName).style.backgroundColor = 'pink';
+                            }
+                        }
+                    });
+                });
+
+                document.getElementsByName("applecareModel").forEach(field => { 
+                    field.addEventListener("focusout", (event) => {
+                        var currentModel = event.target.value.toUpperCase();
+                        if (currentModel.length > 8) {
+                            if (currentModel.substr(0,2) == '1P') {
+                                currentModel = currentModel.substr(2,currentModel.length);
+                            }
+                        }
+                        event.target.value = currentModel;
+                    });
+                    field.addEventListener("keyup", (event) => {
+                        targetNumber = event.target.id.replace('applecareModel','');
+                        targetMenuName = 'applecareDescMenu' + targetNumber;
+                        if (event.target.value.trim().length == 0 && document.getElementById(targetMenuName).value != "None") {
+                            event.target.style.backgroundColor = 'pink';
+                        } else {
+                            event.target.style.backgroundColor = 'white';
+                        }
+                    });
+                });
+
+                document.querySelectorAll('.reqField').forEach(field => { 
+                    field.addEventListener("keyup", (event) => {
+                        if (event.target.value.trim().length == 0) {
+                            event.target.style.backgroundColor = "pink";
+                        } else {
+                            event.target.style.backgroundColor = "white";
+                        }
+                    });
+                });
+
+                document.getElementsByName("applecareSerial").forEach(field => { 
+                    field.addEventListener("focusout", (event) => {
+                        var currentSerial = event.target.value.toUpperCase();
+                        if (currentSerial.length > 10) {
+                            if (currentSerial.charAt(0) == 'S') {
+                                currentSerial = currentSerial.substr(1,currentSerial.length);
+                            }
+                        }
+                        event.target.value = currentSerial;
+                    });
+                    field.addEventListener("keyup", (event) => {
+                        targetNumber = event.target.id.replace('applecareSerial','');
+                        targetMenuName = 'applecareDescMenu' + targetNumber;
+                        if (event.target.value.trim().length == 0 && document.getElementById(targetMenuName).value != "None") {
+                            event.target.style.backgroundColor = 'pink';
+                        } else {
+                            event.target.style.backgroundColor = 'white';
+                        }
+                    });
+                });
+
+                document.getElementById("appleCareDate").addEventListener("keydown", (event) => {
+                    if (event.keyCode != 9) {
+                        event.preventDefault();
+                    }
+                    var currentDate = document.getElementById("appleCareDate").value;
+                    if (event.keyCode == 46) {
+                        document.getElementById("appleCareDate").value = " /  / ";
+                        dateCursorPos = 0;
+                        document.getElementById("appleCareDate").style.backgroundColor = "pink";
+                    } else if (event.keyCode == 8 && currentDate.length > 6) {
+                        if (dateCursorPos == 5 || dateCursorPos == 10) {
+                            dateCursorPos -= 3;
+                        }
+                        dateCursorPos -= 1;
+                        currentDate = currentDate.slice(0, dateCursorPos) + currentDate.slice(dateCursorPos + 1);
+                        document.getElementById("appleCareDate").value = currentDate;
+                        if (currentDate.length == 12 || currentDate.length == 14) {
+                            document.getElementById("appleCareDate").style.backgroundColor = "white";
+                        } else {
+                            document.getElementById("appleCareDate").style.backgroundColor = "pink";
+                        }
+                    } else if ((isFinite(event.key) && event.key != " ") && currentDate.length < 14) {
+                        currentDate = currentDate.slice(0, dateCursorPos) + event.key + currentDate.slice(dateCursorPos);
+                        document.getElementById("appleCareDate").value = currentDate;
+                        dateCursorPos += 1;
+                        if (dateCursorPos == 2 || dateCursorPos == 7) {
+                            dateCursorPos += 3;
+                        }
+                        if (currentDate.length == 12 || currentDate.length == 14) {
+                            document.getElementById("appleCareDate").style.backgroundColor = "white";
+                        } else {
+                            document.getElementById("appleCareDate").style.backgroundColor = "pink";
+                        }
+                    }
+                });
+
+                document.getElementById("receivedDate").addEventListener("keydown", (event) => {
+                    if (event.keyCode != 9) {
+                        event.preventDefault();
+                    }
+                    var recDate = document.getElementById("receivedDate").value;
+                    if (event.keyCode == 46) {
+                        document.getElementById("receivedDate").value = " /  / ";
+                        recCursorPos = 0;
+                    } else if (event.keyCode == 8 && recDate.length > 6) {
+                        if (recCursorPos == 5 || recCursorPos == 10) {
+                            recCursorPos -= 3;
+                        }
+                        recCursorPos -= 1;
+                        recDate = recDate.slice(0, recCursorPos) + recDate.slice(recCursorPos + 1);
+                        document.getElementById("receivedDate").value = recDate;
+                    } else if ((isFinite(event.key) && event.key != " ") && recDate.length < 14) {
+                        recDate = recDate.slice(0, recCursorPos) + event.key + recDate.slice(recCursorPos);
+                        document.getElementById("receivedDate").value = recDate;
+                        recCursorPos += 1;
+                        if (recCursorPos == 2 || recCursorPos == 7) {
+                            recCursorPos += 3;
+                        }
+                    }
+                });
+
+                document.getElementById("customerPhone").addEventListener("keydown", (event) => {
+                    if (event.keyCode != 9) {
+                        event.preventDefault();
+                    }
+                    var currentPhone = document.getElementById("customerPhone").value;
+                    if (event.keyCode == 46) {
+                        document.getElementById("customerPhone").value = "(  )  -  ";
+                        phoneCursorPos = 2;
+                        document.getElementById("customerPhone").style.backgroundColor = "pink";
+                    } else if (event.keyCode == 8 && currentPhone.length > 9) {
+                        if (phoneCursorPos == 8 || phoneCursorPos == 14) {
+                            phoneCursorPos -= 3;
+                        }
+                        phoneCursorPos -= 1;
+                        currentPhone = currentPhone.slice(0, phoneCursorPos) + currentPhone.slice(phoneCursorPos + 1);
+                        document.getElementById("customerPhone").value = currentPhone;
+                        if (currentPhone.length < 19) {
+                            document.getElementById("customerPhone").style.backgroundColor = "pink";
+                        }
+                    } else if ((isFinite(event.key) && event.key != " ") && currentPhone.length < 19) {
+                        currentPhone = currentPhone.slice(0, phoneCursorPos) + event.key + currentPhone.slice(phoneCursorPos);
+                        document.getElementById("customerPhone").value = currentPhone;
+                        phoneCursorPos += 1;
+                        if (phoneCursorPos == 5 || phoneCursorPos == 11) {
+                            phoneCursorPos += 3;
+                        }
+                        if (currentPhone.length == 19) {
+                            document.getElementById("customerPhone").style.backgroundColor = "white";
+                        }
+                    }
+                });
+
+                document.getElementsByName("soCheckbox").forEach(checkbox => { 
+                    checkbox.addEventListener('change', (event) => {
+                        let currentSerial = "applecareSerial" + event.currentTarget.id.replace("soCheck","");
+                        if (event.currentTarget.checked) {
+                            document.getElementById(currentSerial).value = "***SPECIAL ORDER***";
+                            document.getElementById(currentSerial).disabled = true;
+                            document.getElementById(currentSerial).style.backgroundColor = "white";
+                            if (document.getElementById("specPONumber").value.trim().length == 0) {
+                                document.getElementById("specPONumber").style.backgroundColor = "pink";
+                            } else {
+                                document.getElementById("specPONumber").style.backgroundColor = "white";
+                            }
+                        } else {
+                            let specOrderChecked = false;
+                            document.getElementById(currentSerial).value = "";
+                            document.getElementById(currentSerial).disabled = false;
+                            if (document.getElementById("applecareDescMenu" + event.currentTarget.id.replace("soCheck","")).value != "None") {
+                                document.getElementById(currentSerial).style.backgroundColor = "pink";
+                            }
+                            for (let i = 1; i <= 3; i++) {
+                                if (document.getElementById("soCheck" + i).checked == true) {
+                                    specOrderChecked = true;
+                                    break;
+                                }
+                            }
+                            if (specOrderChecked == false) {
+                                document.getElementById("specPONumber").style.backgroundColor = "white";
+                                document.getElementById("specPONumber").value = "";
+                            } else if (document.getElementById("specPONumber").value.trim().length == 0) {
+                                document.getElementById("specPONumber").style.backgroundColor = "pink";
+                            }
+                        }
+                    });
+                });
+
+                document.getElementById("specPONumber").addEventListener("keyup", (event) => {
+                    if (event.target.value.trim().length == 0) {
+                        let specOrderChecked = false;
+                        for (let i = 1; i <= 3; i++) {
+                            if (document.getElementById("soCheck" + i).checked == true) {
+                                specOrderChecked = true;
+                                break;
+                            }
+                        }
+                        if (specOrderChecked == false) {
+                            document.getElementById("specPONumber").style.backgroundColor = "white";
+                        } else {
+                            document.getElementById("specPONumber").style.backgroundColor = "pink";
+                        }
+                    } else {
+                        event.target.style.backgroundColor = "white";
+                    }
+                });
+
+
+            });
+        </script>
+    </head>
+    <body>
+        <form autocomplete="off">
+        <input autocomplete="false" name="hidden" type="text" style="display:none;">
+        <div style="text-align:right">
+            <label>Salesperson:</label>
+            <input type="text" class="reqField" style="width:20%;border: none;text-align: center;font-weight:bold;">    
+        </div>
+        <br>
+        <table>
+            <tr class="thickHeader" style="height:55px;">
+                <th colspan="2" style="text-align: left;">
+                    <img src="IngramBlue900x200.png" alt="Ingram Logo" width="auto" height="40px" style="vertical-align: middle;">
+                </th>
+                <th colspan="3" style="font-size: 14px;">Apple Care Order Form - Ingram</th>
+                <th colspan="2" style="align-items: center;">
+                    <img src="canex.png" alt="Canex Logo" width="125px" height="auto">
+                </th>
+            </tr>
+            <tr class="inputRow">
+                <td class="col1">Store #</td>
+                <td class="col2"><input class="reqField" id="storeNumber" type="text"></td>
+                <td class="col3">Transaction #</td>
+                <td class="col4" colspan="2"><input class="reqField" type="text"></td>
+                <td class="col6">Date:</td>
+                <td class="col7"><input id="appleCareDate" type="text" style="caret-color: transparent; width: 90%;"></td>                
+            </tr>
+            <tr class="midHeader">
+                <th colspan="7">End User Contact Information</th>
+            </tr>
+            <tr class="inputRow">
+                <td class="col1">First Name:</td>
+                <td class="col2" colspan="2"><input class="reqField" type="text"></td>
+                <td class="col4">Last Name:</td>
+                <td class="col5" colspan="3"><input class="reqField" type="text"></td>              
+            </tr>
+            <tr class="inputRow">
+                <td class="col1">Customer Email:</td>
+                <td class="col2" colspan="3"><input class="reqField" type="text"></td>
+                <td class="col5">Telephone #</td>
+                <td class="col6" colspan="2"><input id="customerPhone" type="text" value="(  )  -  " style="caret-color: transparent"></td>             
+            </tr>
+            <tr class="midHeader">
+                <th colspan="7">Apple Device Information</th>
+            </tr>
+            <tr class="smallHeader">
+                <th colspan="7">Device 1</th>
+            </tr>
+            <tr class="inputRow">
+                <td class="col1">Apple Device Model Number</td>
+                <td class="col2"><input class="alwaysUpperCase" id="applecareModel1" name="applecareModel" type="text"></td>
+                <td class="col3">Apple Device Serial Number</td>
+                <td class="col4" colspan="4"><input class="alwaysUpperCase" id="applecareSerial1" name="applecareSerial" type="text"><div class="soCheckDiv no-print"><label for="soCheck1">Special Order</label><input type="checkbox" name="soCheckbox" id="soCheck1" tabindex="-1"></div></td>             
+            </tr>
+            <tr class="inputRow">
+                <td class="col1">Apple Care Model Number</td>
+                <td class="col2"><input id="applecareCode1" type="text" disabled="true"></td>
+                <td class="col3">Apple Care Description</td>
+                <td class="col4" colspan="4">
+                    <div style="display:inline;">
+                        <input id="applecareDesc1" type="text" disabled="true">
+                        <label class="no-print" for="applecareDescMenu1">Select Device:</label>
+                        <select class="no-print" name="applecareDescMenu" id="applecareDescMenu1" tabindex="-1" style="width:20px;"></select>
+                    </div>
+                </td>             
+            </tr>
+            <tr class="smallHeader">
+                <th colspan="7">Device 2</th>
+            </tr>
+            <tr class="inputRow">
+                <td class="col1">Apple Device Model Number</td>
+                <td class="col2"><input class="alwaysUpperCase" id="applecareModel2" name="applecareModel" type="text"></td>
+                <td class="col3">Apple Device Serial Number</td>
+                <td class="col4" colspan="4"><input class="alwaysUpperCase" id="applecareSerial2" name="applecareSerial" type="text"><div class="soCheckDiv no-print"><label for="soCheck2">Special Order</label><input type="checkbox" name="soCheckbox" id="soCheck2" tabindex="-1"></div></td>             
+            </tr>
+            <tr class="inputRow">
+                <td class="col1">Apple Care Model Number</td>
+                <td class="col2"><input id="applecareCode2" type="text" disabled="true"></td>
+                <td class="col3">Apple Care Description</td>
+                <td class="col4" colspan="4">
+                    <div style="display:inline;">
+                        <input id="applecareDesc2" type="text" disabled="true">
+                        <label class="no-print" for="applecareDescMenu2">Select Device:</label>
+                        <select class="no-print" name="applecareDescMenu" id="applecareDescMenu2" tabindex="-1" style="width:20px;"></select>
+                    </div>
+                </td>             
+            </tr>
+            <tr class="smallHeader">
+                <th colspan="7">Device 3</th>
+            </tr>
+            <tr class="inputRow">
+                <td class="col1">Apple Device Model Number</td>
+                <td class="col2"><input class="alwaysUpperCase" id="applecareModel3" name="applecareModel" type="text"></td>
+                <td class="col3">Apple Device Serial Number</td>
+                <td class="col4" colspan="4"><input class="alwaysUpperCase" id="applecareSerial3" name="applecareSerial" type="text"><div class="soCheckDiv no-print"><label for="soCheck3">Special Order</label><input type="checkbox" name="soCheckbox" id="soCheck3" tabindex="-1"></div></td>             
+            </tr>
+            <tr class="inputRow">
+                <td class="col1">Apple Care Model Number</td>
+                <td class="col2"><input id="applecareCode3" type="text" disabled="true"></td>
+                <td class="col3">Apple Care Description</td>
+                <td class="col4" colspan="4">
+                    <div style="display:inline;">
+                        <input id="applecareDesc3" type="text" disabled="true">
+                        <label class="no-print" for="applecareDescMenu3">Select Device:</label>
+                        <select class="no-print" name="applecareDescMenu" id="applecareDescMenu3" tabindex="-1" style="width:20px;"></select>
+                    </div>
+                </td>             
+            </tr>
+            <tr>
+                <td class="col1" colspan="5" style="font-size: 9px;">AppleCare and Device Purchased and Picked Up At Same Time:</td>
+                <td class="col6" colspan="2"><input class="reqField" type="text" value="Yes"></td>
+            </tr>
+            <tr class="midHeader">
+                <th colspan="7">Apple Care for Special Orders/Serial Number not available.</th>
+            </tr>
+            <tr class="inputRow">
+                <td class="col1">Special Order PO Number</td>
+                <td class="col2" colspan="3"><input id="specPONumber" type="text"></td>
+                <td class="col5" colspan="2">Item Received On Date</td>
+                <td class="col7"><input id="receivedDate" type="text" value = " /  / " style="caret-color: transparent; width: 90%;"></td>             
+            </tr>
+            <tr height="15px">
+                <td colspan="7" style="border: none;text-align: left;font-size: 9px;font-weight: bold;">Notes:</td>
+            </tr>
+            <tr height="45px">
+                <td colspan="7" style="border: none;"><textarea rows="3" style="border: none;width: 99%;resize: none;"></textarea></td>         
+            </tr>
+            <tr height="15px">
+                <td style="text-align: left; font-size: 10px; font-weight: normal;" class="col1" colspan="3">Please, validate the Serial Number before sending this form</td>
+                <td class="col4" colspan="4"><a href="https://checkcoverage.apple.com/ca/en/" style="font-size: 10px;">https://checkcoverage.apple.com/ca/en/</a></td>          
+            </tr>
+            <tr height="15px">
+                <td colspan="7"></td>      
+            </tr>
+            <tr height="15px">
+                <td style="text-align: left; font-size: 10px; font-weight: normal;" class="col1" colspan="3">Email this form and a copy of the Sales Receipt for processing to</td>
+                <td class="col4" colspan="4"><a href="RetailEastSupport@ingrammicro.ca" style="font-size: 10px;">RetailEastSupport@ingrammicro.ca</a></td>          
+            </tr>
+            <tr height="15px">
+                <td colspan="7"></td>          
+            </tr>
+        </table>
+        </form>
+    </body>
+</html>

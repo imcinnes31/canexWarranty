@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Comerco Form</title>
+        <style>
+            @media print
+            {    
+                .no-print, .no-print *
+                {
+                    display: none !important;
+                }
+                input {
+                    -webkit-print-color-adjust: exact;
+                }
+                input:disabled {
+                    background-color: white;
+                }
+                .pageBreak {
+                    page-break-before: always;
+                }
+            }
+
+            @media screen 
+            {
+                .noScreen {
+                    display: none
+                }
+            }
+
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            input:disabled {
+                color: black;
+            }
+
+            body {
+                font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+                margin-left: 50px;
+                margin-right: 50px;
+                margin-top: 25px;
+            }
+            .form1 {
+                display: flex;
+                width: 150px;
+                margin-bottom: 1px;
+            }
+            .form2 {
+                display: flex;
+                width: 325px;
+                margin-bottom: 1px;
+            }
+            .form3 {
+                display: flex;
+                width: 350px;
+                margin-bottom: 1px;
+            }
+            div input {
+                display: flex;
+                width: 100%;
+                border: none;
+                border-bottom: 1px solid black;
+                font-weight: bold;
+                font-size: 14px;
+                text-align: center;
+            }
+            label {
+                display: flex;
+                white-space: nowrap;
+                font-size: 14px;
+                padding-right: 5px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            td {
+                border: 1px solid black;
+                width: 34%;
+                text-align: center;
+                height: 20px;
+                font-size: 12px;
+            }
+            th {
+                width: 34%;
+            }
+            td input {
+                width: 99%;
+                border: none;
+                text-align: center;
+                font-weight: bold;
+            }
+            .priceField {
+                width: 15%;
+            }
+
+            #customerPhone, #province, #postalCode {
+                background-color: pink;
+            }
+
+            .serialDiv {
+                width: 100%;
+                display: inline-flex;
+            }
+
+            .specOrderDiv {
+                display: none;
+                width: 20%;
+                border: 1px solid black;
+            }
+
+            .specOrderDiv input {
+                width: 20%;
+            }
+
+            .specOrderDiv label {
+                width: 80%;
+            }
+
+            .pageHeader {
+                font-weight: bold;
+                display: inline-flex;
+                width: 100%;
+            }
+
+            .pageHeaderName {
+                width: 80%;
+            }
+
+            .pageHeaderNumber {
+                width: 20%;
+                text-align: right;
+            }
+
+            .reqField {
+                background-color: pink;
+            }
+
+        </style>
+        <script src="warrantyCodes.js"></script>
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <form autocomplete="off">
+            <div style="width:100%;text-align: center;">
+                <p>Canex / Comerco Warranty Registration</p>
+            </div>
+            <br>
+            <br>
+            <div style="display:block">
+                <div style="display:inline-flex;width:100%;">
+                    <div style="width: 60%;text-align: left;">
+                    <div class="form1">
+                        <label>Date</label>
+                        <input id="warrantyDate" style="caret-color: transparent;" type="text" onkeydown="enterDate()">
+                    </div>
+                    </div>
+                    <div style="width: 20%;text-align: left;">
+                    <div class="form2">
+                        <label>Salesperson:</label>
+                        <input type="text" class="reqField" style="width:40%;" onkeyup="checkRequiredEmpty()">
+                    </div>
+                    </div>
+                </div>
+                <br>
+                <div class="form2">
+                    <label>Customer name:</label>
+                    <input type="text" class="reqField" id="customerName" onkeyup="checkRequiredEmpty()" onkeyup="changeHeader()">
+                </div>
+                <div class="form2">
+                    <label>Phone#:</label>
+                    <input id="customerPhone" type="text" value="(  )  -  " style="caret-color: transparent" onkeydown="enterPhone()">
+                </div>
+                <div class="form2">
+                    <label>Email:</label>
+                    <input type="text" class="reqField" onkeyup="checkRequiredEmpty()">
+                </div>
+                <br>
+                <div class="form3">
+                    <label>Address</label>
+                </div>
+                <div class="form3">
+                    <label>Street</label>
+                    <input type="text" class="reqField" onkeyup="checkRequiredEmpty()">
+                </div>
+                <div class="form3">
+                    <label>City</label>
+                    <input type="text" class="reqField" onkeyup="checkRequiredEmpty()">
+                </div>
+                <div class="form3">
+                    <label>Province</label>
+                    <input type="text" id="province" disabled="true">
+                    <select id="provinceMenu" class="no-print" tabindex="-1" onchange="changeProvince()"></select>    
+                </div>
+                <div class="form3">
+                    <label>Postal Code</label>
+                    <input type="text" id="postalCode" value=" " style="caret-color: transparent;" onkeydown="enterPostal()">
+                </div>
+            </div>
+            <br>
+        </form>
+        <div style="width: 100%;text-align: center;padding: 20px;">
+            <button class="no-print" onclick="addPage()" style="margin-right:10px;display: inline-block; font-size: 24px;">Add Page</button>
+            <button class="no-print" id="removePageButton" onclick="removePage()" style="display:none; margin-left:10px; font-size: 24px;">Remove Page</button>    
+        </div>
+    </body>
+</html>
