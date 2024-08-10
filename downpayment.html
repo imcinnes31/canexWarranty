@@ -65,9 +65,9 @@
                 }
                 document.getElementById("yearsLength").innerHTML = null;
                 for (const x in minCreditYearsTotal) {
-                    const adminFeePercentage = adminFees[x] / 100;
+                    let adminFeePercentageCheck = adminFees[x] / 100;
                     if (minCreditYearsTotal[x] <= transactionTotalWithTax && 
-                        (minCreditYearsTotal[x] + (minCreditYearsTotal[x] * adminFeePercentage) + (minCreditYearsTotal[x] * adminFeePercentage * GST)) <= customerLimit
+                        (minCreditYearsTotal[x] + (minCreditYearsTotal[x] * adminFeePercentageCheck) + (minCreditYearsTotal[x] * adminFeePercentageCheck * GST)) <= customerLimit
                     ) 
                     {
                         const yearsOption = document.createElement("option");
@@ -88,6 +88,7 @@
                     const customerLimit = Number(parseFloat(document.getElementById("creditInput").value).toFixed(2));
                     const desiredLength = parseInt(document.getElementById("yearsLength").options[document.getElementById("yearsLength").selectedIndex].value);
                     const adminFeePercentage = adminFees[desiredLength - 1] / 100;
+                    console.log(adminFeePercentage);
 
                     document.getElementById("downPaymentDiv").style.display = "block";
                     const desiredCreditTotal = Math.round((customerLimit/(1 + (adminFeePercentage) + ((adminFeePercentage * GST))))*100)/100;
