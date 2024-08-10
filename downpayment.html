@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Down Payment Calculator</title>
+        <style>
+            @media screen and (max-width: 1000px) {
+                h1 {
+                    font-size: 72px;
+                }
+                label {
+                    font-size: 48px;
+                    font-weight: bold;
+                }
+                select {
+                    width: 90%;
+                    font-size: 48px;
+                    text-align: center;
+                }
+                #autoWorkDiv {
+                    width: 90%;
+                    display:inline-flex;
+                    justify-content: center;
+                }
+                #yearsLength {
+                    width: 10%;
+                }
+                input {
+                    width: 90%;
+                    font-size: 48px;
+                    text-align: center;
+                }
+                input[type='checkbox'] {
+                    width: 10%;
+                }
+                button {
+                    width: 50%;
+                    font-size: 48px;
+                }
+                p {
+                    font-size: 48px;
+                }
+            }
+
+            body {
+                text-align: center;
+            }
+
+        </style>
+        <script src="warrantyCodes.js"></script>
+        <script>
+            let currentlySelectedYears = 1;
+
+            function checkAllowedLengths() {
+                document.getElementById("downPaymentDiv").style.display = "none";
+
+                const transactionTotalWithTax = Number(parseFloat(document.getElementById("priceInput").value).toFixed(2));
+                const customerLimit = Number(parseFloat(document.getElementById("creditInput").value).toFixed(2));
+
+                if (minCreditYearsTotal[0] <= transactionTotalWithTax && minCreditYearsTotal[0] <= customerLimit) {
+                    document.getElementById("buttonDiv").style.display = "block";
+                    document.getElementById("lengthDiv").style.display = "block";
+                } else {
+                    document.getElementById("buttonDiv").style.display = "none";
+                    document.getElementById("lengthDiv").style.display = "none";
+                }
+                document.getElementById("yearsLength").innerHTML = null;
+                for (const x in minCreditYearsTotal) {
+                    const adminFeePercentage = adminFees[x] / 100;
+                    if (minCreditYearsTotal[x] <= transactionTotalWithTax && 
+                        (minCreditYearsTotal[x] + (minCreditYearsTotal[x] * adminFeePercentage) + (minCreditYearsTotal[x] * adminFeePercentage * GST)) <= customerLimit
+                    ) 
+                    {
+                        const yearsOption = document.createElement("option");
+                        yearsOption.id = "years" + (parseInt(x) + 1);
+                        yearsOption.innerHTML = (parseInt(x) + 1);
+                        document.getElementById("yearsLength").appendChild(yearsOption);
+                    }
+                }
+                if (document.getElementById("years" + currentlySelectedYears) != null) {
+                    document.getElementById("years" + currentlySelectedYears).selected = true;
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById("getDownPayment").addEventListener("click", (event) => {
+                    const autoWorkChecked = document.getElementById("autoWork").checked;
+                    const transactionTotalWithTax = Number(parseFloat(document.getElementById("priceInput").value).toFixed(2));
+                    const customerLimit = Number(parseFloat(document.getElementById("creditInput").value).toFixed(2));
+                    const desiredLength = parseInt(document.getElementById("yearsLength").options[document.getElementById("yearsLength").selectedIndex].value);
+                    const adminFeePercentage = adminFees[desiredLength - 1] / 100;
+
+                    document.getElementById("downPaymentDiv").style.display = "block";
+                    const desiredCreditTotal = Math.round((customerLimit/(1 + (adminFeePercentage) + ((adminFeePercentage * GST))))*100)/100;
+                    const downPaymentNeeded = (transactionTotalWithTax * (autoWork ? 1.5 : 1) - desiredCreditTotal).toFixed(2);
+
+                    document.getElementById("downPaymentInfo").innerHTML = "The customer requires a down payment of " + downPaymentNeeded + "<br><br>"
+                        + "To be safe, round it up to " + Math.ceil(downPaymentNeeded / 10) * 10;
+                });
+
+                document.getElementById("priceInput").addEventListener('keyup', e => {
+                    var keyCode = e.keyCode || e.which;
+                    if (keyCode == 0 || keyCode == 229) { 
+                        key = e.target.value.charAt(e.target.selectionStart - 1);
+                        keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
+                        if (!(isFinite(key)) && key != '.' && keyCode != 46 && keyCode != 8) {
+                            let str = event.target.value.split('');
+                            str.splice(e.target.selectionStart - 1, 1);
+                            str = str.join('');
+                            event.target.value = str;
+                        }
+                    }
+                    checkAllowedLengths();
+                });
+                document.getElementById("priceInput").addEventListener('keydown', e => {
+                    var keyCode = e.keyCode || e.which;
+                    if (keyCode != 0 && keyCode != 229) { 
+                        if (!(isFinite(event.key)) && event.key != '.' && event.keyCode != 46 && event.keyCode != 8) {
+                            event.preventDefault();
+                        } else {
+                            checkAllowedLengths();
+                        }
+                    }
+                });
+
+                document.getElementById("creditInput").addEventListener('keyup', e => {
+                    var keyCode = e.keyCode || e.which;
+                    if (keyCode == 0 || keyCode == 229) { 
+                        key = e.target.value.charAt(e.target.selectionStart - 1);
+                        keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
+                        if (!(isFinite(key)) && key != '.' && key != ',' && keyCode != 46 && keyCode != 8) {
+                            let str = event.target.value.split('');
+                            str.splice(e.target.selectionStart - 1, 1);
+                            str = str.join('');
+                            event.target.value = str;
+                        }
+                    }
+                    checkAllowedLengths();
+                });
+                document.getElementById("creditInput").addEventListener('keydown', e => {
+                    var keyCode = e.keyCode || e.which;
+                    if (keyCode != 0 && keyCode != 229) { 
+                        if (!(isFinite(event.key)) && event.key != '.' && event.keyCode != 46 && event.keyCode != 8) {
+                            event.preventDefault();
+                        } else {
+                            checkAllowedLengths();
+                        }
+                    }
+                });
+
+                document.getElementById("yearsLength").addEventListener('change', e => {
+                    currentlySelectedYears = parseInt(e.target.options[e.target.selectedIndex].value);
+                });
+
+            });
+
+            // const autoWork = false;
+
+            // const transactionTotalWithTax = 7840.47;    // orig 7840.47
+
+            // const customerLimit = 6984.97;  // orig 6984.97
+
+            // const desiredLength = 3;    // orig 3
+
+            // // MAKE DROPDOWN MENU ITEMS DISABLED UNLESS CREDIT LIMIT IS ENOUGH FOR THEM. 
+            // // IF ALREADY SELECTED, SWITCH IT. CHECK EVERY TIME CUSTOMER LIMIT FIELD CHANGED.
+
+            // const adminFeePercentage = adminFees[desiredLength - 1] / 100;
+
+            // // console.log(minCreditYearsTotal[desiredLength - 1] + (minCreditYearsTotal[desiredLength - 1] * adminFeePercentage) + (minCreditYearsTotal[desiredLength - 1] * adminFeePercentage * GST));
+        
+            // if (minCreditYearsTotal[desiredLength - 1] > transactionTotalWithTax) {
+            //     console.error("Not enough amount for this length.");
+            // } else if ((minCreditYearsTotal[desiredLength - 1] + (minCreditYearsTotal[desiredLength - 1] * adminFeePercentage) + (minCreditYearsTotal[desiredLength - 1] * adminFeePercentage * GST)) > customerLimit) {
+            //     console.error("Not enough credit limit for this length.");
+            // }
+
+            // // B17 = GST
+            // // B15 = adminFeePercentage
+
+            // const desiredCreditTotal = Math.round((customerLimit/(1 + (adminFeePercentage) + ((adminFeePercentage * GST))))*100)/100;
+
+            // const downPaymentNeeded = transactionTotalWithTax * (autoWork ? 1.5 : 1) - desiredCreditTotal;
+
+            // console.log(downPaymentNeeded);
+            // console.log(Math.ceil(downPaymentNeeded / 10) * 10);
+        </script>
+    </head>
+    <body>
+        <h1>Down Payment Calculator</h1>
+        <!-- <div><input id="typeMobile" type="text" style="background-color: chartreuse;"></input><p id="typeResult"></p><p id="typeResult2"></p></div> -->
+
+        <div id="priceDiv">
+            <br>
+            <label id="priceLabel">Price of purchase including tax:</label>
+            <input id="priceInput" type="text"></input>         
+        </div>
+        <div id="creditDiv">
+            <br>
+            <label id="creditLabel">Customer's Credit Limit:</label>
+            <input id="creditInput" type="text"></input>         
+        </div>
+
+        <br>
+
+        <div id="autoWorkDiv">
+            <input type="checkbox" id="autoWork">
+            <label for="autoWork">Getting Auto Work</label>
+        </div>
+
+        <div id="lengthDiv" style="display:none;">
+            <br>
+            <label for="yearsLength">Plan Length (years):</label>
+            <select id="yearsLength">
+
+            </select> 
+        </div>
+
+        <br>
+
+        <div id="buttonDiv" style="display:none;">
+            <button id="getDownPayment">Get Down Payment</button>
+        </div>
+
+        <br>
+
+        <div id="downPaymentDiv" style="display:none;">
+            <p id="downPaymentInfo" style="color:blue;font-weight: bold;";></p>
+        </div>
+
+    </body>
+</html>

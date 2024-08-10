@@ -1,3 +1,10 @@
+const adminFees = [0,3,5];
+const minCreditYearsTotal = [500,1000,2000];
+
+// TEMP - MANITOBA GST / PST
+const GST = 0.05;
+const mbPST = 0.07;
+
 const warrantyDict1 = {
     "replacement": {
         2: {

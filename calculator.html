@@ -28,7 +28,7 @@
                     width: 50%;
                     font-size: 48px;
                 }
-                p {
+                p , a {
                     font-size: 48px;
                 }
                 td {
@@ -65,12 +65,7 @@
         <script src="warrantyCodes.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.8.0/dist/JsBarcode.all.min.js"></script>
         <script>
-            const adminFees = [0,3,5];
             const minAppliancePrice = [300,400,900];
-            const minCreditYearsTotal = [500,1000,2000];
-
-            // TEMP - MANITOBA GST / PST
-            const taxes = 0.12;
 
             function makeWarrantyTable(itemPrice,type,code,length,warrantyPrice,barcodeNum) {
                 var warrantyDisplay = '';
@@ -90,18 +85,21 @@
 
                 if (type != 'apple') {
                     let nextLengthYears = null;
-                    const itemPriceWithTax = (itemPrice * (1 + taxes)).toFixed(2);
+                    const itemPriceWithTax = (itemPrice * (1 + GST + mbPST)).toFixed(2);
                     for (const x in minCreditYearsTotal) {
-                        if (itemPrice * (1 + taxes) < minCreditYearsTotal[x]) {
+                        if (itemPrice * (1 + GST + mbPST) < minCreditYearsTotal[x]) {
                             nextLengthYears = parseInt(x);
                             break;
                         }
                     }
-                    const totalPriceWithTax = ((itemPrice + warrantyPrice) * (1 + taxes)).toFixed(2);
+                    const totalPriceWithTax = ((itemPrice + warrantyPrice) * (1 + GST + mbPST)).toFixed(2);
 
                     if (nextLengthYears != null) {
                         if (totalPriceWithTax >= minCreditYearsTotal[nextLengthYears]) {
                             warrantyDisplay += '<p style="color:blue"><b>The purchase of the SPP would qualify the cutomer for the ' + (nextLengthYears + 1) + ' year plan.</b></p>';
+                        } 
+                        else {
+                            warrantyDisplay += '<p style="color:blue"><b>The purchase of the SPP would qualify the cutomer for the ' + (nextLengthYears + 1) + ' year plan, if they buy $' + ((minCreditYearsTotal[nextLengthYears] - totalPriceWithTax)/(1 + GST + mbPST)).toFixed(2) + ' worth more of items before tax.</b></p>';
                         }
                     }
                 }
@@ -477,5 +475,7 @@
         <svg id="barcode" style="display:none;">
 
         </svg>
+
+        <a href="./downpayment.html">Click here for Down Payment Calculator</a>
     </body>
 </html>
