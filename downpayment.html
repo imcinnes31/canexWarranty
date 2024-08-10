@@ -88,11 +88,14 @@
                     const customerLimit = Number(parseFloat(document.getElementById("creditInput").value).toFixed(2));
                     const desiredLength = parseInt(document.getElementById("yearsLength").options[document.getElementById("yearsLength").selectedIndex].value);
                     const adminFeePercentage = adminFees[desiredLength - 1] / 100;
-                    console.log(adminFeePercentage);
 
                     document.getElementById("downPaymentDiv").style.display = "block";
                     const desiredCreditTotal = Math.round((customerLimit/(1 + (adminFeePercentage) + ((adminFeePercentage * GST))))*100)/100;
-                    const downPaymentNeeded = (transactionTotalWithTax * (autoWork ? 1.5 : 1) - desiredCreditTotal).toFixed(2);
+                    const downPaymentNeeded = (transactionTotalWithTax * (autoWorkChecked ? 1.5 : 1) - desiredCreditTotal).toFixed(2);
+
+                    // const desiredCreditTotal = Math.round((customerLimit/(1 + (adminFeePercentage) + ((adminFeePercentage * GST))))*100)/100;
+
+                    // const downPaymentNeeded = transactionTotalWithTax * (autoWorkChecked ? 1.5 : 1) - desiredCreditTotal;
 
                     document.getElementById("downPaymentInfo").innerHTML = "The customer requires a down payment of " + downPaymentNeeded + "<br><br>"
                         + "To be safe, round it up to " + Math.ceil(downPaymentNeeded / 10) * 10;
