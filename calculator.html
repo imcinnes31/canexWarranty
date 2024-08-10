@@ -92,7 +92,7 @@
                             break;
                         }
                     }
-                    const totalPriceWithTax = ((itemPrice + warrantyPrice) * (1 + GST + mbPST)).toFixed(2);
+                    const totalPriceWithTax = ((itemPrice + warrantyPrice + (type == 'televisions' ? 7 : 0)) * (1 + GST + mbPST)).toFixed(2);
 
                     if (nextLengthYears != null) {
                         if (totalPriceWithTax >= minCreditYearsTotal[nextLengthYears]) {
