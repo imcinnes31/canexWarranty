@@ -577,6 +577,10 @@ const warrantyDict2 = {
 			"14in MacBook Pro M3 Pro/Max" : {barcodeNum: 195949393778, code: "SL9L2Z/A", price: 379.99, totalYears: 3},
 			"16in MacBook Pro M3" : {barcodeNum: 195949393853, code: "SL9M2Z/A", price: 529.99, totalYears: 3},
 			"iMac M3" : {barcodeNum: 195949453465, code: "SLA62Z/A", price: 229.99, totalYears: 3},
+			"iMac M4" : {barcodeNum: 499999535103, code: "SR1A2Z/A", price: 229.99, totalYears: 3},
+			"Mac Mini M4" : {barcodeNum: 499999535110, code: "SR1C2Z/A", price: 229.99, totalYears: 3},
+			"16in MacBook Pro M4" : {barcodeNum: 499999532027, code: "SR192Z/A", price: 529.99, totalYears: 3},
+			"14in MacBook Pro M3" : {barcodeNum: 499999532034, code: "SR182Z/A", price: 379.99, totalYears: 3},
 		},
 		"IPad": {
 			"iPad 9th gen" : {barcodeNum: 194252881774, code: "SCM32Z/A", price: 79.99, totalYears: 2},
@@ -589,6 +593,8 @@ const warrantyDict2 = {
 			"iPad 10th gen" : {barcodeNum: 194253698951, code: "SGFC2Z/A", price: 79.99, totalYears: 2},
 			"iPad Pro 11in 4th gen" : {barcodeNum: 194253698432, code: "SGG22Z/A", price: 149.99, totalYears: 2},
 			"iPad Pro 12.9in 6th gen" : {barcodeNum: 194253697916, code: "SGGY2Z/A", price: 169.99, totalYears: 2},
+			"iPad Pro 11in M4" : {barcodeNum: 195949746833, code: "SM2X22/A", price: 199.99, totalYears: 2},
+			"iPad Pro 13in M4" : {barcodeNum: 195949746918, code: "SM2W2Z/A", price: 229.99, totalYears: 2},
 		},
 		"Audiovisual": {
 			"Apple TV" : {barcodeNum: 194252610343, code: "S9634Z/A", price: 29.99, totalYears: 3},
