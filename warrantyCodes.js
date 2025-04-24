@@ -566,6 +566,8 @@ const warrantyDict2 = {
 			"Mac Studio" : {barcodeNum: 194253227694, code: "SELQ2Z/A", price: 219.99, totalYears: 3},
 			"MacBook Air" : {barcodeNum: 194252821794, code: "S9788Z/A", price: 229.99, totalYears: 3},
 			"MacBook Air M2" : {barcodeNum: 194253450207, code: "SF8C2Z/A", price: 269.99, totalYears: 3},
+			"13in MacBook Air M4" : {barcodeNum: 195950536706, code: "SUWE2Z/A", price: 229.99, totalYears: 3},
+			"15in MacBook Air M4" : {barcodeNum: 195950536621, code: "SUWF2Z/A", price: 269.99, totalYears: 3},
 			"13in MacBook Pro M1" : {barcodeNum: 194252822180, code: "S9736Z/A", price: 279.99, totalYears: 3},
 			"13in MacBook Pro M2" : {barcodeNum: 194253450795, code: "SF932Z/A", price: 279.99, totalYears: 3},
 			"14in MacBook Pro" : {barcodeNum: 194253040378, code: "SCPG2Z/A", price: 299.99, totalYears: 3},
@@ -613,6 +615,8 @@ const warrantyDict2 = {
 			"Apple Watch Ultra 2" : {barcodeNum: 195949336911, code: "SJXD2Z/A", price: 129.99, totalYears: 2},
 			"Apple Watch HERMES Series 9" : {barcodeNum: 195949336843, code: "SJXE2Z/A", price: 129.99, totalYears: 2},
 			"Apple Watch Series 9 Stainless" : {barcodeNum: 195949335709, code: "SJY32Z/A", price: 99.99, totalYears: 2},
+			"Apple Watch Series 10 Aluminum" : {barcodeNum: 499999525906, code: "SNMF2LL/A", price: 99.99, totalYears: 2},
+			"Apple Watch Series 10 Titanium" : {barcodeNum: 499999525913, code: "SNN72LL/A", price: 99.99, totalYears: 2},
 		}
 	}
 }
