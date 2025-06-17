@@ -97,8 +97,8 @@
 
                     // const downPaymentNeeded = transactionTotalWithTax * (autoWorkChecked ? 1.5 : 1) - desiredCreditTotal;
 
-                    document.getElementById("downPaymentInfo").innerHTML = "The customer requires a down payment of " + downPaymentNeeded + "<br><br>"
-                        + "To be safe, round it up to " + Math.ceil(downPaymentNeeded / 10) * 10;
+                    document.getElementById("downPaymentInfo").innerHTML = downPaymentNeeded >= 0 ? "The customer requires a down payment of " + downPaymentNeeded + "<br><br>"
+                        + "To be safe, round it up to " + Math.ceil(downPaymentNeeded / 10) * 10 : "No down payment needed.";
                 });
 
                 document.getElementById("priceInput").addEventListener('keyup', e => {

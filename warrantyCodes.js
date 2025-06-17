@@ -601,7 +601,7 @@ const warrantyDict2 = {
 			"iPad Air M2 11in" : {barcodeNum: 499999513361, code: "SM2V2Z/A", price: 99.99, totalYears: 2},
 			"iPad Air M2 13in" : {barcodeNum: 499999513378, code: "SM2A2Z/A", price: 129.99, totalYears: 2},
 			"iPad Air M3 11in" : {barcodeNum: 195950541540, code: "SV072Z/A", price: 99.99, totalYears: 2},
-			"iPad Air M3 13in" : {barcodeNum: 000000000000, code: "SV172Z/A", price: 129.99, totalYears: 2},
+			"iPad Air M3 13in" : {barcodeNum: 499999513378, code: "SV172Z/A", price: 129.99, totalYears: 2},
 			"iPad Pro 10.5in" : {barcodeNum: 194252711149, code: "S8402Z/A", price: 139.99, totalYears: 2},
 			"iPad Pro 11in" : {barcodeNum: 194252606681, code: "S8403Z/A", price: 149.99, totalYears: 2},
 			"iPad Pro 4th gen 11in" : {barcodeNum: 194253698432, code: "SGG22Z/A", price: 149.99, totalYears: 2},
