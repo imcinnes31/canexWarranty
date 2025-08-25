@@ -16,11 +16,6 @@
                     font-size: 48px;
                     text-align: center;
                 }
-                #autoWorkDiv {
-                    width: 90%;
-                    display:inline-flex;
-                    justify-content: center;
-                }
                 #yearsLength {
                     width: 10%;
                 }
@@ -83,7 +78,6 @@
 
             document.addEventListener('DOMContentLoaded', function () {
                 document.getElementById("getDownPayment").addEventListener("click", (event) => {
-                    const autoWorkChecked = document.getElementById("autoWork").checked;
                     const transactionTotalWithTax = Number(parseFloat(document.getElementById("priceInput").value).toFixed(2));
                     const customerLimit = Number(parseFloat(document.getElementById("creditInput").value).toFixed(2));
                     const desiredLength = parseInt(document.getElementById("yearsLength").options[document.getElementById("yearsLength").selectedIndex].value);
@@ -91,11 +85,9 @@
 
                     document.getElementById("downPaymentDiv").style.display = "block";
                     const desiredCreditTotal = Math.round((customerLimit/(1 + (adminFeePercentage) + ((adminFeePercentage * GST))))*100)/100;
-                    const downPaymentNeeded = (transactionTotalWithTax * (autoWorkChecked ? 1.5 : 1) - desiredCreditTotal).toFixed(2);
+                    const downPaymentNeeded = (transactionTotalWithTax - desiredCreditTotal).toFixed(2);
 
                     // const desiredCreditTotal = Math.round((customerLimit/(1 + (adminFeePercentage) + ((adminFeePercentage * GST))))*100)/100;
-
-                    // const downPaymentNeeded = transactionTotalWithTax * (autoWorkChecked ? 1.5 : 1) - desiredCreditTotal;
 
                     document.getElementById("downPaymentInfo").innerHTML = downPaymentNeeded >= 0 ? "The customer requires a down payment of " + downPaymentNeeded + "<br><br>"
                         + "To be safe, round it up to " + Math.ceil(downPaymentNeeded / 10) * 10 : "No down payment needed.";
@@ -157,36 +149,6 @@
 
             });
 
-            // const autoWork = false;
-
-            // const transactionTotalWithTax = 7840.47;    // orig 7840.47
-
-            // const customerLimit = 6984.97;  // orig 6984.97
-
-            // const desiredLength = 3;    // orig 3
-
-            // // MAKE DROPDOWN MENU ITEMS DISABLED UNLESS CREDIT LIMIT IS ENOUGH FOR THEM. 
-            // // IF ALREADY SELECTED, SWITCH IT. CHECK EVERY TIME CUSTOMER LIMIT FIELD CHANGED.
-
-            // const adminFeePercentage = adminFees[desiredLength - 1] / 100;
-
-            // // console.log(minCreditYearsTotal[desiredLength - 1] + (minCreditYearsTotal[desiredLength - 1] * adminFeePercentage) + (minCreditYearsTotal[desiredLength - 1] * adminFeePercentage * GST));
-        
-            // if (minCreditYearsTotal[desiredLength - 1] > transactionTotalWithTax) {
-            //     console.error("Not enough amount for this length.");
-            // } else if ((minCreditYearsTotal[desiredLength - 1] + (minCreditYearsTotal[desiredLength - 1] * adminFeePercentage) + (minCreditYearsTotal[desiredLength - 1] * adminFeePercentage * GST)) > customerLimit) {
-            //     console.error("Not enough credit limit for this length.");
-            // }
-
-            // // B17 = GST
-            // // B15 = adminFeePercentage
-
-            // const desiredCreditTotal = Math.round((customerLimit/(1 + (adminFeePercentage) + ((adminFeePercentage * GST))))*100)/100;
-
-            // const downPaymentNeeded = transactionTotalWithTax * (autoWork ? 1.5 : 1) - desiredCreditTotal;
-
-            // console.log(downPaymentNeeded);
-            // console.log(Math.ceil(downPaymentNeeded / 10) * 10);
         </script>
     </head>
     <body>
@@ -205,11 +167,6 @@
         </div>
 
         <br>
-
-        <div id="autoWorkDiv">
-            <input type="checkbox" id="autoWork">
-            <label for="autoWork">Getting Auto Work</label>
-        </div>
 
         <div id="lengthDiv" style="display:none;">
             <br>
@@ -230,6 +187,10 @@
         <div id="downPaymentDiv" style="display:none;">
             <p id="downPaymentInfo" style="color:blue;font-weight: bold;";></p>
         </div>
+
+        <br><br><br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br><br><br>
+        <a href="./calculator.html">SPP / Applecare Calculator</a>
 
     </body>
 </html>
