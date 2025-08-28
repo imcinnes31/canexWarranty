@@ -28,35 +28,35 @@ const typeMenuOptions = '<option value="noProduct">NONE</option>'
 + '<option value="televisions">Televisions</option>'
 + '<option value="other electronics">Other Electronics</option>';
 
-function getWarrantyPrice(selection, numCombo, numYears, price, idNumber) {
-    var warrantyPrice;
-    var warrantyCode;
-    if (selection == 'appliances') {
-        for (const x in warrantyDict[selection][numYears][numCombo]) {
-            if (price < warrantyDict[selection][numYears][numCombo][x]['maxPrice']) {
-                warrantyPrice = warrantyDict[selection][numYears][numCombo][x]['warrantyPrice'];
-                warrantyCode = x;
-                break;
-            }
-        }
-    } else {
-        for (const x in warrantyDict[selection][numYears]) {
-            if (price < warrantyDict[selection][numYears][x]['maxPrice']) {
-                warrantyPrice = warrantyDict[selection][numYears][x]['warrantyPrice'];
-                warrantyCode = x;
-                break;
-            }
-        }
-    }
+// function getWarrantyPrice(selection, numCombo, numYears, price, idNumber) {
+//     var warrantyPrice;
+//     var warrantyCode;
+//     if (selection == 'appliances') {
+//         for (const x in warrantyDict[selection][numYears][numCombo]) {
+//             if (price < warrantyDict[selection][numYears][numCombo][x]['maxPrice']) {
+//                 warrantyPrice = warrantyDict[selection][numYears][numCombo][x]['warrantyPrice'];
+//                 warrantyCode = x;
+//                 break;
+//             }
+//         }
+//     } else {
+//         for (const x in warrantyDict[selection][numYears]) {
+//             if (price < warrantyDict[selection][numYears][x]['maxPrice']) {
+//                 warrantyPrice = warrantyDict[selection][numYears][x]['warrantyPrice'];
+//                 warrantyCode = x;
+//                 break;
+//             }
+//         }
+//     }
 
-    const priceName = 'warrantyPrice' + idNumber;
-    const codeName = 'warrantyCode' + idNumber;
-    const lengthName = 'warrantyLength' + idNumber;
+//     const priceName = 'warrantyPrice' + idNumber;
+//     const codeName = 'warrantyCode' + idNumber;
+//     const lengthName = 'warrantyLength' + idNumber;
 
-    document.getElementById(priceName).value = warrantyPrice;
-    document.getElementById(codeName).value = warrantyCode;
-    document.getElementById(lengthName).value = (selection == 'replacement' ? '' : '+') + numYears;
-}
+//     document.getElementById(priceName).value = warrantyPrice;
+//     document.getElementById(codeName).value = warrantyCode;
+//     document.getElementById(lengthName).value = (selection == 'replacement' ? '' : '+') + numYears;
+// }
 
 function calculatePrices() {
     const applianceWarrantyGroups = {};
@@ -377,15 +377,15 @@ function removePage() {
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    for (const category in warrantyDict) {
-        if (category != 'apple' && category != 'replacement') {
-            warrantyYears[category] = [];
-            for (const yearNum in warrantyDict[category]) {
-                warrantyYears[category].push(yearNum);
-            }
-            warrantyYears[category].sort((a, b) => {return parseInt(b) - parseInt(a)});
-        }
-    }
+    // for (const category in warrantyDict) {
+    //     if (category != 'apple' && category != 'replacement') {
+    //         warrantyYears[category] = [];
+    //         for (const yearNum in warrantyDict[category]) {
+    //             warrantyYears[category].push(yearNum);
+    //         }
+    //         warrantyYears[category].sort((a, b) => {return parseInt(b) - parseInt(a)});
+    //     }
+    // }
 
     today = new Date();
     var dd = today.getDate();
@@ -404,13 +404,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById("provinceMenu").innerHTML = provMenuOptions;
 
-    for (let i = 1; i <= 3; i++) {
-        document.getElementsByTagName("form")[0].appendChild(document.createElement("br"));
-        document.getElementsByTagName("form")[0].appendChild(document.createElement("br"));
-        const newTable = document.createElement("table");
-        newTable.innerHTML = makeTable(i);
-        document.getElementsByTagName("form")[0].appendChild(newTable);
-    }
+    // for (let i = 1; i <= 3; i++) {
+    //     document.getElementsByTagName("form")[0].appendChild(document.createElement("br"));
+    //     document.getElementsByTagName("form")[0].appendChild(document.createElement("br"));
+    //     const newTable = document.createElement("table");
+    //     newTable.innerHTML = makeTable(i);
+    //     document.getElementsByTagName("form")[0].appendChild(newTable);
+    // }
 
 });
 

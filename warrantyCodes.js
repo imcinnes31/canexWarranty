@@ -572,7 +572,7 @@ const warrantyDict2 = {
 			"Mac Studio 2" : {barcodeNum: 195949059674, code: "SJGC2Z/A", price: 229.99, totalYears: 2},
 			"Mac Studio 4" : {barcodeNum: 195950537772, code: "STKT2Z/A", price: 229.99, totalYears: 2},
 		},
-	    	"MacBook": {
+	    "MacBook": {
 			"MacBook Air" : {barcodeNum: 194252821794, code: "S9788Z/A", price: 229.99, totalYears: 3},
 			"MacBook Air M2" : {barcodeNum: 194253450207, code: "SF8C2Z/A", price: 269.99, totalYears: 3},
 			"MacBook Air M2 15in" : {barcodeNum: 195949059285, code: "SJFY2Z/A", price: 299.99, totalYears: 3},
