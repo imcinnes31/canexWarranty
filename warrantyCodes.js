@@ -344,6 +344,12 @@ const warrantyDict2 = {
             "2C107": {"barcodeNum": 817889009617, "maxPrice": 6000, "warrantyPrice": 649.99},
         },
     },
+		"small appliances": {
+        4: {
+            "4S101": {"barcodeNum": 817889009426, "maxPrice": 500, "warrantyPrice": 104.99},
+            "4S102": {"barcodeNum": 817889009433, "maxPrice": 1000, "warrantyPrice": 129.99},
+        },
+    },
     "televisions": {
         3: {
             "3TV102": {"barcodeNum": 817889003806, "maxPrice": 400, "warrantyPrice": 99.99},
