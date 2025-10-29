@@ -36,12 +36,12 @@
                 color: black;
             }
 
-            body {
+            /* body {
                 font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
                 margin-left: 50px;
                 margin-right: 50px;
                 margin-top: 25px;
-            }
+            } */
             .form1 {
                 display: flex;
                 width: 150px;
@@ -61,7 +61,6 @@
                 display: flex;
                 width: 100%;
                 border: none;
-                border-bottom: 1px solid black;
                 font-weight: bold;
                 font-size: 14px;
                 text-align: center;
@@ -76,7 +75,7 @@
                 width: 100%;
                 border-collapse: collapse;
             }
-            td {
+            /* td {
                 border: 1px solid black;
                 width: 34%;
                 text-align: center;
@@ -85,7 +84,7 @@
             }
             th {
                 width: 34%;
-            }
+            } */
             td input {
                 width: 99%;
                 border: none;
@@ -100,12 +99,12 @@
                 background-color: pink;
             }
 
-            .serialDiv {
+            /* .serialDiv {
                 width: 100%;
                 display: inline-flex;
-            }
+            } */
 
-            .specOrderDiv {
+            /* .specOrderDiv {
                 display: none;
                 width: 20%;
                 border: 1px solid black;
@@ -132,11 +131,49 @@
             .pageHeaderNumber {
                 width: 20%;
                 text-align: right;
-            }
+            } */
 
             .reqField {
                 background-color: pink;
             }
+
+            tr {
+                height: 3%;
+            }
+
+            td {
+                width: 11%;
+                text-align: left;
+                border: none;
+                border-bottom: 1px solid black;
+                box-sizing: border-box;
+                font-family:"Calibri", sans-serif;
+                font-size: 16px;
+            }
+
+            .blank td {
+                border-bottom: none;
+            }
+
+            .blank {
+                border-bottom: none;
+            }
+
+            .small td {
+                font-size: 14px;
+            }
+
+            .underlined td {
+                text-decoration: underline;
+            }
+
+            .green td {
+                color: green;
+            }
+
+            /* td {
+                border: 1px solid black;
+            } */
 
         </style>
         <script src="warrantyCodes.js"></script>
@@ -144,7 +181,147 @@
     </head>
     <body>
         <form autocomplete="off">
-            <div style="width:100%;text-align: center;">
+            <table>
+                <tr class="blank" style="visibility:collapse">
+                    <td colspan="1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="1"></td>
+                    <td colspan="1"></td>
+                </tr>
+                <tr class="blank small underlined">
+                    <td colspan="1"></td>
+                    <td colspan="5">Canex/Comerco Service Protection Plan</td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr class="green">
+                    <td colspan="1">Date:</td>
+                    <td colspan="8">
+                        <input id="warrantyDate" style="caret-color: transparent;" type="text" onkeydown="enterDate()">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">Customer Name:</td>
+                    <td colspan="6">
+                        <input type="text" class="reqField" id="customerName" onkeyup="checkRequiredEmpty()" onkeyup="changeHeader()">
+                    </td>
+                </tr>
+                <tr class="green">
+                    <td colspan="2">Phone #</td>
+                    <td colspan="7">
+                        <input id="customerPhone" type="text" value="(  )  -  " style="caret-color: transparent" onkeydown="enterPhone()">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="1">Email</td>
+                    <td colspan="8">
+                        <input type="text" class="reqField" onkeyup="checkRequiredEmpty()">
+                    </td>
+                </tr>
+                <tr class="green">
+                    <td colspan="1">Street</td>
+                    <td colspan="8">
+                        <input type="text" class="reqField" onkeyup="checkRequiredEmpty()">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="1">City</td>
+                    <td colspan="8">
+                        <input type="text" class="reqField" onkeyup="checkRequiredEmpty()">
+                    </td>
+                </tr>
+                <tr class="green">
+                    <td colspan="2">Province</td>
+                    <td colspan="7">
+                        <input style="width:80%" type="text" id="province" disabled="true">
+                        <select id="provinceMenu" class="no-print" tabindex="-1" onchange="changeProvince()"></select>    
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Postal Code</td>
+                    <td colspan="7">
+                        <input type="text" id="postalCode" value=" " style="caret-color: transparent;" onkeydown="enterPostal()">
+                    </td>
+                </tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr class="green">
+                    <td class="blank" colspan="1"></td>
+                    <td colspan="2">Transaction #</td>
+                    <td colspan="6">
+                        <input type="text" class="reqField" onkeyup="checkRequiredEmpty()">
+                    </td>
+                </tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr>
+                    <td class="blank" colspan="1"></td>
+                    <td colspan="2">Product #1</td>
+                    <td colspan="2"></td>
+                    <td colspan="2">SPP Value</td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr class="green">
+                    <td class="blank" colspan="1"></td>
+                    <td colspan="2">Product #2</td>
+                    <td colspan="2"></td>
+                    <td colspan="2">SPP Value</td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr>
+                    <td class="blank" colspan="1"></td>
+                    <td colspan="2">Product #3</td>
+                    <td colspan="2"></td>
+                    <td colspan="2">SPP Value</td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr class="green">
+                    <td class="blank" colspan="1"></td>
+                    <td colspan="2">Product #4</td>
+                    <td colspan="2"></td>
+                    <td colspan="2">SPP Value</td>
+                    <td colspan="2"></td>
+                </tr>
+                <tr class="blank">
+                    <td colspan="5"></td>
+                    <td colspan="1">Total</td>
+                    <td colspan="3"></td>
+                </tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr>
+                    <td colspan="1">Sold By</td>
+                    <td colspan="8">
+                        <input type="text" class="reqField" style="width:40%;" onkeyup="checkRequiredEmpty()">
+                    </td>
+                </tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr class="underlined">
+                    <td colspan="3">* Dollar Value of SPP</td>
+                    <td colspan="6"></td>
+                </tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr class="small">
+                    <td colspan="4">* Date entered in to Comerco</td>
+                    <td colspan="5"></td>
+                </tr>
+                <tr class="blank small">
+                    <td colspan="2">* office use</td>
+                    <td colspan="7"></td>
+                </tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+            </table>
+            <!-- <div style="width:100%;text-align: center;">
                 <p>Canex / Comerco Warranty Registration</p>
             </div>
             <br>
@@ -197,13 +374,12 @@
                 <div class="form3">
                     <label>Postal Code</label>
                     <input type="text" id="postalCode" value=" " style="caret-color: transparent;" onkeydown="enterPostal()">
-                </div>
+                </div> -->
             </div>
-            <br>
         </form>
-        <div style="width: 100%;text-align: center;padding: 20px;">
+        <!-- <div style="width: 100%;text-align: center;padding: 20px;">
             <button class="no-print" onclick="addPage()" style="margin-right:10px;display: inline-block; font-size: 24px;">Add Page</button>
             <button class="no-print" id="removePageButton" onclick="removePage()" style="display:none; margin-left:10px; font-size: 24px;">Remove Page</button>    
-        </div>
+        </div> -->
     </body>
 </html>
