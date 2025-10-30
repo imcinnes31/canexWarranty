@@ -187,8 +187,94 @@ function checkRequiredEmpty() {
     }
 }
 
+function checkApplianceEmpty() {
+    let productID = "productType" + (event.target.id.replace("applianceCheck",""));
+    let warrantyID = "warrantyPrice" + (event.target.id.replace("applianceCheck",""));
+    if (event.target.checked == true) {
+        if (document.getElementById(productID).value.trim().length <= 0) {
+            document.getElementById(productID).style.backgroundColor = "pink";
+        }
+        if (document.getElementById(warrantyID).value.trim().length <= 0) {
+            document.getElementById(warrantyID).style.backgroundColor = "pink";
+        }
+    } else {
+        if (document.getElementById(productID).value.trim().length > 0 && document.getElementById(warrantyID).value.trim().length <= 0) {
+            document.getElementById(warrantyID).style.backgroundColor = "pink";
+        } else if (document.getElementById(productID).value.trim().length > 0 && document.getElementById(warrantyID).value.trim().length <= 0) {
+            document.getElementById(productID).style.backgroundColor = "pink";
+        } else {
+            document.getElementById(productID).style.backgroundColor = "white";
+            document.getElementById(warrantyID).style.backgroundColor = "white";
+        }
+    }
+    totalWarranties();
+}
+
+function checkProductEmpty() {
+    let productID = "productType" + (event.target.id.replace("warrantyPrice",""));
+    let checkedID = "applianceCheck" + (event.target.id.replace("warrantyPrice",""));
+    if (document.getElementById(productID).value.trim().length > 0) {
+        document.getElementById(productID).style.backgroundColor = "white";
+    } else {
+        document.getElementById(productID).style.backgroundColor = "pink";
+    }
+    if (event.target.value.trim().length > 0) {
+        event.target.style.backgroundColor = "white";
+    } else if (event.target.value.trim().length <= 0 && document.getElementById(productID).value.trim().length <= 0 && document.getElementById(checkedID).checked == false) {
+        event.target.style.backgroundColor = "white";
+        document.getElementById(productID).style.backgroundColor = "white";
+    } else {
+        event.target.style.backgroundColor = "pink";
+    }
+    totalWarranties();
+}
+
+function checkPriceEmpty() {
+    let warrantyID = "warrantyPrice" + (event.target.id.replace("productType",""));
+    let checkedID = "applianceCheck" + (event.target.id.replace("productType",""));
+    if (document.getElementById(warrantyID).value.trim().length > 0) {
+        document.getElementById(warrantyID).style.backgroundColor = "white";
+    } else {
+        document.getElementById(warrantyID).style.backgroundColor = "pink";
+    }
+    if (event.target.value.trim().length > 0) {
+        event.target.style.backgroundColor = "white";
+    } else if (event.target.value.trim().length <= 0 && document.getElementById(warrantyID).value.trim().length <= 0 && document.getElementById(checkedID).checked == false) {
+        event.target.style.backgroundColor = "white";
+        document.getElementById(warrantyID).style.backgroundColor = "white";
+    } else {
+        event.target.style.backgroundColor = "pink";
+    }
+}
+
+function totalWarranties() {
+    let totalPrices = 0.00;
+    let totalAppliancePrice = 0.00;
+    let totalApplianceNumber = 0;
+    for (let i = 1; i <= 4; i++) {
+        let priceTarget = "warrantyPrice" + i;
+        let checkTarget = "applianceCheck" + i;
+        let fixedPrice = isNaN(Number(parseFloat(document.getElementById(priceTarget).value).toFixed(2))) ? 0 : Number(parseFloat(document.getElementById(priceTarget).value).toFixed(2));
+        if (document.getElementById(checkTarget).checked == true) {
+            totalApplianceNumber++;
+            totalAppliancePrice += fixedPrice;
+        } else {
+            totalPrices += fixedPrice;
+        }
+    }
+    let appliancePrices = totalApplianceNumber == 0 ? 0 : Number(parseFloat(totalAppliancePrice / totalApplianceNumber).toFixed(2));
+    totalPrices += appliancePrices;
+    document.getElementById("totalPriceCell").value = totalPrices;
+}
+
 function priceKeyPressed() {
     if ((event.key == ' ' || !(isFinite(event.key))) && event.key != '.' && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 9) {
+        event.preventDefault();
+    }
+}
+
+function transactionKeyPressed() {
+    if ((event.key == ' ' || !(isFinite(event.key))) && event.key != '-' && event.keyCode != 8 && event.keyCode != 46 && event.keyCode != 9) {
         event.preventDefault();
     }
 }

@@ -65,15 +65,32 @@
                 font-size: 14px;
                 text-align: center;
             }
+            .price {
+                text-align: right;
+            }
+            #totalPriceCell {
+                display: flex;
+                width: 100%;
+                border: none;
+                font-weight: bold;
+                font-size: 14px;
+                text-align: right;
+            }
             label {
                 display: flex;
-                white-space: nowrap;
+                /* white-space: nowrap; */
                 font-size: 14px;
-                padding-right: 5px;
+                /* padding-right: 5px; */
             }
             table {
                 width: 100%;
                 border-collapse: collapse;
+            }
+
+            body {
+                margin: 50px;
+                margin-left: 40px;
+                margin-right: 220px;
             }
             /* td {
                 border: 1px solid black;
@@ -148,7 +165,9 @@
                 border-bottom: 1px solid black;
                 box-sizing: border-box;
                 font-family:"Calibri", sans-serif;
-                font-size: 16px;
+                font-size: 21px;
+                padding: 0px;
+                padding-left: 2px;
             }
 
             .blank td {
@@ -160,15 +179,20 @@
             }
 
             .small td {
-                font-size: 14px;
+                font-size: 18px;
             }
 
             .underlined td {
                 text-decoration: underline;
             }
 
-            .green td {
-                color: green;
+            .green {
+                color: #009900;
+                padding-left: 0px;
+            }
+
+            .checker {
+                display: flex;
             }
 
             /* td {
@@ -195,12 +219,12 @@
                 </tr>
                 <tr class="blank small underlined">
                     <td colspan="1"></td>
-                    <td colspan="5">Canex/Comerco Service Protection Plan</td>
-                    <td colspan="3"></td>
+                    <td colspan="6">Canex/Comerco Service Protection Plan</td>
+                    <td colspan="2"></td>
                 </tr>
                 <tr class="blank"><td colspan="9">&nbsp;</td></tr>
-                <tr class="green">
-                    <td colspan="1">Date:</td>
+                <tr>
+                    <td class="green" colspan="1">Date:</td>
                     <td colspan="8">
                         <input id="warrantyDate" style="caret-color: transparent;" type="text" onkeydown="enterDate()">
                     </td>
@@ -211,8 +235,8 @@
                         <input type="text" class="reqField" id="customerName" onkeyup="checkRequiredEmpty()" onkeyup="changeHeader()">
                     </td>
                 </tr>
-                <tr class="green">
-                    <td colspan="2">Phone #</td>
+                <tr>
+                    <td class="green" colspan="2">Phone #</td>
                     <td colspan="7">
                         <input id="customerPhone" type="text" value="(  )  -  " style="caret-color: transparent" onkeydown="enterPhone()">
                     </td>
@@ -223,8 +247,8 @@
                         <input type="text" class="reqField" onkeyup="checkRequiredEmpty()">
                     </td>
                 </tr>
-                <tr class="green">
-                    <td colspan="1">Street</td>
+                <tr>
+                    <td class="green" colspan="1">Street</td>
                     <td colspan="8">
                         <input type="text" class="reqField" onkeyup="checkRequiredEmpty()">
                     </td>
@@ -235,8 +259,8 @@
                         <input type="text" class="reqField" onkeyup="checkRequiredEmpty()">
                     </td>
                 </tr>
-                <tr class="green">
-                    <td colspan="2">Province</td>
+                <tr>
+                    <td class="green" colspan="2">Province</td>
                     <td colspan="7">
                         <input style="width:80%" type="text" id="province" disabled="true">
                         <select id="provinceMenu" class="no-print" tabindex="-1" onchange="changeProvince()"></select>    
@@ -249,77 +273,84 @@
                     </td>
                 </tr>
                 <tr class="blank"><td colspan="9">&nbsp;</td></tr>
-                <tr class="green">
+                <tr>
                     <td class="blank" colspan="1"></td>
-                    <td colspan="2">Transaction #</td>
-                    <td colspan="6">
-                        <input type="text" class="reqField" onkeyup="checkRequiredEmpty()">
+                    <td class="green" colspan="3">Transaction #</td>
+                    <td colspan="5">
+                        <input type="text" class="reqField" id="transactionNo" onkeydown="transactionKeyPressed()" onkeyup="checkRequiredEmpty()">
                     </td>
                 </tr>
                 <tr class="blank"><td colspan="9">&nbsp;</td></tr>
                 <tr>
-                    <td class="blank" colspan="1"></td>
+                    <td class="blank checker" colspan="1">
+                        <label class="no-print" for="applianceCheck1">Appliance Group?</label>
+                        <input class="no-print" type="checkbox" id="applianceCheck1" name="applianceCheck1" onclick="checkApplianceEmpty()">
+                    </td>
                     <td colspan="2">Product #1</td>
-                    <td colspan="2"></td>
+                    <td colspan="3"><input type="text" id="productType1" onkeyup="checkPriceEmpty()"></td>
                     <td colspan="2">SPP Value</td>
-                    <td colspan="2"></td>
-                </tr>
-                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
-                <tr class="green">
-                    <td class="blank" colspan="1"></td>
-                    <td colspan="2">Product #2</td>
-                    <td colspan="2"></td>
-                    <td colspan="2">SPP Value</td>
-                    <td colspan="2"></td>
+                    <td colspan="1"><input type="text" class="price" id="warrantyPrice1" onkeydown="priceKeyPressed()" onkeyup="checkProductEmpty()"></td>
                 </tr>
                 <tr class="blank"><td colspan="9">&nbsp;</td></tr>
                 <tr>
-                    <td class="blank" colspan="1"></td>
-                    <td colspan="2">Product #3</td>
-                    <td colspan="2"></td>
+                    <td class="blank checker" colspan="1">
+                        <label class="no-print" for="applianceCheck2">Appliance Group?</label>
+                        <input class="no-print" type="checkbox" id="applianceCheck2" name="applianceCheck2" onclick="checkApplianceEmpty()">
+                    </td>
+                    <td class="green" colspan="2">Product #2</td>
+                    <td colspan="3"><input type="text" id="productType2" onkeyup="checkPriceEmpty()"></td>
                     <td colspan="2">SPP Value</td>
-                    <td colspan="2"></td>
+                    <td colspan="1"><input type="text" class="price" id="warrantyPrice2" onkeydown="priceKeyPressed()" onkeyup="checkProductEmpty()"></td>
                 </tr>
                 <tr class="blank"><td colspan="9">&nbsp;</td></tr>
-                <tr class="green">
-                    <td class="blank" colspan="1"></td>
-                    <td colspan="2">Product #4</td>
-                    <td colspan="2"></td>
+                <tr>
+                    <td class="blank checker" colspan="1">
+                        <label class="no-print" for="applianceCheck3">Appliance Group?</label>
+                        <input class="no-print" type="checkbox" id="applianceCheck3" name="applianceCheck3" onclick="checkApplianceEmpty()">
+                    </td>
+                    <td colspan="2">Product #3</td>
+                    <td colspan="3"><input type="text" id="productType3" onkeyup="checkPriceEmpty()"></td>
                     <td colspan="2">SPP Value</td>
-                    <td colspan="2"></td>
+                    <td colspan="1"><input type="text" class="price" id="warrantyPrice3" onkeydown="priceKeyPressed()" onkeyup="checkProductEmpty()"></td>
+                </tr>
+                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
+                <tr>
+                    <td class="blank checker" colspan="1">
+                        <label class="no-print" for="applianceCheck4">Appliance Group?</label>
+                        <input class="no-print" type="checkbox" id="applianceCheck4" name="applianceCheck4" onclick="checkApplianceEmpty()">
+                    </td>
+                    <td class="green" colspan="2">Product #4</td>
+                    <td colspan="3"><input type="text" id="productType4" onkeyup="checkPriceEmpty()"></td>
+                    <td colspan="2">SPP Value</td>
+                    <td colspan="1"><input type="text" class="price" id="warrantyPrice4" onkeydown="priceKeyPressed()" onkeyup="checkProductEmpty()"></td>
                 </tr>
                 <tr class="blank">
-                    <td colspan="5"></td>
-                    <td colspan="1">Total</td>
-                    <td colspan="3"></td>
+                    <td colspan="6"></td>
+                    <td colspan="2">Total</td>
+                    <td colspan="1"><input type="text" id="totalPriceCell" disabled></td>
                 </tr>
                 <tr class="blank"><td colspan="9">&nbsp;</td></tr>
                 <tr class="blank"><td colspan="9">&nbsp;</td></tr>
                 <tr>
-                    <td colspan="1">Sold By</td>
-                    <td colspan="8">
-                        <input type="text" class="reqField" style="width:40%;" onkeyup="checkRequiredEmpty()">
+                    <td colspan="2">Sold By</td>
+                    <td colspan="7">
+                        <input type="text" class="reqField" style="width:100%;" onkeyup="checkRequiredEmpty()">
                     </td>
                 </tr>
                 <tr class="blank"><td colspan="9">&nbsp;</td></tr>
                 <tr class="underlined">
-                    <td colspan="3">* Dollar Value of SPP</td>
-                    <td colspan="6"></td>
+                    <td colspan="4">* Dollar Value of SPP</td>
+                    <td colspan="5"></td>
                 </tr>
                 <tr class="blank"><td colspan="9">&nbsp;</td></tr>
                 <tr class="small">
-                    <td colspan="4">* Date entered in to Comerco</td>
-                    <td colspan="5"></td>
+                    <td colspan="5">* Date entered in to Comerco</td>
+                    <td colspan="4"></td>
                 </tr>
                 <tr class="blank small">
                     <td colspan="2">* office use</td>
                     <td colspan="7"></td>
                 </tr>
-                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
-                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
-                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
-                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
-                <tr class="blank"><td colspan="9">&nbsp;</td></tr>
             </table>
             <!-- <div style="width:100%;text-align: center;">
                 <p>Canex / Comerco Warranty Registration</p>
