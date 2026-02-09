@@ -5,7 +5,8 @@ const minCreditYearsTotal = [500,1000,2000];
 const GST = 0.05;
 const mbPST = 0.07;
 
-const warrantyDict = {
+const warrantyDict1 = {}
+const warrantyDict2 = {
     "replacement": {
         2: {
             "2RA101": {"barcodeNum": 817889009372, "maxPrice": 60, "warrantyPrice": 19.99},
