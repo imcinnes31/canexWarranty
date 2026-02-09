@@ -5,7 +5,7 @@ const minCreditYearsTotal = [500,1000,2000];
 const GST = 0.05;
 const mbPST = 0.07;
 
-const warrantyDict1 = {}
+const warrantyDict1 = {};
 const warrantyDict2 = {
     "replacement": {
         2: {
