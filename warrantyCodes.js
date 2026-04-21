@@ -9,11 +9,11 @@ const warrantyDict1 = {};
 const warrantyDict2 = {
     "replacement": {
         2: {
-            "2RA101": {"barcodeNum": 817889009372, "maxPrice": 60, "warrantyPrice": 19.99},
-            "2RA102": {"barcodeNum": 817889009389, "maxPrice": 100, "warrantyPrice": 24.99},
-            "2RA103": {"barcodeNum": 817889009396, "maxPrice": 150, "warrantyPrice": 39.99},
-            "2RA104": {"barcodeNum": 817889009402, "maxPrice": 200, "warrantyPrice": 54.99},
-            "2RA105": {"barcodeNum": 817889009419, "maxPrice": 300, "warrantyPrice": 89.99},
+            "2RA101": {"barcodeNum": 817889009372, "maxPrice": 60, "warrantyPrice": 24.99},
+            "2RA102": {"barcodeNum": 817889009389, "maxPrice": 100, "warrantyPrice": 29.99},
+            "2RA103": {"barcodeNum": 817889009396, "maxPrice": 150, "warrantyPrice": 49.99},
+            "2RA104": {"barcodeNum": 817889009402, "maxPrice": 200, "warrantyPrice": 64.99},
+            "2RA105": {"barcodeNum": 817889009419, "maxPrice": 300, "warrantyPrice": 104.99},
         },
     },
     "computers": {
@@ -40,16 +40,16 @@ const warrantyDict2 = {
     },
 		"small appliances": {
         4: {
-            "4S101": {"barcodeNum": 817889009426, "maxPrice": 500, "warrantyPrice": 104.99},
-            "4S102": {"barcodeNum": 817889009433, "maxPrice": 1000, "warrantyPrice": 129.99},
+            "4S101": {"barcodeNum": 817889009426, "maxPrice": 500, "warrantyPrice": 114.99},
+            "4S102": {"barcodeNum": 817889009433, "maxPrice": 1000, "warrantyPrice": 139.99},
         },
 		3: {
-            "3S101": {"barcodeNum": 817889009440, "maxPrice": 500, "warrantyPrice": 74.99},
-            "3S102": {"barcodeNum": 817889009457, "maxPrice": 1000, "warrantyPrice": 99.99},
+            "3S101": {"barcodeNum": 817889009440, "maxPrice": 500, "warrantyPrice": 79.99},
+            "3S102": {"barcodeNum": 817889009457, "maxPrice": 1000, "warrantyPrice": 109.99},
         },
 		2: {
-            "2S101": {"barcodeNum": 817889009464, "maxPrice": 500, "warrantyPrice": 54.99},
-            "2S102": {"barcodeNum": 817889009471, "maxPrice": 1000, "warrantyPrice": 64.99},
+            "2S101": {"barcodeNum": 817889009464, "maxPrice": 500, "warrantyPrice": 59.99},
+            "2S102": {"barcodeNum": 817889009471, "maxPrice": 1000, "warrantyPrice": 69.99},
         },
     },
     "televisions": {
@@ -308,6 +308,8 @@ const warrantyDict2 = {
 			"MacBook Pro M3 Pro/Max 14in" : {barcodeNum: 195949393778, code: "SL9L2Z/A", price: 379.99, totalYears: 3},
 			"MacBook Pro M4 16in" : {barcodeNum: 499999532027, code: "SR192Z/A", price: 529.99, totalYears: 3},
 			"MacBook Pro M5 14in" : {barcodeNum: 195951016177, code: "SXKH2Z/A", price: 379.99, totalYears: 3},
+			"MacBook Pro M5 Pro/Max 16in" : {barcodeNum: 195951183701, code: "SCXU3Z/A", price: 529.99, totalYears: 3},
+			"MacBook NEO A18 Pro 13in" : {barcodeNum: 499999640005, code: "SD0T3Z/A", price: 179.99, totalYears: 3},
 		},
 		"IPad": {
 			"iPad mini 6th gen" : {barcodeNum: 194252882283, code: "SCLH2Z/A", price: 79.99, totalYears: 2},
