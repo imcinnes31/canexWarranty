@@ -276,7 +276,7 @@ const warrantyDict2 = {
 		"Computer": {
 			"Mac Mini" : {barcodeNum: 194252822371, code: "S9703Z/A", price: 119.99, totalYears: 3},
 			"Mac Mini M2" : {barcodeNum: 194253691129, code: "SGQQ2Z/A", price: 119.99, totalYears: 3},
-			"Mac Mini M4" : {barcodeNum: 499999535110, code: "SR1C2Z/A", price: 229.99, totalYears: 3},
+			"Mac Mini M4" : {barcodeNum: 499999535110, code: "SR1C2Z/A", price: 119.99, totalYears: 3},
 			"Mac Pro" : {barcodeNum: 194252822272, code: "S9718Z/A", price: 349.99, totalYears: 3},
 			"Mac Studio" : {barcodeNum: 194253227694, code: "SELQ2Z/A", price: 219.99, totalYears: 3},
 			"Mac Studio M2" : {barcodeNum: 195949059674, code: "SJGC2Z/A", price: 229.99, totalYears: 2},
