@@ -295,6 +295,8 @@ const warrantyDict2 = {
 			"MacBook Air M3 15in" : {barcodeNum: 195949587412, code: "SLPL2Z/A", price: 299.99, totalYears: 3},
 			"MacBook Air M4 13in" : {barcodeNum: 195950536706, code: "SUWE2Z/A", price: 269.99, totalYears: 2},
 			"MacBook Air M4 15in" : {barcodeNum: 195950536621, code: "SUWF2Z/A", price: 299.99, totalYears: 2},
+			"MacBook Air M5 13in" : {barcodeNum: 195951184821, code: "SCW83Z/A", price: 269.99, totalYears: 3},
+			"MacBook Air M5 15in" : {barcodeNum: 195951184746, code: "SCW93Z/A", price: 299.99, totalYears: 3},
 			"MacBook M2 14in" : {barcodeNum: 194253689836, code: "SGAQ2Z/A", price: 379.99, totalYears: 3},
 			"MacBook M4 14in" : {barcodeNum: 499999535097, code: "SR172Z/A", price: 379.99, totalYears: 3},			
 			"MacBook Pro M4 Max 14in" : {barcodeNum: 499999532034, code: "SR182Z/A", price: 379.99, totalYears: 3},
