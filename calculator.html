@@ -168,8 +168,11 @@
                 document.getElementById("getPrice").addEventListener("click", (event) => {
                     // get prices entered in price field and replace them with real currency numbers if needed
                     const priceString = document.getElementById('priceInput').value.replace(' ','').split(',');
+                    const accessoryString = document.getElementById('accessoryInput').value.replace(' ','').split(',');
                     var fixedPrices = [];
+                    var fixedAccessories = [];
                     var pricesEntered = 0.00;
+                    var accessoriesEntered = 0.00;
                     var numAppliances = 0;
                     for (const x in priceString) {
                         if (isNaN(Number(parseFloat(priceString[x]).toFixed(2)))) {
@@ -245,6 +248,39 @@
                             const currentBarcode = currentProduct['barcodeNum'];
                             makeWarrantyTable(pricesEntered,'apple',currentCode,currentLength,currentPrice,currentBarcode);
                         }
+                    } else if (productType == 'other electronics' || productType == 'computers') {
+                        for (const x in accessoryString) {
+                            if (isNaN(Number(parseFloat(accessoryString[x]).toFixed(2)))) {
+                                fixedAccessories[x] = '0.00';
+                            } else {
+                                fixedAccessories[x] = String(Number(parseFloat(accessoryString[x]).toFixed(2)));
+                                let zeroesAccessoriesNeeded;
+                                if (fixedAccessories[x].split('.').length == 1) {
+                                    fixedAccessories[x] += '.';
+                                    zeroesAccessoriesNeeded = 2;
+                                } else {
+                                    zeroesAccessoriesNeeded = (2 - fixedAccessories[x].split('.')[1].length);
+                                }
+                                if (zeroesAccessoriesNeeded > 0) {
+                                    for (let i = 0; i < zeroesAccessoriesNeeded; i++) {
+                                        fixedAccessories[x] += '0';
+                                    }
+                                }
+                                accessoriesEntered += Number(parseFloat(accessoryString[x]).toFixed(2));
+                            }
+                        }
+                        document.getElementById('accessoryInput').value = fixedAccessories.join(',');
+                        for (const x in warrantyDict[productType][warrantyYears]) {
+                            if (pricesEntered < warrantyDict[productType][warrantyYears][x]['maxPrice']) {
+                                const currentCode = x;
+                                const currentLength = warrantyYears;
+                                const currentPrice = warrantyDict[productType][warrantyYears][x]['warrantyPrice'];
+                                const currentBarcode = warrantyDict[productType][warrantyYears][x]['barcodeNum'];
+                                pricesEntered += accessoriesEntered;
+                                makeWarrantyTable(pricesEntered,productType,currentCode,currentLength,currentPrice,currentBarcode);
+                                break;
+                            }
+                        }
                     } else {
                         for (const x in warrantyDict[productType][warrantyYears]) {
                             if (pricesEntered < warrantyDict[productType][warrantyYears][x]['maxPrice']) {
@@ -280,6 +316,17 @@
                         document.getElementById('appleItem').value = 'none';
                         document.getElementById('warrantyListDiv').style.display = 'none';
                         document.getElementById('barcode').style.display = 'none';
+                        document.getElementById('accessoryDiv').style.display = 'none';
+                        document.getElementById('accessoryInput').value = '';
+                    } else if (event.target.value == 'computers' || event.target.value == 'other electronics') {
+                        document.getElementById('appleDiv').style.display = 'none';
+                        const yearsNumbers = Object.keys(warrantyDict[event.target.value]).map(Number).sort(function(a, b) {return b - a;});
+                        let yearsOptions = '';
+                        for (const x in yearsNumbers) {
+                            yearsOptions += '<option value="' + yearsNumbers[x] + '">' + yearsNumbers[x] + '</option>';
+                        }
+                        document.getElementById('yearsLength').innerHTML = yearsOptions;
+                        document.getElementById('accessoryDiv').style.display = 'block';
                     } else {
                         document.getElementById('appleDiv').style.display = 'none';
                         const yearsNumbers = Object.keys(warrantyDict[event.target.value]).map(Number).sort(function(a, b) {return b - a;});
@@ -288,6 +335,8 @@
                             yearsOptions += '<option value="' + yearsNumbers[x] + '">' + yearsNumbers[x] + '</option>';
                         }
                         document.getElementById('yearsLength').innerHTML = yearsOptions;
+                        document.getElementById('accessoryDiv').style.display = 'none';
+                        document.getElementById('accessoryInput').value = '';
                     }
                     document.getElementById('priceDiv').style.display = 'block';
                     document.getElementById("priceLabel").innerHTML = event.target.value == 'appliances' ? 'Prices (separate by commas):' : 'Price:';
@@ -310,7 +359,7 @@
                     if (keyCode == 0 || keyCode == 229) { 
                         key = e.target.value.charAt(e.target.selectionStart - 1);
                         keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
-                        if (!(isFinite(key)) && key != '.' && key != ',' && keyCode != 46 && keyCode != 8) {
+                        if (!(isFinite(key)) && key != '.' && key != ',' && keyCode != 46 && keyCode != 8 && keyCode != 37 && keyCode != 39) {
                             let str = event.target.value.split('');
                             str.splice(e.target.selectionStart - 1, 1);
                             str = str.join('');
@@ -322,14 +371,6 @@
                                 str = str.join('');
                                 event.target.value = str;
                             } 
-                            /*
-                            else if ((document.getElementById("priceInput").value.match(/,/g) || []).length == 3) {
-                                let str = event.target.value.split('');
-                                str.splice(e.target.selectionStart - 1, 1);
-                                str = str.join('');
-                                event.target.value = str;
-                            }
-                            */
                         }
                         const pricesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
                         if (pricesEntered < 300) {
@@ -362,12 +403,40 @@
                 document.getElementById("priceInput").addEventListener('keydown', e => {
                     var keyCode = e.keyCode || e.which;
                     if (keyCode != 0 && keyCode != 229) { 
-                        if (!(isFinite(event.key)) && !(document.getElementById('product').value == 'appliances' && event.key == ',') && event.key != '.' && event.keyCode != 46 && event.keyCode != 8) {
+                        if (!(isFinite(event.key)) && !(document.getElementById('product').value == 'appliances' && event.key == ',') && event.key != '.' && event.keyCode != 46 && event.keyCode != 8 && keyCode != 37 && keyCode != 39) {
                             event.preventDefault();
                         } 
                         // else if (event.key == ',' && (document.getElementById("priceInput").value.match(/,/g) || []).length == 2) {
                         //     event.preventDefault();
                         // }
+                    }
+                });
+
+                document.getElementById("accessoryInput").addEventListener('keyup', e => {
+                    var keyCode = e.keyCode || e.which;
+                    if (keyCode == 0 || keyCode == 229) { 
+                        key = e.target.value.charAt(e.target.selectionStart - 1);
+                        keyCode = e.target.value.charAt(e.target.selectionStart - 1).charCodeAt();             
+                        if (!(isFinite(key)) && key != '.' && key != ',' && keyCode != 46 && keyCode != 8 && keyCode != 37 && keyCode != 39) {
+                            let str = event.target.value.split('');
+                            str.splice(e.target.selectionStart - 1, 1);
+                            str = str.join('');
+                            event.target.value = str;
+                        }
+                        const accessoriesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                        document.getElementById('warrantyListDiv').style.display = 'none';
+                        document.getElementById('barcode').style.display = 'none';
+                    }
+                    const accessoriesEntered = parseFloat(document.getElementById('priceInput').value.replace(' ','').split(',').reduce((a, b) => a + (isNaN(Number(parseFloat(b).toFixed(2))) ? Number(parseFloat(0).toFixed(2)) : Number(parseFloat(b).toFixed(2))), 0)).toFixed(2);
+                    document.getElementById('warrantyListDiv').style.display = 'none'; 
+                    document.getElementById('barcode').style.display = 'none';                  
+                });
+                document.getElementById("accessoryInput").addEventListener('keydown', e => {
+                    var keyCode = e.keyCode || e.which;
+                    if (keyCode != 0 && keyCode != 229) { 
+                        if (!(isFinite(event.key)) && !((document.getElementById('product').value == 'other electronics' || document.getElementById('product').value == 'computers') && event.key == ',') && event.key != '.' && event.keyCode != 46 && event.keyCode != 8 && keyCode != 37 && keyCode != 39) {
+                            event.preventDefault();
+                        } 
                     }
                 });
 
@@ -403,6 +472,12 @@
             <br>
             <label id="priceLabel">Price:</label>
             <input id="priceInput" type="text"></input>         
+        </div>
+
+        <div id="accessoryDiv" style="display:none;">
+            <br>
+            <label id="accessoryLabel">Accessory Prices (separate by commas):</label>
+            <input id="accessoryInput" type="text"></input>         
         </div>
 
         <div id="lengthDiv" style="display:none;">
