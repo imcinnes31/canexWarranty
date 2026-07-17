@@ -23,6 +23,7 @@
                     width: 90%;
                     font-size: 48px;
                     text-align: center;
+                    border: 1px solid gray;
                 }
                 button {
                     width: 50%;
@@ -67,7 +68,7 @@
         <script>
             const minAppliancePrice = [300,400,900];
 
-            function makeWarrantyTable(itemPrice,type,code,length,warrantyPrice,barcodeNum) {
+            function makeWarrantyTable(itemPrice,type,code,length,warrantyPrice,barcodeNum,maxPrice,nextPrice) {
                 var warrantyDisplay = '';
 
                 // Determine what program type to use in display
@@ -96,6 +97,10 @@
                     }
                     // TODO: FIND ENVIRO FEE FOR COMPUTERS & MONITORS
                     const totalPriceWithTax = ((itemPrice + warrantyPrice + (type == 'televisions' ? 7 : 0)) * (1 + GST + mbPST)).toFixed(2);
+
+                    if (nextPrice != null) {
+                        warrantyDisplay += '<p style="color:blue"><b>The customer may purchase $' + (maxPrice - (itemPrice)).toFixed(2) + ' more of accessories before tax with the item before the next SPP range (next SPP is $' + (nextPrice - warrantyPrice) + ' more).</b></p>';
+                    }
 
                     if (nextLengthYears != null) {
                         if (totalPriceWithTax >= minCreditYearsTotal[nextLengthYears]) {
@@ -202,7 +207,7 @@
                     var productType = document.getElementById('product').value;
                     var warrantyYears = document.getElementById('yearsLength').value;
                     var warrantyInfo = null;
-                    if (pricesEntered < 300 && numAppliances == 1 && productType != 'apple') {
+                    if (pricesEntered < 300 && numAppliances == 1 && (productType != 'apple' && productType != 'tablets (ADH + repair)' && productType != 'smart phones (repair only)' && productType != 'smart phones (ADH + repair)')) {
                         productType = 'replacement';
                         warrantyYears = 2;
                     }
@@ -233,7 +238,7 @@
                                         const currentLength = warrantyYears;
                                         const currentPrice = warrantyDict[productType][warrantyYears][numAppliances][x]['warrantyPrice'];
                                         const currentBarcode = warrantyDict[productType][warrantyYears][numAppliances][x]['barcodeNum'];
-                                        makeWarrantyTable(pricesEntered,productType,currentCode,currentLength,currentPrice,currentBarcode);
+                                        makeWarrantyTable(pricesEntered,productType,currentCode,currentLength,currentPrice,currentBarcode,null,null);
                                         break;
                                     }
                                 }
@@ -246,7 +251,7 @@
                             const currentLength = currentProduct['totalYears'];
                             const currentPrice = currentProduct['price'];
                             const currentBarcode = currentProduct['barcodeNum'];
-                            makeWarrantyTable(pricesEntered,'apple',currentCode,currentLength,currentPrice,currentBarcode);
+                            makeWarrantyTable(pricesEntered,'apple',currentCode,currentLength,currentPrice,currentBarcode,null,null);
                         }
                     } else if (productType == 'other electronics' || productType == 'computers') {
                         for (const x in accessoryString) {
@@ -269,15 +274,25 @@
                                 accessoriesEntered += Number(parseFloat(accessoryString[x]).toFixed(2));
                             }
                         }
-                        document.getElementById('accessoryInput').value = fixedAccessories.join(',');
-                        for (const x in warrantyDict[productType][warrantyYears]) {
-                            if (pricesEntered < warrantyDict[productType][warrantyYears][x]['maxPrice']) {
-                                const currentCode = x;
+                        if (accessoriesEntered == 0) {
+                            document.getElementById('accessoryInput').value = '';
+                        } else {
+                            document.getElementById('accessoryInput').value = fixedAccessories.join(',');
+                        }
+                        const dictLength = Object.keys(warrantyDict[productType][warrantyYears]).length;
+                        pricesEntered += accessoriesEntered;
+                        for (const [index, [key, value]] of Object.entries(warrantyDict[productType][warrantyYears]).entries()) {
+                            if (pricesEntered < value['maxPrice']) {
+                                const currentCode = key;
                                 const currentLength = warrantyYears;
-                                const currentPrice = warrantyDict[productType][warrantyYears][x]['warrantyPrice'];
-                                const currentBarcode = warrantyDict[productType][warrantyYears][x]['barcodeNum'];
-                                pricesEntered += accessoriesEntered;
-                                makeWarrantyTable(pricesEntered,productType,currentCode,currentLength,currentPrice,currentBarcode);
+                                const currentPrice = value['warrantyPrice'];
+                                const currentBarcode = value['barcodeNum'];
+                                const maxPrice = value['maxPrice'];
+                                let nextPrice = null;
+                                if (index + 1 < dictLength) {
+                                    nextPrice = warrantyDict[productType][warrantyYears][Object.keys(warrantyDict[productType][warrantyYears])[index + 1]]['warrantyPrice'];
+                                }
+                                makeWarrantyTable(pricesEntered,productType,currentCode,currentLength,currentPrice,currentBarcode,maxPrice,nextPrice);
                                 break;
                             }
                         }
@@ -288,7 +303,7 @@
                                 const currentLength = warrantyYears;
                                 const currentPrice = warrantyDict[productType][warrantyYears][x]['warrantyPrice'];
                                 const currentBarcode = warrantyDict[productType][warrantyYears][x]['barcodeNum'];
-                                makeWarrantyTable(pricesEntered,productType,currentCode,currentLength,currentPrice,currentBarcode);
+                                makeWarrantyTable(pricesEntered,productType,currentCode,currentLength,currentPrice,currentBarcode,null,null);
                                 break;
                             }
                         }
@@ -457,6 +472,10 @@
                 <option value="televisions">Televisions</option>
                 <option value="other electronics">Other Electronics</option>
                 <option value="apple">Apple Products</option>
+                <option value="tablets1">Tablets (Repair Only)</option>
+                <option value="tablets2">Tablets (Repair + 2 Year ADH)</option>
+                <option value="smartphones1">Smart Phones (Repair Only)</option>
+                <option value="smartphones2">Smart Phones (Repair + ADH)</option>
             </select>    
         </div>
 

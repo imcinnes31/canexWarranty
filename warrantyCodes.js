@@ -37,7 +37,7 @@ const warrantyDict2 = {
             "2C108": {"barcodeNum": 817889009846, "maxPrice": 7500, "warrantyPrice": 1044.99},
         },
     },
-		"small appliances": {
+	"small appliances": {
         4: {
             "4S101": {"barcodeNum": 817889009426, "maxPrice": 500, "warrantyPrice": 114.99},
             "4S102": {"barcodeNum": 817889009433, "maxPrice": 1000, "warrantyPrice": 139.99},
@@ -111,6 +111,39 @@ const warrantyDict2 = {
             "2EL111": {"barcodeNum": 817889005596, "maxPrice": 5000, "warrantyPrice": 464.99},
             "2EL112": {"barcodeNum": 817889005602, "maxPrice": 7500, "warrantyPrice": 524.99},
             "2EL113": {"barcodeNum": 817889005619, "maxPrice": 10000, "warrantyPrice": 594.99},
+        },
+    },
+	"tablets1": {
+        2: {
+            "2TB101": {"barcodeNum": 817889005428, "maxPrice": 300, "warrantyPrice": 69.99},
+            "2TB102": {"barcodeNum": 817889005442, "maxPrice": 10000, "warrantyPrice": 129.99},
+        },
+		1: {
+            "1TB101": {"barcodeNum": 817889005381, "maxPrice": 300, "warrantyPrice": 59.99},
+            "1TB102": {"barcodeNum": 817889005404, "maxPrice": 10000, "warrantyPrice": 99.99},
+        },
+    },
+	"tablets2": {
+        1: {
+            "1TBD101": {"barcodeNum": 817889005367, "maxPrice": 10000, "warrantyPrice": 194.99},
+        },
+    },
+	"smartphones1": {
+		2: {
+            "2SM101": {"barcodeNum": 817889005411, "maxPrice": 300, "warrantyPrice": 54.99},
+            "2SM102": {"barcodeNum": 817889005435, "maxPrice": 10000, "warrantyPrice": 84.99},
+        },
+		1: {
+            "1SM101": {"barcodeNum": 817889005374, "maxPrice": 300, "warrantyPrice": 39.99},
+            "1SM102": {"barcodeNum": 817889005398, "maxPrice": 10000, "warrantyPrice": 69.99},
+        },
+    },
+	"smartphones2": {
+        2: {
+            "1SMD101": {"barcodeNum": 817889005350, "maxPrice": 10000, "warrantyPrice": 244.99},
+        },
+		1: {
+            "0SMD101": {"barcodeNum": 817889005343, "maxPrice": 10000, "warrantyPrice": 134.99},
         },
     },
     "appliances": {
