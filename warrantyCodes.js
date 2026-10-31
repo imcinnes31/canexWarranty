@@ -357,8 +357,8 @@ const warrantyDict2 = {
 			"iPad Air M2 13in" : {barcodeNum: 499999513378, code: "SM2A2Z/A", price: 149.99, totalYears: 2},
 			"iPad Air M3 11in" : {barcodeNum: 195950541540, code: "SV072Z/A", price: 119.99, totalYears: 2},
 			"iPad Air M3 13in" : {barcodeNum: 499999513378, code: "SV172Z/A", price: 149.99, totalYears: 2},
-			"iPad Air M4 11in" : {barcodeNum: 555555555555, code: "SCV93Z/A", price: 119.99, totalYears: 2},
-			"iPad Air M4 13in" : {barcodeNum: 555555555555, code: "SCVD3Z/A", price: 149.99, totalYears: 2},
+			"iPad Air M4 11in" : {barcodeNum: 195951188126, code: "SCV93Z/A", price: 119.99, totalYears: 2},
+			"iPad Air M4 13in" : {barcodeNum: 195951188041, code: "SCVD3Z/A", price: 149.99, totalYears: 2},
 			"iPad Pro 11in" : {barcodeNum: 194252606681, code: "S8403Z/A", price: 169.99, totalYears: 2},
 			"iPad Pro 4th gen 11in" : {barcodeNum: 194253698432, code: "SGG22Z/A", price: 169.99, totalYears: 2},
 			"iPad Pro 5th gen 12.9in" : {barcodeNum: 194252658697, code: "S9865Z/A", price: 219.99, totalYears: 2},
@@ -386,9 +386,9 @@ const warrantyDict2 = {
 			"Apple Watch Series 11" : {barcodeNum: 195950926804, code: "SXCJ2Z/A", price: 99.99, totalYears: 2},
 			"Apple Watch Ultra 3" : {barcodeNum: 195950926729, code: "SXCK2Z/A", price: 129.99, totalYears: 2},
 			"Apple Watch SE 3nd gen" : {barcodeNum: 195950923292, code: "SXHW2Z/A", price: 59.99, totalYears: 2},
-			"Apple Watch Hermes Ultra 4" : {barcodeNum: 555555555555, code: "SH4Y3Z/A", price: 199.99, totalYears: 2},
-			"Apple Watch Ultra 4" : {barcodeNum: 555555555555, code: "SH1E3Z/A", price: 129.99, totalYears: 2},
-			"Apple Watch Series 12" : {barcodeNum: 555555555555, code: "SH0G3Z/A", price: 99.99, totalYears: 2},
+			"Apple Watch Hermes Ultra 4" : {barcodeNum: 195951565668, code: "SH4Y3Z/A", price: 199.99, totalYears: 2},
+			"Apple Watch Ultra 4" : {barcodeNum: 195951567365, code: "SH1E3Z/A", price: 129.99, totalYears: 2},
+			"Apple Watch Series 12" : {barcodeNum: 195951568188, code: "SH0G3Z/A", price: 99.99, totalYears: 2},
 		}
 	}
 }
