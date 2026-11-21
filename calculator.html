@@ -67,6 +67,8 @@
         <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.8.0/dist/JsBarcode.all.min.js"></script>
         <script>
             const minAppliancePrice = [300,400,900];
+            const discountPercent = 10;
+            const discountFactor = (100 - discountPercent) / 100;
 
             function makeWarrantyTable(itemPrice,type,code,length,warrantyPrice,barcodeNum,maxPrice,nextPrice) {
                 var warrantyDisplay = '';
@@ -100,7 +102,7 @@
                     const totalPriceWithTax = ((itemPrice + warrantyPrice + (type == 'televisions' ? 7 : 0)) * (1 + GST + mbPST)).toFixed(2);
 
                     if (nextPrice != null) {
-                        warrantyDisplay += '<p style="color:darkgreen"><b>The customer may purchase $' + (maxPrice - (itemPrice)).toFixed(2) + ' more of accessories before tax with the item until it bumps to the next SPP range (SPP becomes $' + (nextPrice - warrantyPrice) + ' more).</b></p>';
+                        warrantyDisplay += '<p style="color:darkgreen"><b>The customer may purchase $' + (maxPrice - (itemPrice)).toFixed(2) + ' more of accessories before tax with the item until it bumps to the next SPP range (SPP becomes $' + (nextPrice - warrantyPrice).toFixed(2) + ' more).</b></p>';
                     }
 
                     if (nextLengthYears != null) {
@@ -237,7 +239,7 @@
                                     if (pricesEntered < warrantyDict[productType][warrantyYears][numAppliances][x]['maxPrice']) {
                                         const currentCode = x;
                                         const currentLength = warrantyYears;
-                                        const currentPrice = warrantyDict[productType][warrantyYears][numAppliances][x]['warrantyPrice'];
+                                        const currentPrice = ((warrantyDict[productType][warrantyYears][numAppliances][x]['warrantyPrice']) * discountFactor).toFixed(2);
                                         const currentBarcode = warrantyDict[productType][warrantyYears][numAppliances][x]['barcodeNum'];
                                         makeWarrantyTable(pricesEntered,productType,currentCode,currentLength,currentPrice,currentBarcode,null,null);
                                         break;
@@ -286,12 +288,12 @@
                             if (pricesEntered < value['maxPrice']) {
                                 const currentCode = key;
                                 const currentLength = warrantyYears;
-                                const currentPrice = value['warrantyPrice'];
+                                const currentPrice = ((value['warrantyPrice']) * discountFactor).toFixed(2);
                                 const currentBarcode = value['barcodeNum'];
-                                const maxPrice = value['maxPrice'];
+                                const maxPrice = ((value['maxPrice']) * discountFactor).toFixed(2);
                                 let nextPrice = null;
                                 if (index + 1 < dictLength) {
-                                    nextPrice = warrantyDict[productType][warrantyYears][Object.keys(warrantyDict[productType][warrantyYears])[index + 1]]['warrantyPrice'];
+                                    nextPrice = ((warrantyDict[productType][warrantyYears][Object.keys(warrantyDict[productType][warrantyYears])[index + 1]]['warrantyPrice']) * discountFactor).toFixed(2);
                                 }
                                 makeWarrantyTable(pricesEntered,productType,currentCode,currentLength,currentPrice,currentBarcode,maxPrice,nextPrice);
                                 break;
@@ -302,7 +304,7 @@
                             if (pricesEntered < warrantyDict[productType][warrantyYears][x]['maxPrice']) {
                                 const currentCode = x;
                                 const currentLength = warrantyYears;
-                                const currentPrice = warrantyDict[productType][warrantyYears][x]['warrantyPrice'];
+                                const currentPrice = ((warrantyDict[productType][warrantyYears][x]['warrantyPrice']) * discountFactor).toFixed(2);
                                 const currentBarcode = warrantyDict[productType][warrantyYears][x]['barcodeNum'];
                                 makeWarrantyTable(pricesEntered,productType,currentCode,currentLength,currentPrice,currentBarcode,null,null);
                                 break;
