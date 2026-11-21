@@ -106,6 +106,8 @@
                     }
 
                     if (nextLengthYears != null) {
+                        console.log(minCreditYearsTotal[nextLengthYears]);
+                        console.log(totalPriceWithTax);
                         if (totalPriceWithTax >= minCreditYearsTotal[nextLengthYears]) {
                             warrantyDisplay += '<p style="color:blue"><b>The purchase of the ' + program + ' would qualify the cutomer for the ' + (nextLengthYears + 1) + ' year plan.</b></p>';
                         } 
