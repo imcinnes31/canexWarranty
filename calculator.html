@@ -98,8 +98,11 @@
                             break;
                         }
                     }
+                
                     // TODO: FIND ENVIRO FEE FOR COMPUTERS & MONITORS
                     const totalPriceWithTax = ((itemPrice + warrantyPrice + (type == 'televisions' ? 7 : 0)) * (1 + GST + mbPST)).toFixed(2);
+                console.log(itemPrice);
+                console.log(warrantyPrice);
 
                     if (nextPrice != null) {
                         warrantyDisplay += '<p style="color:darkgreen"><b>The customer may purchase $' + (maxPrice - (itemPrice)).toFixed(2) + ' more of accessories before tax with the item until it bumps to the next SPP range (SPP becomes $' + (nextPrice - warrantyPrice).toFixed(2) + ' more).</b></p>';
